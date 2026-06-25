@@ -340,7 +340,8 @@ strong { color: var(--cream); font-weight: 600; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 32px;
+  margin-top: 16px;
+  grid-column: 2; /* desktop : colle à la colonne droite */
 }
 .hero-reassurance-item {
   display: flex;
@@ -2513,7 +2514,9 @@ strong { color: var(--cream); font-weight: 600; }
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top: 4px;
+    margin-top: 16px;
+    grid-column: 1; /* mobile : pleine largeur, en bas */
+    order: 3;
   }
   .hero-reassurance-item--xl {
     grid-column: span 2;
