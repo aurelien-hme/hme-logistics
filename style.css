@@ -256,7 +256,8 @@ strong { color: var(--cream); font-weight: 600; }
   position: relative; z-index: 2;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 72px;
+  column-gap: 72px;
+  row-gap: 0;
   align-items: start;
   padding: 108px 32px 80px;
   max-width: 1200px; margin: 0 auto; width: 100%;
