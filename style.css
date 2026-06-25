@@ -3372,7 +3372,7 @@ strong { color: var(--cream); font-weight: 600; }
   border-radius: 16px; overflow: hidden;
 }
 .cs-table-header {
-  display: grid; grid-template-columns: 2fr 1.5fr 1.5fr;
+  display: grid; grid-template-columns: 2fr 1.1fr 1.9fr;
   background: rgba(248,248,246,0.04);
   border-bottom: 1px solid var(--border);
 }
@@ -3392,7 +3392,7 @@ strong { color: var(--cream); font-weight: 600; }
   border: 1px solid rgba(216,154,43,0.3);
 }
 .cs-tr {
-  display: grid; grid-template-columns: 2fr 1.5fr 1.5fr;
+  display: grid; grid-template-columns: 2fr 1.1fr 1.9fr;
   border-bottom: 1px solid rgba(248,248,246,0.05);
   transition: background 0.15s;
 }
