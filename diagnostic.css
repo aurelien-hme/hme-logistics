@@ -1,0 +1,280 @@
+/* ══ DIAGNOSTIC — PAGE 2 ══ */
+
+.diag-body {
+  background: var(--dark);
+  min-height: 100vh;
+  color: var(--cream);
+}
+
+/* ── NAV ── */
+.diag-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,17,31,0.95);
+  backdrop-filter: blur(12px);
+  position: sticky; top: 0; z-index: 50;
+}
+.diag-nav-logo { display: flex; align-items: center; text-decoration: none; }
+.diag-nav-steps {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px;
+}
+.diag-nav-step {
+  display: flex; align-items: center; gap: 6px;
+  font-weight: 600; color: var(--muted);
+}
+.diag-nav-step--done { color: var(--gold); }
+.diag-nav-step--active { color: var(--cream); }
+.diag-nav-step-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  border: 2px solid var(--cream);
+  display: inline-block;
+}
+.diag-nav-step-bar {
+  width: 60px; height: 3px;
+  background: rgba(248,248,246,0.1);
+  border-radius: 2px; overflow: hidden;
+}
+.diag-nav-step-bar-fill {
+  height: 100%; width: 60%;
+  background: linear-gradient(to right, var(--gold-dark), var(--gold));
+  border-radius: 2px;
+  position: relative; overflow: hidden;
+}
+.diag-nav-step-bar-shine {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: barShine 1.8s ease-in-out infinite;
+}
+@keyframes barShine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+/* ── MAIN ── */
+.diag-main { padding: 60px 20px 80px; }
+.diag-container { max-width: 640px; margin: 0 auto; }
+
+/* ── BANNIÈRE ÉCONOMIES ── */
+.diag-savings {
+  background: rgba(216,154,43,0.07);
+  border: 1px solid rgba(216,154,43,0.35);
+  border-radius: 24px;
+  padding: 40px 48px;
+  text-align: center;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  position: relative; overflow: hidden;
+}
+.diag-savings::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(216,154,43,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.diag-savings--visible { opacity: 1; transform: translateY(0); }
+
+.diag-savings-badge {
+  display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); border: 1px solid rgba(216,154,43,0.3);
+  border-radius: 100px; padding: 5px 14px; margin-bottom: 20px;
+}
+.diag-savings-intro {
+  font-size: 15px; color: var(--muted); line-height: 1.7;
+  margin-bottom: 16px;
+}
+.diag-savings-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 6vw, 56px);
+  font-weight: 800; color: var(--cream);
+  line-height: 1.05; margin-bottom: 6px;
+}
+.diag-savings-period {
+  font-size: 14px; color: var(--muted); font-style: italic;
+  margin-bottom: 20px;
+}
+.diag-savings-note {
+  font-size: 11px; color: rgba(248,248,246,0.3); font-style: italic;
+  border-top: 1px solid rgba(216,154,43,0.12);
+  padding-top: 16px; margin-bottom: 20px;
+}
+.diag-savings-cta-hint {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 500; color: var(--gold);
+  background: rgba(216,154,43,0.1);
+  border: 1px solid rgba(216,154,43,0.2);
+  border-radius: 10px; padding: 10px 18px;
+  text-decoration: none; cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.diag-savings-cta-hint:hover {
+  background: rgba(216,154,43,0.16);
+  border-color: rgba(216,154,43,0.4);
+}
+
+/* ── HEADER ── */
+.diag-header { text-align: center; margin-bottom: 40px; }
+.diag-title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800; line-height: 1.15;
+  margin-bottom: 12px; color: var(--cream);
+}
+.diag-title em {
+  font-family: 'Playfair Display', serif;
+  font-style: italic; color: var(--gold);
+}
+.diag-sub {
+  font-size: 14px; color: var(--muted);
+}
+
+/* ── FORMULAIRE ── */
+.diag-form { display: flex; flex-direction: column; gap: 24px; }
+
+.diag-field-group {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.diag-field { display: flex; flex-direction: column; gap: 8px; }
+
+.diag-section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--gold);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  margin-top: 8px;
+}
+
+.diag-question { display: flex; flex-direction: column; gap: 10px; }
+
+.diag-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted);
+}
+.diag-label-required { color: var(--gold); font-size: 13px; }
+.diag-label-hint { font-size: 10px; font-weight: 400; letter-spacing: 0; text-transform: none; opacity: 0.6; }
+.diag-input {
+  background: rgba(248,248,246,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-size: 15px; color: var(--cream);
+  font-family: inherit; outline: none;
+  transition: border-color 0.2s;
+  width: 100%; box-sizing: border-box;
+  appearance: none;
+}
+.diag-input::placeholder { color: rgba(248,248,246,0.25); }
+.diag-input:focus { border-color: rgba(216,154,43,0.5); }
+
+/* Options radio */
+.diag-options {
+  display: flex; flex-wrap: wrap; gap: 10px;
+}
+.diag-options--2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.diag-option {
+  display: flex; align-items: center; gap: 0;
+  cursor: pointer;
+}
+.diag-option input { display: none; }
+.diag-option span {
+  display: block;
+  padding: 11px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  cursor: pointer; width: 100%;
+}
+.diag-option:hover span {
+  border-color: rgba(216,154,43,0.3); color: var(--cream);
+}
+.diag-option.selected span {
+  border-color: var(--gold);
+  background: rgba(216,154,43,0.08);
+  color: var(--cream);
+}
+
+/* Checkbox multi-choix */
+.diag-checkbox-opt {
+  display: flex; align-items: center; cursor: pointer;
+}
+.diag-checkbox-opt input { display: none; }
+.diag-checkbox-opt span {
+  display: block; padding: 11px 18px;
+  border: 1px solid var(--border); border-radius: 10px;
+  font-size: 14px; font-weight: 500; color: var(--muted);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  cursor: pointer;
+}
+.diag-checkbox-opt:hover span { border-color: rgba(216,154,43,0.3); color: var(--cream); }
+.diag-checkbox-opt.selected span {
+  border-color: var(--gold);
+  background: rgba(216,154,43,0.08);
+  color: var(--cream);
+}
+
+/* ── CTAs ── */
+.diag-ctas {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 14px;
+  padding-top: 8px;
+}
+.diag-submit {
+  width: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+  padding: 18px 28px;
+}
+.diag-submit-main { font-size: 16px; font-weight: 700; }
+.diag-submit-sub { font-size: 11px; opacity: 0.7; font-weight: 400; }
+
+.diag-callback {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; color: var(--muted);
+  font-family: inherit; padding: 0;
+  transition: color 0.2s;
+}
+.diag-callback:hover { color: var(--cream); }
+.diag-callback-note {
+  font-size: 12px; color: rgba(248,248,246,0.3);
+  font-style: italic; margin: 0;
+}
+
+/* ── SUCCESS ── */
+.diag-success {
+  text-align: center; padding: 60px 20px;
+}
+.diag-success-icon { margin-bottom: 28px; }
+.diag-success-title {
+  font-size: 26px; font-weight: 700;
+  margin-bottom: 16px; color: var(--cream);
+}
+.diag-success p {
+  font-size: 15px; color: var(--muted); line-height: 1.7;
+}
+.diag-success p strong { color: var(--cream); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .diag-nav { padding: 0 16px; }
+  .diag-nav-steps { gap: 6px; font-size: 11px; }
+  .diag-nav-step-bar { width: 36px; }
+  .diag-savings { padding: 24px 20px; }
+  .diag-savings-amount { font-size: clamp(28px, 8vw, 42px); }
+  .diag-main { padding: 40px 16px 60px; }
+  .diag-title { font-size: clamp(22px, 6vw, 32px); }
+  .diag-field-group { grid-template-columns: 1fr; }
+  .diag-options--2col { grid-template-columns: 1fr; }
+  .diag-options { gap: 8px; }
+  .diag-option span, .diag-checkbox-opt span { padding: 10px 14px; font-size: 13px; }
+  .diag-input { font-size: 16px; } /* évite zoom auto sur iOS */
+  .diag-submit { padding: 16px 20px; }
+  .diag-submit-main { font-size: 15px; }
+}

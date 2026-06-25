@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votre estimation personnalisée — HME Logistics</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/Favicon.png" />
+  <link rel="stylesheet" href="diagnostic.css" />
+</head>
+<body class="diag-body">
+
+  <!-- NAV -->
+  <nav class="diag-nav">
+    <a href="index.html" class="diag-nav-logo">
+      <img src="images/LOGO HME.png" alt="HME Logistics" height="40" style="width:auto;display:block;"/>
+    </a>
+    <div class="diag-nav-steps">
+      <span class="diag-nav-step diag-nav-step--done">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D89A2B"/><path d="M4 7l2 2 4-4" stroke="#08111F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Étape 1
+      </span>
+      <div class="diag-nav-step-bar">
+        <div class="diag-nav-step-bar-fill"><span class="diag-nav-step-bar-shine"></span></div>
+      </div>
+      <span class="diag-nav-step diag-nav-step--active">
+        <span class="diag-nav-step-dot"></span>
+        Étape 2
+      </span>
+    </div>
+  </nav>
+
+  <main class="diag-main">
+    <div class="diag-container">
+
+      <!-- BANNIÈRE ÉCONOMIES -->
+      <div class="diag-savings" id="diagSavings">
+        <div class="diag-savings-badge">Votre estimation personnalisée</div>
+        <p class="diag-savings-intro">En passant chez un logisticien spécialisé comme HME,<br/>vous pourriez économiser entre</p>
+        <div class="diag-savings-amount" id="diagSavingsAmount">— €</div>
+        <div class="diag-savings-period">par an</div>
+        <div class="diag-savings-note">Basé sur votre volume et la moyenne constatée chez nos clients.</div>
+        <a href="#diagForm" class="diag-savings-cta-hint">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v8M4 7l3 3 3-3" stroke="#D89A2B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Complétez l'étape 2 pour affiner et recevoir une quotation précise
+        </a>
+      </div>
+
+      <!-- HEADER -->
+      <div class="diag-header">
+        <h1 class="diag-title">Affinez votre estimation<br/><em>pour une quotation précise.</em></h1>
+        <p class="diag-sub">En 2 minutes · Sans engagement · Quotation reçue sous 24h</p>
+      </div>
+
+      <!-- FORMULAIRE -->
+      <form class="diag-form" id="diagForm" novalidate>
+
+        <!-- Identité -->
+        <div class="diag-section-title">Votre marque</div>
+        <div class="diag-field-group">
+          <div class="diag-field">
+            <label class="diag-label">Nom de la marque</label>
+            <input type="text" name="marque" class="diag-input" placeholder="Ex : Florna, Reborn21…"/>
+          </div>
+          <div class="diag-field">
+            <label class="diag-label">Votre prénom &amp; nom</label>
+            <input type="text" name="nom" class="diag-input" placeholder="Jean Dupont"/>
+          </div>
+        </div>
+        <div class="diag-field-group">
+          <div class="diag-field">
+            <label class="diag-label">Email <span class="diag-label-required">*</span></label>
+            <input type="email" name="email" id="diagEmail" class="diag-input" placeholder="vous@votreboutique.com" required autocomplete="email"/>
+          </div>
+          <div class="diag-field">
+            <label class="diag-label">Téléphone <span class="diag-label-required">*</span></label>
+            <input type="tel" name="tel" class="diag-input" placeholder="06 00 00 00 00" required/>
+          </div>
+        </div>
+        <div class="diag-field-group">
+          <div class="diag-field">
+            <label class="diag-label">Site internet</label>
+            <input type="url" name="site" id="diagSite" class="diag-input" placeholder="https://votreboutique.com"/>
+          </div>
+          <div class="diag-field">
+            <label class="diag-label">Prestataire logistique actuel</label>
+            <input type="text" name="prestataire" class="diag-input" placeholder="Ex : Bigblue, Cubyn, en interne…"/>
+          </div>
+        </div>
+
+        <!-- Q1 — Produits -->
+        <div class="diag-section-title">Vos produits</div>
+
+        <div class="diag-question">
+          <label class="diag-label">Type de produits</label>
+          <div class="diag-options diag-options--2col">
+            <label class="diag-option"><input type="radio" name="type_produit" value="sante"/><span>💊 Santé / Compléments</span></label>
+            <label class="diag-option"><input type="radio" name="type_produit" value="cosmetique"/><span>💄 Cosmétique / Beauté</span></label>
+            <label class="diag-option"><input type="radio" name="type_produit" value="bienetre"/><span>🧘 Bien-être / CBD</span></label>
+            <label class="diag-option"><input type="radio" name="type_produit" value="autre"/><span>📦 Autre</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Contraintes produit <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
+          <div class="diag-options">
+            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="fragile"/><span>Fragile</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="liquide"/><span>Liquide</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="dluo"/><span>DLUO / DDM</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="batteries"/><span>Piles / Batteries</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="aucune"/><span>Aucune</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Nombre de SKU</label>
+          <div class="diag-options">
+            <label class="diag-option"><input type="radio" name="sku" value="<25"/><span>Moins de 25</span></label>
+            <label class="diag-option"><input type="radio" name="sku" value="25-50"/><span>25 à 50</span></label>
+            <label class="diag-option"><input type="radio" name="sku" value="50-100"/><span>50 à 100</span></label>
+            <label class="diag-option"><input type="radio" name="sku" value=">100"/><span>Plus de 100</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Nombre moyen de produits par commande</label>
+          <div class="diag-options">
+            <label class="diag-option"><input type="radio" name="produits_cmd" value="1"/><span>1 produit</span></label>
+            <label class="diag-option"><input type="radio" name="produits_cmd" value="2"/><span>2 produits</span></label>
+            <label class="diag-option"><input type="radio" name="produits_cmd" value="3"/><span>3 produits</span></label>
+            <label class="diag-option"><input type="radio" name="produits_cmd" value="4+"/><span>4 et plus</span></label>
+          </div>
+        </div>
+
+        <!-- Q2 — Expédition -->
+        <div class="diag-section-title">Expédition</div>
+
+        <div class="diag-question">
+          <label class="diag-label">Zones livrées</label>
+          <div class="diag-options">
+            <label class="diag-option"><input type="radio" name="zones" value="france"/><span>🇫🇷 France uniquement</span></label>
+            <label class="diag-option"><input type="radio" name="zones" value="europe"/><span>🇪🇺 France + Europe</span></label>
+            <label class="diag-option"><input type="radio" name="zones" value="monde"/><span>🌍 International</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Modes de livraison souhaités <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
+          <div class="diag-options">
+            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="domicile"/><span>Domicile</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="relais"/><span>Point relais</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="express"/><span>Express</span></label>
+          </div>
+        </div>
+
+        <!-- Q3 — Contexte -->
+        <div class="diag-section-title">Votre contexte</div>
+
+        <div class="diag-question">
+          <label class="diag-label">Principal défi logistique aujourd'hui <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
+          <div class="diag-options diag-options--2col">
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="couts"/><span>Coûts trop élevés</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="erreurs"/><span>Trop d'erreurs</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="sav"/><span>SAV trop important</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="visibilite"/><span>Manque de visibilité</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="croissance"/><span>Croissance trop rapide</span></label>
+            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="changement"/><span>Changer de prestataire</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Chiffre d'affaires annuel</label>
+          <div class="diag-options diag-options--2col">
+            <label class="diag-option"><input type="radio" name="ca" value="<1M"/><span>Moins de 1 M€</span></label>
+            <label class="diag-option"><input type="radio" name="ca" value="1-3M"/><span>1 à 3 M€</span></label>
+            <label class="diag-option"><input type="radio" name="ca" value="3-10M"/><span>3 à 10 M€</span></label>
+            <label class="diag-option"><input type="radio" name="ca" value="10-25M"/><span>10 à 25 M€</span></label>
+            <label class="diag-option"><input type="radio" name="ca" value=">25M"/><span>Plus de 25 M€</span></label>
+          </div>
+        </div>
+
+        <div class="diag-question">
+          <label class="diag-label">Quand seriez-vous prêt à changer ?</label>
+          <div class="diag-options">
+            <label class="diag-option"><input type="radio" name="timing" value="now"/><span>Immédiatement</span></label>
+            <label class="diag-option"><input type="radio" name="timing" value="3m"/><span>Dans 3 mois</span></label>
+            <label class="diag-option"><input type="radio" name="timing" value="6m"/><span>Dans 6 mois</span></label>
+            <label class="diag-option"><input type="radio" name="timing" value="later"/><span>Plus tard</span></label>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="diag-ctas">
+          <button type="submit" class="btn btn-primary btn-xl diag-submit">
+            <span class="diag-submit-main">Recevoir ma quotation personnalisée →</span>
+            <span class="diag-submit-sub">Sans engagement · Réponse sous 24h</span>
+          </button>
+          <button type="button" class="diag-callback" id="diagCallback">
+            <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 3h4l2 5-2.5 1.5a11 11 0 005 5L13 12l5 2v4a2 2 0 01-2 2C6 20 0 14 0 5a2 2 0 012-2h1z" fill="currentColor"/></svg>
+            Je préfère être rappelé
+          </button>
+          <p class="diag-callback-note">Un expert HME vous rappelle sous 24h.</p>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS -->
+      <div class="diag-success" id="diagSuccess" hidden>
+        <div class="diag-success-icon">
+          <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="#D89A2B" stroke-width="1.5"/><path d="M17 28l8 8 14-16" stroke="#D89A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="diag-success-title">Votre quotation est en cours de préparation.</h2>
+        <p>Vous recevrez votre estimation personnalisée dans votre boîte mail <strong>sous 24h.</strong><br/>Un expert HME pourra vous contacter pour approfondir l'analyse.</p>
+        <a href="index.html" class="btn btn-outline" style="margin-top:32px">← Retour au site</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const step1 = JSON.parse(sessionStorage.getItem('hme_diag_step1') || '{}');
+
+    // Pré-remplissage email
+    if (step1.email) document.getElementById('diagEmail').value = step1.email;
+
+    // Bannière économies
+    (function() {
+      const fmt = n => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
+      const savings = document.getElementById('diagSavings');
+      const amountEl = document.getElementById('diagSavingsAmount');
+
+      if (step1.savingsLow && step1.savingsHigh) {
+        amountEl.textContent = fmt(step1.savingsLow) + ' – ' + fmt(step1.savingsHigh);
+        savings.classList.add('diag-savings--visible');
+      } else {
+        savings.style.display = 'none';
+      }
+    })();
+
+    // Sélection radio
+    document.querySelectorAll('.diag-option input[type="radio"]').forEach(input => {
+      input.addEventListener('change', () => {
+        const group = input.closest('.diag-options');
+        if (!group) return;
+        group.querySelectorAll('.diag-option').forEach(o => o.classList.remove('selected'));
+        input.closest('.diag-option').classList.add('selected');
+      });
+    });
+
+    // Sélection checkbox
+    document.querySelectorAll('.diag-checkbox-opt input[type="checkbox"]').forEach(input => {
+      input.addEventListener('change', () => {
+        input.closest('.diag-checkbox-opt').classList.toggle('selected', input.checked);
+      });
+    });
+
+    // Submit
+    document.getElementById('diagForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('.diag-submit');
+      btn.disabled = true;
+      btn.querySelector('.diag-submit-main').textContent = 'Envoi en cours…';
+
+      const step2 = Object.fromEntries(new FormData(this));
+      const full  = { ...step1, ...step2 };
+
+      // ── 1. Tag SIO "lead complet" ───────────────────────────────────────
+      const contactId = sessionStorage.getItem('hme_sio_id');
+      if (contactId) {
+        try {
+          await fetch('https://api.systeme.io/api/contacts/' + contactId + '/tags', {
+            method: 'POST',
+            headers: { 'X-API-Key': 'xu30lnoy4f3zsbtvmvtsbluamexy0yuw2b5uy57t3f3x6bwg4yq8gfjq1g4a7ol9', 'Content-Type': 'application/json', 'accept': 'application/json' },
+            body: JSON.stringify({ name: 'HME - LEAD SITE WEB 2/2' })
+          });
+        } catch(err) {}
+      }
+
+      // ── 2. Notification email → aurelien+HME@famillia.fr ────────────────
+      // Remplacez WEB3FORMS_KEY par votre clé sur https://web3forms.com
+      const WEB3FORMS_KEY = 'VOTRE_CLE_WEB3FORMS';
+      try {
+        const body = [
+          '🎯 NOUVEAU LEAD HME — Formulaire complet',
+          '',
+          '── ÉTAPE 1 ──',
+          `Email       : ${full.email || '—'}`,
+          `Volume      : ${full.orders || '—'}`,
+          `Économies   : ${full.savingsLow ? full.savingsLow.toLocaleString('fr-FR') + ' € – ' + full.savingsHigh.toLocaleString('fr-FR') + ' €/an' : '—'}`,
+          '',
+          '── MARQUE ──',
+          `Marque      : ${full.marque || '—'}`,
+          `Nom contact : ${full.nom || '—'}`,
+          `Téléphone   : ${full.tel || '—'}`,
+          `Site        : ${full.site || '—'}`,
+          `Prestataire : ${full.prestataire || '—'}`,
+          '',
+          '── PRODUITS ──',
+          `Type        : ${full.type_produit || '—'}`,
+          `Contraintes : ${full.contrainte || '—'}`,
+          `Nb SKUs     : ${full.sku || '—'}`,
+          `Produits/cmd: ${full.produits_cmd || '—'}`,
+          '',
+          '── EXPÉDITION ──',
+          `Zones       : ${full.zones || '—'}`,
+          `Livraison   : ${full.livraison || '—'}`,
+          '',
+          '── CONTEXTE ──',
+          `Défis       : ${full.defi || '—'}`,
+          `CA annuel   : ${full.ca || '—'}`,
+          `Timing      : ${full.timing || '—'}`,
+        ].join('\n');
+
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_KEY,
+            subject: '🎯 Nouveau lead HME — ' + (full.marque || full.email || 'Inconnu'),
+            from_name: 'HME Site Web',
+            replyto: full.email || '',
+            to: 'aurelien+HME@famillia.fr',
+            message: body
+          })
+        });
+      } catch(err) {}
+
+      window.location.href = 'merci.html';
+    });
+
+    // Rappel
+    document.getElementById('diagCallback').addEventListener('click', function() {
+      this.innerHTML = '✓ Demande enregistrée — rappel sous 24h';
+      this.disabled = true;
+      this.style.color = 'var(--gold)';
+    });
+  </script>
+
+</body>
+</html>

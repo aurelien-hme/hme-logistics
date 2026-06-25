@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merci — HME Logistics</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/Favicon.png" />
+  <style>
+    /* ══ THANK YOU PAGE ══ */
+    body {
+      background: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Nav */
+    .ty-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ty-nav img { height: 34px; }
+
+    /* Hero */
+    .ty-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ty-main::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 40%, rgba(216,154,43,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ty-card {
+      position: relative; z-index: 1;
+      max-width: 620px; width: 100%;
+      text-align: center;
+    }
+
+    /* Check animé */
+    .ty-check {
+      display: inline-flex;
+      align-items: center; justify-content: center;
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(216,154,43,0.08);
+      border: 1px solid rgba(216,154,43,0.25);
+      margin-bottom: 32px;
+      animation: tyPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes tyPop {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .ty-check svg { animation: tyDraw 0.4s 0.3s ease both; }
+    @keyframes tyDraw {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Étapes confirmées */
+    .ty-steps-done {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .ty-steps-done-sep { width: 32px; height: 1px; background: var(--gold); opacity: 0.4; }
+
+    .ty-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 48px);
+      font-weight: 700; line-height: 1.2;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .ty-title em {
+      font-style: normal;
+      color: var(--gold);
+    }
+    .ty-sub {
+      font-size: 17px; color: var(--muted); line-height: 1.7;
+      margin-bottom: 48px;
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+
+    /* Timeline de ce qui arrive */
+    .ty-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      text-align: left;
+      background: rgba(248,248,246,0.03);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 8px 0;
+      margin-bottom: 40px;
+    }
+    .ty-timeline-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 20px 28px;
+      position: relative;
+    }
+    .ty-timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 48px; bottom: 0;
+      width: 1px; height: 1px;
+      border-left: 1px dashed rgba(248,248,246,0.1);
+      top: 100%;
+      height: 0;
+    }
+    .ty-timeline-left {
+      display: flex; flex-direction: column; align-items: center; gap: 0;
+      flex-shrink: 0;
+    }
+    .ty-timeline-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ty-timeline-icon--done {
+      background: rgba(216,154,43,0.12);
+      border: 1px solid rgba(216,154,43,0.3);
+    }
+    .ty-timeline-icon--soon {
+      background: rgba(248,248,246,0.04);
+      border: 1px solid var(--border);
+    }
+    .ty-timeline-connector {
+      width: 1px; flex: 1; min-height: 12px;
+      background: linear-gradient(to bottom, rgba(216,154,43,0.2), transparent);
+      margin: 4px 0;
+    }
+    .ty-timeline-body { flex: 1; }
+    .ty-timeline-when {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+    }
+    .ty-timeline-when--soon { color: var(--muted); }
+    .ty-timeline-title {
+      font-size: 15px; font-weight: 600; color: var(--cream); margin-bottom: 2px;
+    }
+    .ty-timeline-desc {
+      font-size: 13px; color: var(--muted); line-height: 1.5;
+    }
+
+    /* CTAs */
+    .ty-ctas {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* Footer minimal */
+    .ty-footer {
+      text-align: center;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px; color: rgba(248,248,246,0.25);
+    }
+    .ty-footer a { color: rgba(248,248,246,0.35); text-decoration: none; }
+    .ty-footer a:hover { color: var(--muted); }
+
+    @media (max-width: 600px) {
+      .ty-nav { padding: 20px 24px; }
+      .ty-timeline-item { padding: 16px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="ty-nav">
+    <a href="index.html">
+      <img src="images/Favicon.png" alt="HME Logistics"/>
+    </a>
+  </nav>
+
+  <main class="ty-main">
+    <div class="ty-card">
+
+      <div class="ty-check">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <path d="M9 18l6 6 12-12" stroke="#D89A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="ty-steps-done">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D89A2B"/><path d="M4 7l2 2 4-4" stroke="#08111F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Étape 1
+        <div class="ty-steps-done-sep"></div>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D89A2B"/><path d="M4 7l2 2 4-4" stroke="#08111F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Étape 2
+      </div>
+
+      <h1 class="ty-title">Votre diagnostic est<br/><em>en cours de préparation.</em></h1>
+      <p class="ty-sub">Un expert HME analyse votre modèle logistique. Vous recevrez votre estimation personnalisée sous 24h.</p>
+
+      <!-- Timeline -->
+      <div class="ty-timeline">
+
+        <div class="ty-timeline-item">
+          <div class="ty-timeline-left">
+            <div class="ty-timeline-icon ty-timeline-icon--done">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#D89A2B"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#08111F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="ty-timeline-connector"></div>
+          </div>
+          <div class="ty-timeline-body">
+            <div class="ty-timeline-when">Maintenant</div>
+            <div class="ty-timeline-title">Diagnostic reçu ✓</div>
+            <div class="ty-timeline-desc">Vos informations sont transmises à notre équipe logistique.</div>
+          </div>
+        </div>
+
+        <div class="ty-timeline-item">
+          <div class="ty-timeline-left">
+            <div class="ty-timeline-icon ty-timeline-icon--done">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#D89A2B"/><path d="M5.5 9l2.5 2.5 4.5-5" stroke="#08111F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="ty-timeline-connector"></div>
+          </div>
+          <div class="ty-timeline-body">
+            <div class="ty-timeline-when">Dans les 2h</div>
+            <div class="ty-timeline-title">Analyse de votre modèle</div>
+            <div class="ty-timeline-desc">Un expert HME spécialisé dans votre niche étudie votre dossier.</div>
+          </div>
+        </div>
+
+        <div class="ty-timeline-item">
+          <div class="ty-timeline-left">
+            <div class="ty-timeline-icon ty-timeline-icon--soon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="rgba(248,248,246,0.2)" stroke-width="1.5"/><path d="M9 5v4l2.5 2.5" stroke="rgba(248,248,246,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div class="ty-timeline-connector"></div>
+          </div>
+          <div class="ty-timeline-body">
+            <div class="ty-timeline-when ty-timeline-when--soon">Sous 24h</div>
+            <div class="ty-timeline-title">Réception de votre estimation</div>
+            <div class="ty-timeline-desc">Grille tarifaire + projection d'économies + plan d'action dans votre boîte mail.</div>
+          </div>
+        </div>
+
+        <div class="ty-timeline-item">
+          <div class="ty-timeline-left">
+            <div class="ty-timeline-icon ty-timeline-icon--soon">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h4l1.5 3.5L7 8a9 9 0 004 4l1.5-1.5L16 12v4a1.5 1.5 0 01-1.5 1.5C7 17.5 0.5 11 0.5 4A1.5 1.5 0 013 3z" stroke="rgba(248,248,246,0.4)" stroke-width="1.4" stroke-linejoin="round"/></svg>
+            </div>
+          </div>
+          <div class="ty-timeline-body">
+            <div class="ty-timeline-when ty-timeline-when--soon">Si souhaité</div>
+            <div class="ty-timeline-title">Appel de qualification</div>
+            <div class="ty-timeline-desc">30 minutes avec un expert pour approfondir votre situation et répondre à vos questions.</div>
+          </div>
+        </div>
+
+      </div><!-- /.ty-timeline -->
+
+      <div class="ty-ctas">
+        <a href="index.html" class="btn btn-outline">← Retour au site</a>
+        <a href="tel:0749135182" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 3h4l2 5-2.5 1.5a11 11 0 005 5L13 12l5 2v4a2 2 0 01-2 2C6 20 0 14 0 5a2 2 0 012-2h1z" fill="currentColor"/></svg>
+          Parler à un expert maintenant
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ty-footer">
+    <p>© 2025 HME Logistics · <a href="index.html#audit">Diagnostic gratuit</a> · <a href="mailto:contact@hme-logistics.fr">contact@hme-logistics.fr</a></p>
+  </footer>
+
+  <script>
+    // Confetti léger au chargement
+    (function() {
+      const colors = ['#D89A2B', '#f0c060', '#ffe09a', 'rgba(216,154,43,0.4)'];
+      for (let i = 0; i < 40; i++) {
+        const dot = document.createElement('div');
+        const size = Math.random() * 6 + 3;
+        dot.style.cssText = `
+          position: fixed;
+          left: ${Math.random() * 100}vw;
+          top: -10px;
+          width: ${size}px; height: ${size}px;
+          border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+          background: ${colors[Math.floor(Math.random() * colors.length)]};
+          pointer-events: none; z-index: 9999;
+          animation: tyConfetti ${1.5 + Math.random() * 2}s ${Math.random() * 0.8}s ease-in forwards;
+        `;
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 4000);
+      }
+      const s = document.createElement('style');
+      s.textContent = `@keyframes tyConfetti {
+        0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+        100% { transform: translateY(100vh) rotate(${Math.random() > 0.5 ? '' : '-'}720deg); opacity: 0; }
+      }`;
+      document.head.appendChild(s);
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devenir partenaire — HME Logistics</title>
+  <meta name="description" content="Vous êtes transporteur, éditeur de logiciel ou agence e-commerce ? Rejoignez l'écosystème HME Logistics." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="images/Favicon.png" />
+  <style>
+    body { background: var(--dark); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Nav */
+    .pt-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(8,17,31,0.92);
+      backdrop-filter: blur(12px);
+    }
+    .pt-nav img { height: 32px; }
+    .pt-nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500; color: var(--muted);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .pt-nav-back:hover { color: var(--cream); }
+
+    /* Hero */
+    .pt-hero {
+      text-align: center;
+      padding: 80px 24px 64px;
+      position: relative; overflow: hidden;
+    }
+    .pt-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(216,154,43,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pt-hero-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .pt-hero .section-tag { margin-bottom: 20px; }
+    .pt-hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700; line-height: 1.15; color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .pt-hero-title em { font-style: normal; color: var(--gold); }
+    .pt-hero-sub {
+      font-size: 17px; color: var(--muted); line-height: 1.7; margin-bottom: 0;
+    }
+
+    /* Types de partenaires */
+    .pt-types {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; max-width: 860px; margin: 0 auto 64px;
+      padding: 0 24px;
+    }
+    .pt-type {
+      background: rgba(248,248,246,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 24px 20px;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+    .pt-type:hover, .pt-type.selected {
+      border-color: rgba(216,154,43,0.5);
+      background: rgba(216,154,43,0.06);
+    }
+    .pt-type.selected { border-color: var(--gold); }
+    .pt-type-icon {
+      font-size: 28px; margin-bottom: 10px; display: block;
+    }
+    .pt-type-name {
+      font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 6px;
+    }
+    .pt-type-desc {
+      font-size: 12px; color: var(--muted); line-height: 1.5;
+    }
+
+    /* Formulaire */
+    .pt-form-wrap {
+      max-width: 640px; margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+    .pt-form-card {
+      background: rgba(216,154,43,0.04);
+      border: 1px solid rgba(216,154,43,0.2);
+      border-radius: 20px; padding: 40px 40px 36px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 60px rgba(216,154,43,0.04);
+    }
+    .pt-form-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 28px;
+    }
+    .pt-form { display: flex; flex-direction: column; gap: 18px; }
+
+    .pt-field { display: flex; flex-direction: column; gap: 7px; }
+    .pt-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .pt-input, .pt-select, .pt-textarea {
+      background: rgba(248,248,246,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 14px;
+      font-size: 14px; color: var(--cream);
+      font-family: inherit; outline: none;
+      transition: border-color 0.2s; width: 100%; box-sizing: border-box;
+    }
+    .pt-input::placeholder, .pt-textarea::placeholder { color: rgba(248,248,246,0.22); }
+    .pt-input:focus, .pt-select:focus, .pt-textarea:focus { border-color: rgba(216,154,43,0.5); }
+    .pt-textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    .pt-select { -webkit-appearance: none; appearance: none; cursor: pointer; }
+    .pt-select option { background: #0d1f35; }
+
+    .pt-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .pt-submit {
+      width: 100%; justify-content: center;
+      font-size: 15px; margin-top: 8px;
+    }
+    .pt-legal {
+      text-align: center; margin-top: 10px;
+      font-size: 11px; color: rgba(248,248,246,0.28);
+    }
+
+    /* Success */
+    .pt-success {
+      text-align: center; padding: 60px 24px; display: none;
+    }
+    .pt-success-icon { margin-bottom: 24px; }
+    .pt-success-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px, 3vw, 36px); font-weight: 700;
+      color: var(--cream); margin-bottom: 14px;
+    }
+    .pt-success p { font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 32px; }
+
+    /* Footer minimal */
+    .pt-footer {
+      text-align: center; padding: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 12px; color: rgba(248,248,246,0.25);
+      margin-top: auto;
+    }
+
+    @media (max-width: 640px) {
+      .pt-nav { padding: 16px 20px; }
+      .pt-types { grid-template-columns: 1fr; }
+      .pt-row { grid-template-columns: 1fr; }
+      .pt-form-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="pt-nav">
+    <a href="index.html">
+      <img src="images/Favicon.png" alt="HME Logistics"/>
+    </a>
+    <a href="index.html" class="pt-nav-back">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L5 7l4 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Retour au site
+    </a>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <div class="pt-hero">
+      <div class="pt-hero-inner">
+        <span class="section-tag">Programme Partenaires</span>
+        <h1 class="pt-hero-title">Construisons quelque chose<br/><em>ensemble.</em></h1>
+        <p class="pt-hero-sub">Transporteurs, éditeurs de logiciel, agences e-commerce ou investisseurs — si vous partagez notre vision d'une logistique premium, parlons-en.</p>
+      </div>
+    </div>
+
+    <!-- Types -->
+    <div class="pt-types">
+      <div class="pt-type" data-type="transporteur">
+        <span class="pt-type-icon">🚚</span>
+        <div class="pt-type-name">Transporteur</div>
+        <div class="pt-type-desc">Colissimo, Chronopost, transporteurs spécialisés…</div>
+      </div>
+      <div class="pt-type" data-type="logiciel">
+        <span class="pt-type-icon">⚙️</span>
+        <div class="pt-type-name">Éditeur logiciel / OMS / WMS</div>
+        <div class="pt-type-desc">Intégrations e-commerce, outils de gestion…</div>
+      </div>
+      <div class="pt-type" data-type="agence">
+        <span class="pt-type-icon">📈</span>
+        <div class="pt-type-name">Agence e-commerce</div>
+        <div class="pt-type-desc">Marketing, CRO, growth, D2C…</div>
+      </div>
+      <div class="pt-type" data-type="investisseur">
+        <span class="pt-type-icon">💼</span>
+        <div class="pt-type-name">Investisseur / Holding</div>
+        <div class="pt-type-desc">Accompagnement de portefeuille de marques…</div>
+      </div>
+      <div class="pt-type" data-type="marque">
+        <span class="pt-type-icon">🏷️</span>
+        <div class="pt-type-name">Marque partenaire</div>
+        <div class="pt-type-desc">Co-branding, recommandation mutuelle…</div>
+      </div>
+      <div class="pt-type" data-type="autre">
+        <span class="pt-type-icon">✨</span>
+        <div class="pt-type-name">Autre</div>
+        <div class="pt-type-desc">Une idée différente ? On est curieux.</div>
+      </div>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="pt-form-wrap">
+      <div class="pt-form-card" id="ptFormCard">
+        <div class="pt-form-title">Votre demande de partenariat</div>
+        <form class="pt-form" id="ptForm" novalidate>
+
+          <input type="hidden" name="type_partenariat" id="ptTypeInput" value=""/>
+
+          <div class="pt-row">
+            <div class="pt-field">
+              <label class="pt-label">Prénom</label>
+              <input type="text" name="prenom" class="pt-input" placeholder="Jean" required/>
+            </div>
+            <div class="pt-field">
+              <label class="pt-label">Nom</label>
+              <input type="text" name="nom" class="pt-input" placeholder="Dupont" required/>
+            </div>
+          </div>
+
+          <div class="pt-field">
+            <label class="pt-label">Entreprise</label>
+            <input type="text" name="entreprise" class="pt-input" placeholder="Nom de votre société" required/>
+          </div>
+
+          <div class="pt-row">
+            <div class="pt-field">
+              <label class="pt-label">Email professionnel</label>
+              <input type="email" name="email" class="pt-input" placeholder="vous@entreprise.com" required/>
+            </div>
+            <div class="pt-field">
+              <label class="pt-label">Téléphone</label>
+              <input type="tel" name="tel" class="pt-input" placeholder="06 00 00 00 00"/>
+            </div>
+          </div>
+
+          <div class="pt-field">
+            <label class="pt-label">Site internet</label>
+            <input type="url" name="site" class="pt-input" placeholder="https://votre-site.com"/>
+          </div>
+
+          <div class="pt-field">
+            <label class="pt-label">Type de partenariat souhaité</label>
+            <select name="type_partenariat_select" class="pt-select">
+              <option value="" disabled selected>Sélectionner</option>
+              <option>Transporteur partenaire</option>
+              <option>Intégration logiciel / API</option>
+              <option>Recommandation réciproque</option>
+              <option>Co-branding / co-marketing</option>
+              <option>Partenariat investisseur / holding</option>
+              <option>Autre</option>
+            </select>
+          </div>
+
+          <div class="pt-field">
+            <label class="pt-label">Décrivez votre proposition</label>
+            <textarea name="message" class="pt-textarea" placeholder="En quoi ce partenariat serait bénéfique pour nos deux structures ? Quelles synergies envisagez-vous ?"></textarea>
+          </div>
+
+          <div class="pt-field">
+            <label class="pt-label">Comment avez-vous entendu parler de HME ?</label>
+            <input type="text" name="source" class="pt-input" placeholder="LinkedIn, recommandation, recherche Google…"/>
+          </div>
+
+          <button type="submit" class="btn btn-primary pt-submit">
+            Envoyer ma demande de partenariat →
+          </button>
+          <p class="pt-legal">Votre demande sera traitée sous 48h · Données confidentielles</p>
+        </form>
+      </div>
+
+      <!-- Success -->
+      <div class="pt-success" id="ptSuccess">
+        <div class="pt-success-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="30" stroke="#D89A2B" stroke-width="1.5"/><path d="M20 32l9 9 15-18" stroke="#D89A2B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h2 class="pt-success-title">Demande reçue.</h2>
+        <p>Nous reviendrons vers vous <strong>sous 48h</strong> pour discuter des possibilités de collaboration.</p>
+        <a href="index.html" class="btn btn-outline">← Retour au site</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="pt-footer">
+    <p>© 2025 HME Logistics · <a href="index.html" style="color:rgba(248,248,246,0.35);text-decoration:none">Retour au site</a> · <a href="mailto:contact@hme-logistics.fr" style="color:rgba(248,248,246,0.35);text-decoration:none">contact@hme-logistics.fr</a></p>
+  </footer>
+
+  <script>
+    const NOTIFY_EMAIL = 'aurelien+HME@famillia.fr';
+    // ↓ Même webhook Make.com que le diagnostic (ou un nouveau scénario dédié)
+    const MAKE_WEBHOOK = '';
+
+    // Sélection type partenaire
+    document.querySelectorAll('.pt-type').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.pt-type').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        document.getElementById('ptTypeInput').value = card.dataset.type;
+      });
+    });
+
+    // Reveal animation
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; ro.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.pt-type, .pt-form-card').forEach(el => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      ro.observe(el);
+    });
+
+    // Submit
+    document.getElementById('ptForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = this.querySelector('.pt-submit');
+      btn.disabled = true; btn.textContent = 'Envoi en cours…';
+
+      const data = Object.fromEntries(new FormData(this));
+      data.type_partenariat = document.getElementById('ptTypeInput').value || data.type_partenariat_select;
+
+      // Envoyer au webhook Make.com
+      if (MAKE_WEBHOOK) {
+        try {
+          await fetch(MAKE_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              to: NOTIFY_EMAIL,
+              sujet: `🤝 Nouvelle demande partenaire — ${data.entreprise}`,
+              type: 'partenaire',
+              data
+            })
+          });
+        } catch(err) { console.error('[Make] partenaire', err); }
+      }
+
+      // Succès
+      document.getElementById('ptFormCard').style.display = 'none';
+      const s = document.getElementById('ptSuccess');
+      s.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
