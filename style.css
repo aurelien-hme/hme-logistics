@@ -333,7 +333,7 @@ strong { color: var(--cream); font-weight: 600; }
 .hero-kpi-label { font-size: 10px; color: var(--muted); letter-spacing: 0.03em; }
 
 /* Colonne droite : image */
-.hero-right { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 24px; }
+.hero-right { display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 0; }
 
 /* ── HERO REASSURANCE BADGES ── */
 .hero-reassurance {
