@@ -2473,6 +2473,7 @@ strong { color: var(--cream); font-weight: 600; }
   .hero-right { order: -1; }
   /* min-width: 0 empêche les enfants de grid de dépasser 1fr */
   .hero-left, .hero-right { min-width: 0; width: 100%; }
+  .hero-left { grid-row: auto; justify-content: flex-start; }
   /* Image contenue dans une box fixe */
   .hero-img-wrapper {
     position: relative;
