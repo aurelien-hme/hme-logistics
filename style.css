@@ -264,7 +264,7 @@ strong { color: var(--cream); font-weight: 600; }
 }
 
 /* Colonne gauche */
-.hero-left { display: flex; flex-direction: column; }
+.hero-left { display: flex; flex-direction: column; grid-row: span 2; justify-content: center; }
 
 .hero-badge {
   display: inline-flex; align-items: center; gap: 10px;
