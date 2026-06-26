@@ -272,10 +272,10 @@
       const contactId = sessionStorage.getItem('hme_sio_id');
       if (contactId) {
         try {
-          await fetch('https://api.systeme.io/api/contacts/' + contactId + '/tags', {
+          await fetch('/api/sio', {
             method: 'POST',
-            headers: { 'X-API-Key': 'xu30lnoy4f3zsbtvmvtsbluamexy0yuw2b5uy57t3f3x6bwg4yq8gfjq1g4a7ol9', 'Content-Type': 'application/json', 'accept': 'application/json' },
-            body: JSON.stringify({ name: 'HME - LEAD SITE WEB 2/2' })
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'addTag', contactId, tag: 'HME - LEAD SITE WEB 2/2' })
           });
         } catch(err) {}
       }

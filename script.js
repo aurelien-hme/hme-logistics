@@ -342,43 +342,26 @@ document.querySelectorAll('.resultat-card').forEach(card => {
 
 /* ── SYSTEME.IO — CONFIG ── */
 const HME_SIO = {
-  key:  'xu30lnoy4f3zsbtvmvtsbluamexy0yuw2b5uy57t3f3x6bwg4yq8gfjq1g4a7ol9',
-  base: 'https://api.systeme.io/api',
-  // ↓ Collez ici votre URL webhook Make.com (scénario email notification)
   makeWebhook: '',
 
-  headers() {
-    return {
-      'X-API-Key': this.key,
-      'Content-Type': 'application/json',
-      'accept': 'application/json'
-    };
-  },
-
   async createContact(email, phone) {
-    const body = { email };
-    if (phone) body.phoneNumber = phone.replace(/[\s\-\.]/g, '');
     try {
-      const res = await fetch(`${this.base}/contacts`, {
-        method: 'POST', headers: this.headers(),
-        body: JSON.stringify(body)
+      const res = await fetch('/api/sio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'createContact', email, phone })
       });
       const d = await res.json();
-      if (d.id) return d.id;
-      // Contact existe déjà → chercher par email
-      const find = await fetch(`${this.base}/contacts?email=${encodeURIComponent(email)}`, {
-        headers: this.headers()
-      });
-      const found = await find.json();
-      return found.items?.[0]?.id || null;
+      return d.id || null;
     } catch(e) { console.error('[SIO] createContact', e); return null; }
   },
 
   async addTag(contactId, tagName) {
     try {
-      await fetch(`${this.base}/contacts/${contactId}/tags`, {
-        method: 'POST', headers: this.headers(),
-        body: JSON.stringify({ name: tagName })
+      await fetch('/api/sio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'addTag', contactId, tag: tagName })
       });
     } catch(e) { console.error('[SIO] addTag', e); }
   },
@@ -389,12 +372,7 @@ const HME_SIO = {
       await fetch(this.makeWebhook, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to:    'aurelien+HME@famillia.fr',
-          step,
-          delay: '5 minutes',
-          data
-        })
+        body: JSON.stringify({ to: 'aurelien+HME@famillia.fr', step, delay: '5 minutes', data })
       });
     } catch(e) { console.error('[SIO] makeWebhook', e); }
   }

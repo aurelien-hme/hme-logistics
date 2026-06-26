@@ -1093,15 +1093,22 @@
             savingsHigh
           }));
 
-          // Enregistrement SIO
+          // Enregistrement SIO via proxy
           try {
-            const res = await fetch('https://api.systeme.io/api/contacts', {
+            const res = await fetch('/api/sio', {
               method: 'POST',
-              headers: { 'X-API-Key': 'xu30lnoy4f3zsbtvmvtsbluamexy0yuw2b5uy57t3f3x6bwg4yq8gfjq1g4a7ol9', 'Content-Type': 'application/json', 'accept': 'application/json' },
-              body: JSON.stringify({ email, fields: [{ slug: 'orders', value: orderLabel }], tags: [{ name: 'calculette-step1' }] })
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'createContact', email, phone: '' })
             });
             const data = await res.json();
-            if (data.id) sessionStorage.setItem('hme_sio_id', data.id);
+            if (data.id) {
+              sessionStorage.setItem('hme_sio_id', data.id);
+              await fetch('/api/sio', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'addTag', contactId: data.id, tag: 'calculette-step1' })
+              });
+            }
           } catch(e) {}
 
           // Redirect vers page 2
