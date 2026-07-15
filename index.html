@@ -1111,6 +1111,28 @@
             }
           } catch(e) {}
 
+          // Notification email → aurelien+HME@famillia.fr
+          try {
+            await fetch('https://api.web3forms.com/submit', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify({
+                access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3',
+                subject: '🎯 Nouveau lead HME — ' + email,
+                from_name: 'HME Site Web',
+                replyto: email,
+                to: 'aurelien+HME@famillia.fr',
+                message: [
+                  '🎯 NOUVEAU LEAD HME — Calculette (étape 1)',
+                  '',
+                  `Email     : ${email}`,
+                  `Volume    : ${orderLabel}`,
+                  `Économies : ${savingsLow.toLocaleString('fr-FR')} € – ${savingsHigh.toLocaleString('fr-FR')} €/an`,
+                ].join('\n')
+              })
+            });
+          } catch(e) {}
+
           // Redirect vers page 2
           window.location.href = 'diagnostic.html';
         });
