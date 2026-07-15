@@ -328,12 +328,55 @@ document.querySelectorAll('.resultat-card').forEach(card => {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopup(); });
 
   // Form submit
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = form.querySelector('#ei-email');
     if (!email.value || !email.validity.valid) {
       email.focus(); return;
     }
+
+    const data = Object.fromEntries(new FormData(form));
+
+    // SIO — créer contact + tag
+    try {
+      const res = await fetch('/api/sio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'createContact', email: data.email, phone: '' })
+      });
+      const d = await res.json();
+      if (d.id) {
+        await fetch('/api/sio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'addTag', contactId: d.id, tag: 'HME - LEAD EXIT INTENT' })
+        });
+      }
+    } catch(err) {}
+
+    // Notification email → aurelien+HME@famillia.fr
+    try {
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3',
+          subject: '🎯 Nouveau lead HME — Exit intent',
+          from_name: 'HME Site Web',
+          replyto: data.email,
+          to: 'aurelien+HME@famillia.fr',
+          message: [
+            '🎯 NOUVEAU LEAD HME — Popup exit intent',
+            '',
+            `Email     : ${data.email || '—'}`,
+            `Site      : ${data.site || '—'}`,
+            `CA annuel : ${data.ca || '—'}`,
+            `Commandes : ${data.orders || '—'}`,
+          ].join('\n')
+        })
+      });
+    } catch(err) {}
+
     form.hidden = true;
     success.hidden = false;
     setTimeout(closePopup, 3500);
