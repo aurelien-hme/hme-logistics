@@ -1111,6 +1111,20 @@
             }
           } catch(e) {}
 
+          // CRM interne (hme-crm) via proxy
+          try {
+            const crmRes = await fetch('/api/sio', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'crmLead', email,
+                note: `Source : Calculette (étape 1)\nVolume : ${orderLabel}\nÉconomies estimées : ${savingsLow.toLocaleString('fr-FR')} € – ${savingsHigh.toLocaleString('fr-FR')} €/an`
+              })
+            });
+            const crmData = await crmRes.json();
+            if (crmData.id) sessionStorage.setItem('hme_crm_id', crmData.id);
+          } catch(e) {}
+
           // Notification email → aurelien+HME@famillia.fr
           try {
             await fetch('https://api.web3forms.com/submit', {

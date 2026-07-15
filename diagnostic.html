@@ -280,7 +280,31 @@
         } catch(err) {}
       }
 
-      // ── 2. Notification email → aurelien+HME@famillia.fr ────────────────
+      // ── 2. Enrichissement CRM interne (hme-crm) ──────────────────────────
+      const crmId = sessionStorage.getItem('hme_crm_id');
+      if (crmId) {
+        try {
+          const crmNote = [
+            '── ÉTAPE 2 (diagnostic complet) ──',
+            `Marque      : ${full.marque || '—'}`,
+            `Nom contact : ${full.nom || '—'}`,
+            `Téléphone   : ${full.tel || '—'}`,
+            `Prestataire : ${full.prestataire || '—'}`,
+            `Type produit: ${full.type_produit || '—'}`,
+            `Nb SKUs     : ${full.sku || '—'}`,
+            `Zones       : ${full.zones || '—'}`,
+            `CA annuel   : ${full.ca || '—'}`,
+            `Timing      : ${full.timing || '—'}`,
+          ].join('\n');
+          await fetch('/api/sio', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'crmLead', crmId, site: full.site || '', note: crmNote })
+          });
+        } catch(err) {}
+      }
+
+      // ── 3. Notification email → aurelien+HME@famillia.fr ────────────────
       const WEB3FORMS_KEY = 'a35060be-ea69-45cd-a6c4-abd3e2517de3';
       try {
         const body = [

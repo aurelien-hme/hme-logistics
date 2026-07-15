@@ -354,6 +354,18 @@ document.querySelectorAll('.resultat-card').forEach(card => {
       }
     } catch(err) {}
 
+    // CRM interne (hme-crm) via proxy
+    try {
+      await fetch('/api/sio', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'crmLead', email: data.email, site: data.site,
+          note: `Source : Popup exit intent\nCA annuel : ${data.ca || '—'}\nCommandes : ${data.orders || '—'}`
+        })
+      });
+    } catch(err) {}
+
     // Notification email → aurelien+HME@famillia.fr
     try {
       await fetch('https://api.web3forms.com/submit', {

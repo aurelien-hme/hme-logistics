@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   const key = process.env.SIO_API_KEY;
   if (!key) return res.status(500).json({ error: 'SIO_API_KEY not configured' });
 
-  const { action, email, phone, contactId, tag } = req.body || {};
+  const { action, email, phone, contactId, tag, crmId, site, note } = req.body || {};
 
   try {
     if (action === 'createContact') {
@@ -59,6 +59,20 @@ export default async function handler(req, res) {
         body: JSON.stringify({ name: tag })
       });
       return res.status(200).json({ ok: true });
+    }
+
+    if (action === 'crmLead') {
+      const crmUrl = process.env.CRM_SYNC_URL;
+      const crmSecret = process.env.CRM_SYNC_SECRET;
+      if (!crmUrl || !crmSecret) return res.status(200).json({ skipped: true });
+
+      const crmRes = await fetch(`${crmUrl}/api/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Sync-Secret': crmSecret },
+        body: JSON.stringify({ id: crmId, email, site, note })
+      });
+      const crmData = await crmRes.json();
+      return res.status(200).json(crmData);
     }
 
     return res.status(400).json({ error: 'Unknown action' });
