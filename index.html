@@ -1108,6 +1108,13 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'addTag', contactId: data.id, tag: 'calculette-step1' })
               });
+              if (HME_ATTR.tag()) {
+                await fetch('/api/sio', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'addTag', contactId: data.id, tag: HME_ATTR.tag() })
+                });
+              }
             }
           } catch(e) {}
 
@@ -1118,7 +1125,7 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 action: 'crmLead', email,
-                note: `Source : Calculette (étape 1)\nVolume : ${orderLabel}\nÉconomies estimées : ${savingsLow.toLocaleString('fr-FR')} € – ${savingsHigh.toLocaleString('fr-FR')} €/an`
+                note: `Source : Calculette (étape 1)\nVolume : ${orderLabel}\nÉconomies estimées : ${savingsLow.toLocaleString('fr-FR')} € – ${savingsHigh.toLocaleString('fr-FR')} €/an` + HME_ATTR.note()
               })
             });
             const crmData = await crmRes.json();

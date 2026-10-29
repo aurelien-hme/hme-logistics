@@ -351,6 +351,13 @@ document.querySelectorAll('.resultat-card').forEach(card => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'addTag', contactId: d.id, tag: 'HME - LEAD EXIT INTENT' })
         });
+        if (HME_ATTR.tag()) {
+          await fetch('/api/sio', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'addTag', contactId: d.id, tag: HME_ATTR.tag() })
+          });
+        }
       }
     } catch(err) {}
 
@@ -361,7 +368,7 @@ document.querySelectorAll('.resultat-card').forEach(card => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'crmLead', email: data.email, site: data.site,
-          note: `Source : Popup exit intent\nCA annuel : ${data.ca || '—'}\nCommandes : ${data.orders || '—'}`
+          note: `Source : Popup exit intent\nCA annuel : ${data.ca || '—'}\nCommandes : ${data.orders || '—'}` + HME_ATTR.note()
         })
       });
     } catch(err) {}
@@ -393,6 +400,48 @@ document.querySelectorAll('.resultat-card').forEach(card => {
     success.hidden = false;
     setTimeout(closePopup, 3500);
   });
+})();
+
+/* ── ATTRIBUTION — source d'acquisition (Google Ads, UTM) ── */
+const HME_ATTR = (function () {
+  const KEY = 'hme_attr';
+  const params = new URLSearchParams(window.location.search);
+  const fields = ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+  const fresh = {};
+  fields.forEach(f => { if (params.get(f)) fresh[f] = params.get(f); });
+
+  // Premier clic gagnant : on ne remplace l'attribution stockée que par une nouvelle visite taguée
+  try {
+    if (Object.keys(fresh).length) localStorage.setItem(KEY, JSON.stringify({ ...fresh, ts: Date.now() }));
+  } catch (e) {}
+
+  function get() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; }
+  }
+
+  function isGoogleAds() {
+    const a = get();
+    return !!a.gclid || (a.utm_source === 'google' && a.utm_medium === 'cpc');
+  }
+
+  return {
+    get,
+    isGoogleAds,
+    // Tag Systeme.io à ajouter en plus du tag de formulaire
+    tag() { return isGoogleAds() ? 'HME - SOURCE GOOGLE ADS' : null; },
+    // Lignes à ajouter à la note hme-crm
+    note() {
+      const a = get();
+      if (!Object.keys(a).length) return '';
+      return [
+        '',
+        `Acquisition : ${isGoogleAds() ? 'Google Ads' : (a.utm_source || '—')}`,
+        `Campagne    : ${a.utm_campaign || '—'}`,
+        `Mot-clé     : ${a.utm_term || '—'}`,
+        `GCLID       : ${a.gclid || '—'}`,
+      ].join('\n');
+    }
+  };
 })();
 
 /* ── SYSTEME.IO — CONFIG ── */
@@ -456,6 +505,7 @@ const HME_SIO = {
     if (contactId) {
       sessionStorage.setItem('hme_sio_id', contactId);
       await HME_SIO.addTag(contactId, 'HME - LEAD SITE WEB 1/2');
+      if (HME_ATTR.tag()) await HME_SIO.addTag(contactId, HME_ATTR.tag());
     }
 
     // Notifier Make.com (qui attendra 5 min et enverra l'email)
