@@ -2,13 +2,13 @@
  * Script Google Ads — export quotidien vers Google Sheets pour le suivi par Claude.
  *
  * Installation : Google Ads → Outils → Actions groupées → Scripts → « + »
- * 1. Coller ce script, remplacer SHEET_URL par l'URL de la feuille « HME - Google Ads - Suivi »
+ * 1. Coller ce script, SHEET_URL pointe déjà vers « HME - Google Ads - Suivi »
  * 2. Autoriser, cliquer « Aperçu » pour tester, puis « Exécuter »
  * 3. Fréquence : tous les jours, 6h
  *
  * Lecture seule : ce script ne modifie aucune campagne.
  */
-const SHEET_URL = 'COLLER_ICI_URL_DE_LA_GOOGLE_SHEET';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1HlQCIhJORnPb6lmK9ijLeQG0A2J2DRviLP-NhErWuPs/edit';
 const PERIODE = 'LAST_30_DAYS';
 
 const ONGLETS = {
