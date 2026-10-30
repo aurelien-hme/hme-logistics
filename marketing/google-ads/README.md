@@ -42,3 +42,27 @@ Il reste à envoyer à Claude l'ID de conversion `AW-XXXXXXXXX` pour installer l
 - **Diagnostic complet** (`diagnostic.html` envoyé), en conversion principale.
 
 Ensuite, importer chaque semaine depuis hme-crm (via le gclid) les conversions hors ligne « RDV qualifié » et « Client signé ». Google optimisera alors les enchères sur les vrais clients plutôt que sur des emails.
+
+## 4. Landing page de qualification (`/lp.html`)
+
+Page dédiée aux visiteurs Google Ads : `lp.html`, `lp.css` et `lp.js` à la racine du site.
+
+- **Formulaire en 3 étapes** : produits / CA / commandes, puis logistique actuelle / délai, puis contact.
+- **Score du lead** (`scoreLead` dans `lp.js`) :
+  - **FROID** : CA < 1 M€, ou produits « Autre », ou activité pas encore lancée ;
+  - **CHAUD** : changement souhaité dès que possible ou sous 3 mois ;
+  - **TIÈDE** : tous les autres cas.
+- **Envoi du lead** :
+  - Systeme.io, avec les tags `HME - LEAD GOOGLE ADS` (ou `HME - LEAD LANDING PAGE`) et `HME - LEAD CHAUD/TIEDE/FROID` ;
+  - hme-crm, via `/api/sio` → `crmLead`, avec une note complète : réponses, score, campagne, mot-clé et gclid ;
+  - un email de notification, dont l'objet commence par « 🔥 LEAD CHAUD » pour les leads chauds.
+- **À configurer dans `LP_CONFIG`** (en haut de `lp.js`) :
+  - `adsId` et les deux libellés de conversion. Tant qu'ils sont vides, la balise Google ne se charge pas ;
+  - `bookingUrl` : lien de prise de rendez-vous proposé aux leads chauds. Vide, le bouton reste masqué.
+- **Après la mise en production**, exécuter une fois le script `annonces-vers-landing.js` dans Google Ads : il fait pointer les 11 annonces vers `/lp.html`.
+
+## État au 30/10/2026
+
+- Compte 467-302-3390, rattaché au MCC 961-008-2188.
+- 6 campagnes créées **en veille** par `creer-campagnes.js`.
+- Script `Export suivi Claude` : alimente chaque jour la feuille « HME - Google Ads - Suivi ».

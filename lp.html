@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logisticien spécialisé santé, bien-être &amp; beauté — HME Logistics</title>
+  <meta name="description" content="Logisticien e-commerce 100% spécialisé compléments alimentaires, cosmétique et bien-être. Jusqu'à 30% d'économies. Étude gratuite en 2 minutes." />
+  <meta name="robots" content="noindex" />
+  <link rel="canonical" href="https://www.homemade-elogistics.com/lp.html" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="diagnostic.css" />
+  <link rel="stylesheet" href="lp.css" />
+  <link rel="icon" type="image/png" href="images/Favicon.png" />
+</head>
+<body class="diag-body">
+
+  <nav class="diag-nav">
+    <a href="index.html" class="diag-nav-logo">
+      <img src="images/logo-hme-white.png" alt="HME Logistics" height="40" style="width:auto;display:block;"/>
+    </a>
+    <a href="#lpForm" class="btn btn-primary lp-nav-cta">Étude gratuite →</a>
+  </nav>
+
+  <main>
+
+    <!-- HERO + FORMULAIRE -->
+    <section class="lp-hero">
+      <div class="lp-hero-inner">
+
+        <div class="lp-hero-copy">
+          <p class="lp-eyebrow">Réservé aux marques françaises · 1 M€ à 25 M€ de CA</p>
+          <h1 class="lp-title">Le logisticien <em>100% spécialisé</em><br/>santé, bien-être &amp; beauté.</h1>
+          <p class="lp-sub">Vos compléments, sérums et coffrets méritent mieux qu'un entrepôt généraliste. Nos clients économisent <strong>15 à 30%</strong> sur leur logistique.</p>
+
+          <ul class="lp-proofs">
+            <li><strong>−30%</strong><span>de coûts logistiques</span></li>
+            <li><strong>3M+</strong><span>colis santé &amp; beauté expédiés</span></li>
+            <li><strong>3×</strong><span>moins de tickets SAV</span></li>
+          </ul>
+
+          <ul class="lp-checks">
+            <li>Gélules, poudres, flacons, coffrets et abonnements</li>
+            <li>Équipe dédiée à votre marque, joignable sur WhatsApp</li>
+            <li>Bascule sans arrêt d'activité · Sans engagement</li>
+          </ul>
+        </div>
+
+        <!-- FORMULAIRE DE QUALIFICATION -->
+        <div class="lp-card" id="lpForm">
+          <div class="lp-progress"><div class="lp-progress-fill" id="lpProgress"></div></div>
+          <p class="lp-card-step" id="lpStepLabel">Étape 1 sur 3</p>
+
+          <form id="lpQualif" novalidate>
+
+            <!-- Étape 1 : la marque -->
+            <fieldset class="lp-step" data-step="1">
+              <legend class="lp-card-title">Votre marque est-elle faite pour HME ?</legend>
+
+              <div class="diag-question">
+                <label class="diag-label">Vos produits</label>
+                <div class="diag-options diag-options--2col">
+                  <label class="diag-option"><input type="radio" name="type_produit" value="Compléments alimentaires" required/><span>💊 Compléments</span></label>
+                  <label class="diag-option"><input type="radio" name="type_produit" value="Cosmétique / Beauté"/><span>💄 Cosmétique</span></label>
+                  <label class="diag-option"><input type="radio" name="type_produit" value="Bien-être"/><span>🧘 Bien-être</span></label>
+                  <label class="diag-option"><input type="radio" name="type_produit" value="Autre"/><span>📦 Autre</span></label>
+                </div>
+              </div>
+
+              <div class="diag-question">
+                <label class="diag-label">Chiffre d'affaires annuel</label>
+                <div class="diag-options diag-options--2col">
+                  <label class="diag-option"><input type="radio" name="ca" value="<1M" required/><span>Moins de 1 M€</span></label>
+                  <label class="diag-option"><input type="radio" name="ca" value="1-3M"/><span>1 à 3 M€</span></label>
+                  <label class="diag-option"><input type="radio" name="ca" value="3-10M"/><span>3 à 10 M€</span></label>
+                  <label class="diag-option"><input type="radio" name="ca" value="10M+"/><span>Plus de 10 M€</span></label>
+                </div>
+              </div>
+
+              <div class="diag-question">
+                <label class="diag-label">Commandes par mois</label>
+                <div class="diag-options diag-options--2col">
+                  <label class="diag-option"><input type="radio" name="commandes" value="<1000" required/><span>Moins de 1 000</span></label>
+                  <label class="diag-option"><input type="radio" name="commandes" value="1000-3000"/><span>1 000 à 3 000</span></label>
+                  <label class="diag-option"><input type="radio" name="commandes" value="3000-10000"/><span>3 000 à 10 000</span></label>
+                  <label class="diag-option"><input type="radio" name="commandes" value="10000+"/><span>Plus de 10 000</span></label>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- Étape 2 : le projet -->
+            <fieldset class="lp-step" data-step="2" hidden>
+              <legend class="lp-card-title">Où en est votre logistique ?</legend>
+
+              <div class="diag-question">
+                <label class="diag-label">Aujourd'hui, vous expédiez…</label>
+                <div class="diag-options diag-options--2col">
+                  <label class="diag-option"><input type="radio" name="actuel" value="Logisticien généraliste" required/><span>Via un logisticien</span></label>
+                  <label class="diag-option"><input type="radio" name="actuel" value="En interne"/><span>En interne</span></label>
+                  <label class="diag-option"><input type="radio" name="actuel" value="Pas encore lancé"/><span>Pas encore lancé</span></label>
+                  <label class="diag-option"><input type="radio" name="actuel" value="Autre"/><span>Autre</span></label>
+                </div>
+              </div>
+
+              <div class="diag-question">
+                <label class="diag-label">Quand souhaitez-vous changer ?</label>
+                <div class="diag-options diag-options--2col">
+                  <label class="diag-option"><input type="radio" name="timing" value="Immédiatement" required/><span>Dès que possible</span></label>
+                  <label class="diag-option"><input type="radio" name="timing" value="Sous 3 mois"/><span>Sous 3 mois</span></label>
+                  <label class="diag-option"><input type="radio" name="timing" value="Sous 6 mois"/><span>Sous 6 mois</span></label>
+                  <label class="diag-option"><input type="radio" name="timing" value="Je me renseigne"/><span>Je me renseigne</span></label>
+                </div>
+              </div>
+
+              <div class="diag-field">
+                <label class="diag-label">Logisticien actuel <span class="diag-label-hint">(facultatif)</span></label>
+                <input type="text" name="prestataire" class="diag-input" placeholder="Ex : Bigblue, Cubyn, en interne…"/>
+              </div>
+            </fieldset>
+
+            <!-- Étape 3 : le contact -->
+            <fieldset class="lp-step" data-step="3" hidden>
+              <legend class="lp-card-title">Recevez votre étude gratuite</legend>
+
+              <div class="diag-field-group">
+                <div class="diag-field">
+                  <label class="diag-label">Prénom &amp; nom <span class="diag-label-required">*</span></label>
+                  <input type="text" name="nom" class="diag-input" required autocomplete="name"/>
+                </div>
+                <div class="diag-field">
+                  <label class="diag-label">Marque <span class="diag-label-required">*</span></label>
+                  <input type="text" name="marque" class="diag-input" required autocomplete="organization"/>
+                </div>
+              </div>
+              <div class="diag-field-group">
+                <div class="diag-field">
+                  <label class="diag-label">Email pro <span class="diag-label-required">*</span></label>
+                  <input type="email" name="email" class="diag-input" required autocomplete="email"/>
+                </div>
+                <div class="diag-field">
+                  <label class="diag-label">Téléphone <span class="diag-label-required">*</span></label>
+                  <input type="tel" name="tel" class="diag-input" required autocomplete="tel" placeholder="06 00 00 00 00"/>
+                </div>
+              </div>
+              <div class="diag-field">
+                <label class="diag-label">Site internet</label>
+                <input type="text" name="site" class="diag-input" placeholder="votremarque.com" autocomplete="url"/>
+              </div>
+            </fieldset>
+
+            <p class="lp-error" id="lpError" hidden>Merci de répondre à toutes les questions.</p>
+
+            <div class="lp-nav-btns">
+              <button type="button" class="lp-back" id="lpBack" hidden>← Retour</button>
+              <button type="submit" class="btn btn-primary lp-next" id="lpNext">Continuer →</button>
+            </div>
+            <p class="lp-reassure">🔒 2 minutes · Sans engagement · Données confidentielles</p>
+          </form>
+
+          <!-- RÉSULTATS -->
+          <div class="lp-result" id="lpResultHot" hidden>
+            <div class="lp-result-icon">✓</div>
+            <h2 class="lp-card-title">Votre marque est éligible.</h2>
+            <p>Un expert HME vous appelle <strong>dans l'heure</strong> (jours ouvrés, 9h–18h) pour estimer vos économies.</p>
+            <a class="btn btn-primary lp-booking" id="lpBooking" href="#" target="_blank" rel="noopener" hidden>Ou réservez votre créneau maintenant →</a>
+          </div>
+          <div class="lp-result" id="lpResultWarm" hidden>
+            <div class="lp-result-icon">✓</div>
+            <h2 class="lp-card-title">Merci, c'est bien reçu.</h2>
+            <p>Un expert HME vous recontacte <strong>sous 24h</strong> avec une première estimation de vos économies.</p>
+          </div>
+          <div class="lp-result" id="lpResultCold" hidden>
+            <div class="lp-result-icon">✓</div>
+            <h2 class="lp-card-title">Merci pour votre intérêt.</h2>
+            <p>HME accompagne aujourd'hui les marques santé, bien-être et beauté à partir d'environ 1 M€ de CA. Nous vous recontactons par email pour voir comment vous aider.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PREUVES -->
+    <section class="lp-section">
+      <div class="lp-section-inner">
+        <h2 class="lp-h2">Ils ont quitté un logisticien généraliste.</h2>
+        <div class="lp-quotes">
+          <blockquote><p>« Plus de 200 000 € économisés grâce aux optimisations mises en place par HME. »</p><cite>Florna</cite></blockquote>
+          <blockquote><p>« HME a optimisé notre transport et réduit nos coûts de 24 %. »</p><cite>Reborn21</cite></blockquote>
+          <blockquote><p>« Nous avons économisé 28 % sur notre logistique tout en améliorant notre qualité de service. »</p><cite>Antheos</cite></blockquote>
+        </div>
+
+        <div class="lp-case">
+          <div class="lp-case-row lp-case-head"><span>Cas Florna</span><span>Avant</span><span>Avec HME</span></div>
+          <div class="lp-case-row"><span>Coût moyen par commande</span><span>6,70 €</span><span>5,69 €</span></div>
+          <div class="lp-case-row"><span>Erreurs de transport</span><span>3 %</span><span>1,34 %</span></div>
+          <div class="lp-case-row"><span>Erreurs de préparation</span><span>0,5 %</span><span>0,12 %</span></div>
+          <div class="lp-case-row"><span>Économie annuelle</span><span>—</span><span>+200 000 €</span></div>
+        </div>
+
+        <a href="#lpForm" class="btn btn-primary btn-lg lp-cta-bottom">Vérifier si ma marque est éligible →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="lp-footer">© HME Logistics · <a href="index.html">homemade-elogistics.com</a></footer>
+
+  <script src="lp.js"></script>
+</body>
+</html>
