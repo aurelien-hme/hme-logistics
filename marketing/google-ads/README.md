@@ -66,3 +66,9 @@ Page dédiée aux visiteurs Google Ads : `lp.html`, `lp.css` et `lp.js` à la ra
 - Compte 467-302-3390, rattaché au MCC 961-008-2188.
 - 6 campagnes créées **en veille** par `creer-campagnes.js`.
 - Script `Export suivi Claude` : alimente chaque jour la feuille « HME - Google Ads - Suivi ».
+- Script `Éléments et horaires HME` exécuté le 30/10/2026 :
+  - 5 accroches et l'extrait structuré « Types » ajoutés aux 6 campagnes ;
+  - horaires de diffusion : lun→ven 7h-21h, sam 9h-18h, rien le dimanche ;
+  - le résultat est consigné dans l'onglet « Journal scripts » de la feuille de suivi.
+- Conversions : « Lead qualifié » (principale, `AW-18543734285/wEtuCInR5K4dEI3cq4pF`) et « Lead » (secondaire, `AW-18543734285/iidtCIzR5K4dEI3cq4pF`).
+- Taggage automatique activé ; recommandations appliquées automatiquement désactivées.
