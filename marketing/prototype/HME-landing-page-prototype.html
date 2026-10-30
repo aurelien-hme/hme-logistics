@@ -4225,8 +4225,6 @@ strong { color: var(--cream); font-weight: 600; }
 <script>
 /* PROTOTYPE : aucun envoi réseau, les envois sont simulés et affichés ci-dessous */
 (function(){
-  const params = new URLSearchParams(location.search);
-  if (!params.get('gclid')) history.replaceState(null,'','?gclid=DEMO-CLIC-GOOGLE&utm_source=google&utm_medium=cpc&utm_campaign=Cosmetique-Beaute&utm_term=logistique%20cosmetique');
   const captured = { tags: [], note: '', mail: '' };
   window.fetch = async (url, opts) => {
     const body = JSON.parse((opts && opts.body) || '{}');
@@ -4484,7 +4482,7 @@ function getConsent() {
    Lue dans l'URL à chaque visite ; mémorisée dans le navigateur seulement si cookies acceptés. */
 const LP_ATTR = (function () {
   const KEY = 'hme_attr';
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search || '?gclid=DEMO-CLIC-GOOGLE&utm_source=google&utm_medium=cpc&utm_campaign=Cosmetique-Beaute&utm_term=logistique%20cosmetique');
   const fresh = {};
   ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
     .forEach(f => { if (params.get(f)) fresh[f] = params.get(f); });
