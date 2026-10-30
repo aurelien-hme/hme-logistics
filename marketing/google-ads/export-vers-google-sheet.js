@@ -42,6 +42,11 @@ const ONGLETS = {
            metrics.impressions, metrics.clicks, metrics.ctr, metrics.conversions
     FROM ad_group_ad
     WHERE segments.date DURING ${PERIODE}`,
+  'Jours et heures': `
+    SELECT segments.day_of_week, segments.hour,
+           metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions
+    FROM campaign
+    WHERE segments.date DURING ${PERIODE}`,
 };
 
 function main() {
