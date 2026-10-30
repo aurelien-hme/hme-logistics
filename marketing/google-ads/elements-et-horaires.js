@@ -68,7 +68,9 @@ function main() {
   if (campaigns.length) {
     const linked = (fieldType) => {
       const set = {};
-      collect("SELECT campaign_asset.campaign FROM campaign_asset WHERE campaign_asset.field_type = '" +
+      // Google exige que les champs filtrés figurent aussi dans le SELECT
+      collect("SELECT campaign_asset.campaign, campaign_asset.field_type, campaign_asset.status, " +
+        "campaign.name, campaign.status FROM campaign_asset WHERE campaign_asset.field_type = '" +
         fieldType + "' AND campaign_asset.status != 'REMOVED' AND " + FILTRE,
         row => row.campaignAsset.campaign).forEach(c => { set[c] = true; });
       return campaigns.filter(c => !set[c]);
