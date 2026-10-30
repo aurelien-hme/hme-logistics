@@ -3,7 +3,7 @@
 /* ── CONFIG ── */
 const LP_CONFIG = {
   // Google Ads : à renseigner une fois les actions de conversion créées (ex. 'AW-123456789')
-  adsId: '',
+  adsId: 'AW-18543734285',
   // Libellés « send_to » des deux actions (partie après le « / »)
   conversionLead: '',       // tout lead envoyé (secondaire)
   conversionQualified: '',  // lead chaud ou tiède (principal)
