@@ -13,33 +13,79 @@ const LP_CONFIG = {
   notifyTo: 'aurelien+HME@famillia.fr'
 };
 
-/* ── ATTRIBUTION (même stockage que script.js) ── */
+/* ── CONSENTEMENT COOKIES (même clé que script.js) ── */
+const CONSENT_KEY = 'hme_consent';
+function getConsent() {
+  try { return localStorage.getItem(CONSENT_KEY); } catch (e) { return null; }
+}
+
+/* ── ATTRIBUTION (même stockage que script.js) ──
+   Lue dans l'URL à chaque visite ; mémorisée dans le navigateur seulement si cookies acceptés. */
 const LP_ATTR = (function () {
   const KEY = 'hme_attr';
   const params = new URLSearchParams(window.location.search);
   const fresh = {};
   ['gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
     .forEach(f => { if (params.get(f)) fresh[f] = params.get(f); });
-  try {
-    if (Object.keys(fresh).length) localStorage.setItem(KEY, JSON.stringify({ ...fresh, ts: Date.now() }));
-  } catch (e) {}
-  let a = {};
-  try { a = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  let stored = {};
+  try { stored = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  const a = Object.keys(fresh).length ? fresh : stored;
   const isAds = !!a.gclid || (a.utm_source === 'google' && a.utm_medium === 'cpc');
-  return { data: a, isAds };
+  return {
+    data: a,
+    isAds,
+    persist() {
+      try {
+        if (Object.keys(fresh).length) localStorage.setItem(KEY, JSON.stringify({ ...fresh, ts: Date.now() }));
+      } catch (e) {}
+    }
+  };
 })();
 
-/* ── BALISE GOOGLE ADS ── */
-if (LP_CONFIG.adsId) {
+/* ── BALISE GOOGLE ADS : chargée uniquement après acceptation ── */
+let adsLoaded = false;
+function loadAds() {
+  if (adsLoaded || !LP_CONFIG.adsId) return;
+  adsLoaded = true;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+  gtag('consent', 'default', {
+    ad_storage: 'granted', ad_user_data: 'granted',
+    ad_personalization: 'granted', analytics_storage: 'granted'
+  });
+  gtag('js', new Date());
+  gtag('config', LP_CONFIG.adsId);
   const s = document.createElement('script');
   s.async = true;
   s.src = 'https://www.googletagmanager.com/gtag/js?id=' + LP_CONFIG.adsId;
   document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function () { dataLayer.push(arguments); };
-  gtag('js', new Date());
-  gtag('config', LP_CONFIG.adsId);
 }
+
+function setConsent(value) {
+  try { localStorage.setItem(CONSENT_KEY, value); } catch (e) {}
+  if (value === 'granted') { LP_ATTR.persist(); loadAds(); }
+}
+
+if (getConsent() === 'granted') { LP_ATTR.persist(); loadAds(); }
+
+/* ── BANDEAU COOKIES ── */
+(function () {
+  const banner = document.getElementById('lpConsent');
+  if (!banner) return;
+  const open = () => { banner.hidden = false; };
+  const close = () => { banner.hidden = true; };
+  if (!getConsent()) open();
+  document.getElementById('lpConsentAccept').addEventListener('click', () => { setConsent('granted'); close(); });
+  document.getElementById('lpConsentRefuse').addEventListener('click', () => {
+    // Un refus après une acceptation ne retire la balise qu'au prochain chargement
+    const wasGranted = getConsent() === 'granted';
+    setConsent('denied');
+    close();
+    if (wasGranted) window.location.reload();
+  });
+  const manage = document.getElementById('lpConsentManage');
+  if (manage) manage.addEventListener('click', (e) => { e.preventDefault(); open(); });
+})();
 
 function trackConversion(label) {
   if (!LP_CONFIG.adsId || !label || typeof gtag !== 'function') return;

@@ -410,12 +410,16 @@ const HME_ATTR = (function () {
   const fresh = {};
   fields.forEach(f => { if (params.get(f)) fresh[f] = params.get(f); });
 
-  // Premier clic gagnant : on ne remplace l'attribution stockée que par une nouvelle visite taguée
+  // Mémorisée dans le navigateur seulement si les cookies ont été acceptés (bandeau de lp.html),
+  // sinon utilisée le temps de la page
   try {
-    if (Object.keys(fresh).length) localStorage.setItem(KEY, JSON.stringify({ ...fresh, ts: Date.now() }));
+    if (Object.keys(fresh).length && localStorage.getItem('hme_consent') === 'granted') {
+      localStorage.setItem(KEY, JSON.stringify({ ...fresh, ts: Date.now() }));
+    }
   } catch (e) {}
 
   function get() {
+    if (Object.keys(fresh).length) return fresh;
     try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; }
   }
 

@@ -104,6 +104,25 @@
 .lp-footer { text-align: center; padding: 28px 20px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
 .lp-footer a { color: var(--muted); }
 
+/* ── BANDEAU COOKIES ── */
+.lp-consent {
+  position: fixed; left: 20px; right: 20px; bottom: 20px; z-index: 100;
+  max-width: 720px; margin: 0 auto;
+  display: flex; align-items: center; gap: 20px;
+  padding: 16px 20px; border-radius: var(--radius-sm);
+  background: var(--dark-3); border: 1px solid var(--border-gold); box-shadow: var(--shadow);
+}
+.lp-consent[hidden] { display: none; }
+.lp-consent p { margin: 0; font-size: 13px; line-height: 1.5; color: var(--cream); }
+.lp-consent-btns { display: flex; gap: 10px; flex-shrink: 0; }
+/* Accepter et Refuser ont volontairement le même poids visuel (exigence CNIL) */
+.lp-consent-btn {
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  padding: 10px 18px; border-radius: var(--radius-xs);
+  background: transparent; color: var(--cream); border: 1px solid var(--cream);
+}
+.lp-consent-btn:hover { background: var(--cream); color: var(--dark); }
+
 /* ── MOBILE ── */
 @media (max-width: 960px) {
   .lp-hero-inner { grid-template-columns: 1fr; gap: 32px; }
@@ -124,5 +143,7 @@
   .lp-card { padding: 20px; }
   .lp-case-row { grid-template-columns: 1.4fr 1fr 1fr; padding: 12px; font-size: 13px; }
   .lp-section { padding: 56px 16px; }
+  .lp-consent { flex-direction: column; align-items: stretch; gap: 12px; left: 16px; right: 16px; bottom: 16px; }
+  .lp-consent-btn { flex: 1; }
   .lp-h2 { font-size: 26px; }
 }
