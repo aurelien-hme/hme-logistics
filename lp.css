@@ -15,11 +15,11 @@
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 18px;
 }
+/* Mêmes codes que .hero-title du site : Inter 800, accent <em> du site */
 .lp-title {
-  font-family: 'Playfair Display', serif; font-size: 46px; line-height: 1.12;
+  font-size: 46px; font-weight: 800; line-height: 1.08; letter-spacing: -0.03em;
   color: var(--cream); margin-bottom: 20px;
 }
-.lp-title em { color: var(--gold); font-style: italic; }
 .lp-sub { font-size: 17px; line-height: 1.6; color: var(--muted); margin-bottom: 32px; }
 .lp-sub strong { color: var(--cream); }
 
