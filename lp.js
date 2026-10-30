@@ -5,8 +5,8 @@ const LP_CONFIG = {
   // Google Ads : à renseigner une fois les actions de conversion créées (ex. 'AW-123456789')
   adsId: 'AW-18543734285',
   // Libellés « send_to » des deux actions (partie après le « / »)
-  conversionLead: '',       // tout lead envoyé (secondaire)
-  conversionQualified: '',  // lead chaud ou tiède (principal)
+  conversionLead: 'iidtCIzR5K4dEI3cq4pF',       // tout lead envoyé (secondaire)
+  conversionQualified: 'wEtuCInR5K4dEI3cq4pF',  // lead chaud ou tiède (principal)
   // Lien de prise de RDV proposé aux leads chauds (Calendly, Google Agenda…) — vide = masqué
   bookingUrl: '',
   web3formsKey: 'a35060be-ea69-45cd-a6c4-abd3e2517de3',
