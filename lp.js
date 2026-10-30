@@ -148,7 +148,7 @@ async function sendLead(d, score) {
 
   const mail = postJSON('https://api.web3forms.com/submit', {
     access_key: LP_CONFIG.web3formsKey,
-    subject: (score === 'CHAUD' ? '🔥 LEAD CHAUD — rappeler dans l\'heure — ' : '🎯 Lead ' + score + ' — ') + (d.marque || d.email),
+    subject: (score === 'CHAUD' ? '🔥 LEAD CHAUD — rappeler dans la journée — ' : '🎯 Lead ' + score + ' — ') + (d.marque || d.email),
     from_name: 'HME Landing page',
     replyto: d.email,
     to: LP_CONFIG.notifyTo,

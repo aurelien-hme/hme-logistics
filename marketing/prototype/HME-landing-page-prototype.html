@@ -4395,7 +4395,7 @@ strong { color: var(--cream); font-weight: 600; }
           <div class="lp-result" id="lpResultHot" hidden>
             <div class="lp-result-icon">✓</div>
             <h2 class="lp-card-title">Votre marque est éligible.</h2>
-            <p>Un expert HME vous appelle <strong>dans l'heure</strong> (jours ouvrés, 9h–18h) pour estimer vos économies.</p>
+            <p>Un expert HME vous appelle <strong>dans la journée</strong> (jours ouvrés) pour estimer vos économies.</p>
             <a class="btn btn-primary lp-booking" id="lpBooking" href="#" target="_blank" rel="noopener" hidden>Ou réservez votre créneau maintenant →</a>
           </div>
           <div class="lp-result" id="lpResultWarm" hidden>
@@ -4609,7 +4609,7 @@ async function sendLead(d, score) {
 
   const mail = postJSON('https://api.web3forms.com/submit', {
     access_key: LP_CONFIG.web3formsKey,
-    subject: (score === 'CHAUD' ? '🔥 LEAD CHAUD — rappeler dans l\'heure — ' : '🎯 Lead ' + score + ' — ') + (d.marque || d.email),
+    subject: (score === 'CHAUD' ? '🔥 LEAD CHAUD — rappeler dans la journée — ' : '🎯 Lead ' + score + ' — ') + (d.marque || d.email),
     from_name: 'HME Landing page',
     replyto: d.email,
     to: LP_CONFIG.notifyTo,
