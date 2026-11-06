@@ -389,6 +389,7 @@ document.querySelectorAll('.resultat-card').forEach(card => {
       });
     } catch(err) {}
 
+    if (window.hmeTrack) window.hmeTrack.lead(data.email);
     form.hidden = true;
     success.hidden = false;
     setTimeout(closePopup, 3500);
@@ -462,6 +463,7 @@ const HME_SIO = {
     await HME_SIO.notifyMake(1, data);
 
     // Redirect étape 2
+    if (window.hmeTrack) await window.hmeTrack.lead(data.email);
     window.location.href = 'diagnostic.html';
   });
 })();
