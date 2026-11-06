@@ -2,6 +2,10 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    /* Page B du test A/B : on garde cette version pour le visiteur (sauf version forcée avec ?v=) */
+    (function () { try { if (!new URLSearchParams(location.search).get('v')) localStorage.setItem('hme_ab', 'B'); } catch (e) {} })();
+  </script>
   <script src="/hme-tracking.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Logisticien spécialisé compléments alimentaires | HME Logistics</title>
@@ -107,6 +111,6 @@
     </div>
   </footer>
 
-  <script src="/estimation/lp.js?v=4" defer></script>
+  <script src="/estimation/lp.js?v=5" defer></script>
 </body>
 </html>

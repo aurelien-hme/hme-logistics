@@ -2,6 +2,27 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <script>
+    /* Test A/B : un visiteur sur deux voit la page B (/estimation/express/).
+       La version tirée est gardée pour ce visiteur. ?v=a ou ?v=b force une version sans rien enregistrer.
+       Pour arrêter le test : mettre SPLIT_B à 0 (tout le monde en A) ou à 1 (tout le monde en B). */
+    (function () {
+      var SPLIT_B = 0.5;
+      var p = new URLSearchParams(location.search);
+      var forced = (p.get('v') || '').toLowerCase();
+      var v = forced === 'a' || forced === 'b' ? forced.toUpperCase() : null;
+      if (!v) {
+        try { v = localStorage.getItem('hme_ab'); } catch (e) {}
+        if (v !== 'A' && v !== 'B') {
+          v = Math.random() < SPLIT_B ? 'B' : 'A';
+          try { localStorage.setItem('hme_ab', v); } catch (e) {}
+        }
+        if (SPLIT_B === 0) v = 'A';
+        if (SPLIT_B === 1) v = 'B';
+      }
+      if (v === 'B') location.replace('/estimation/express/' + location.search + location.hash);
+    })();
+  </script>
   <script src="/hme-tracking.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Logisticien spécialisé compléments alimentaires | HME Logistics</title>
@@ -313,6 +334,6 @@
 
   <div class="sticky-cta" id="stickyCta"><a href="#estimation" class="btn btn-gold" data-scroll>Voir ce que je paie en trop →</a></div>
 
-  <script src="/estimation/lp.js?v=4" defer></script>
+  <script src="/estimation/lp.js?v=5" defer></script>
 </body>
 </html>

@@ -25,7 +25,10 @@
   var src = { angle: angle || '', utm_campaign: params.get('utm_campaign') || '', utm_term: params.get('utm_term') || '', gclid: params.get('gclid') || '' };
   var srcLabel = 'Google Ads LP ' + variant + (src.utm_campaign ? ' / ' + src.utm_campaign : (angle ? ' / ' + angle : '')) + (src.utm_term ? ' / mot-clé : ' + src.utm_term : '');
   try { sessionStorage.setItem('hme_src', JSON.stringify(src)); } catch (e) {}
-  if (window.gtag) window.gtag('event', 'lp_vue', { lp_variante: variant, lp_angle: angle || 'aucun' });
+  if (window.gtag) {
+    window.gtag('set', 'user_properties', { lp_variante: variant });
+    window.gtag('event', 'lp_vue', { lp_variante: variant, lp_angle: angle || 'aucun' });
+  }
 
   var nf = new Intl.NumberFormat('fr-FR');
   function range(v) { return { low: Math.round(v * 0.5 * 12 / 500) * 500, high: Math.round(v * 1.5 * 12 / 500) * 500 }; }
