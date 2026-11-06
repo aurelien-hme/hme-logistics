@@ -2,374 +2,493 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <script src="hme-tracking.js"></script>
+  <script src="/hme-tracking.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Votre estimation personnalisée — HME Logistics</title>
+  <title>Votre estimation personnalisée | HME Logistics</title>
   <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/images/Favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;1,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="images/Favicon.png" />
-  <link rel="stylesheet" href="diagnostic.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/estimation/lp.css?v=4" />
+  <style>
+    body.dq { min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(216,154,43,0.12), transparent 70%), var(--dark); }
+    .dq-top { position: sticky; top: 0; z-index: 20; background: rgba(8,17,31,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .dq-top .wrap { display: flex; align-items: center; gap: 22px; height: 66px; max-width: 760px; }
+    .dq-top img { height: 30px; width: auto; flex: none; }
+    .dq-prog { flex: 1; display: flex; align-items: center; gap: 12px; }
+    .dq-track { flex: 1; height: 10px; border-radius: 99px; background: rgba(248,248,246,0.1); overflow: hidden; }
+    .dq-fill { height: 100%; width: 0; border-radius: 99px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light)); transition: width .6s cubic-bezier(.2,.8,.2,1); box-shadow: 0 0 16px rgba(232,184,75,0.5); }
+    .dq-pct { font-weight: 800; font-size: 14px; color: var(--gold-light); min-width: 42px; text-align: right; font-variant-numeric: tabular-nums; }
+
+    .dq-main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 36px 24px 48px; }
+    .dq-estim { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 6px 10px; text-align: center; font-size: 14px; color: var(--muted); background: rgba(76,195,138,0.07); border: 1px solid rgba(76,195,138,0.28); border-radius: 12px; padding: 10px 14px; margin-bottom: 28px; }
+    .dq-estim strong { color: #7EE2B0; font-size: 16px; }
+    .dq-cheer { text-align: center; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; min-height: 18px; }
+
+    .q { display: none; animation: qin .35s ease; }
+    .q.on { display: block; }
+    @keyframes qin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .q h1 { font-size: clamp(26px, 4vw, 36px); font-weight: 900; text-align: center; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .q .hint { text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 26px; }
+    .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 22px; }
+    .opts.one { grid-template-columns: 1fr; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .opt { position: relative; display: flex; align-items: center; gap: 12px; text-align: left; cursor: pointer; background: var(--dark-2); border: 1px solid rgba(248,248,246,0.14); border-radius: 14px; padding: 17px 18px; font-size: 16px; font-weight: 600; color: var(--cream); transition: all .15s ease; width: 100%; }
+    .opt:hover { border-color: var(--gold); background: rgba(216,154,43,0.06); }
+    .opt .e { font-size: 22px; flex: none; }
+    .opt .mark { margin-left: auto; flex: none; width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(248,248,246,0.28); display: grid; place-items: center; }
+    .opt.multi .mark { border-radius: 6px; }
+    .opt[aria-checked="true"] { border-color: var(--gold); background: rgba(216,154,43,0.12); box-shadow: inset 0 0 0 1px var(--gold); }
+    .opt[aria-checked="true"] .mark { background: var(--gold); border-color: var(--gold); }
+    .opt[aria-checked="true"] .mark::after { content: ""; width: 10px; height: 6px; border-left: 2.5px solid var(--dark); border-bottom: 2.5px solid var(--dark); transform: rotate(-45deg) translate(1px, -1px); }
+    .opt:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
+
+    .fields { display: grid; gap: 14px; max-width: 520px; margin: 22px auto 0; }
+    .fields label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .fields label small { color: var(--muted-2); font-weight: 500; }
+    .fields input { width: 100%; font: 16px var(--font); color: var(--cream); background: var(--dark-2); border: 1px solid rgba(248,248,246,0.2); border-radius: 12px; padding: 15px 16px; }
+    .fields input::placeholder { color: var(--muted-2); }
+    .fields input.err { border-color: var(--red); }
+    .fields input:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 2px; }
+    .other-wrap { max-width: 520px; margin: 14px auto 0; display: none; }
+    .other-wrap.on { display: block; }
+    .other-wrap input { width: 100%; font: 16px var(--font); color: var(--cream); background: var(--dark-2); border: 1px solid rgba(248,248,246,0.2); border-radius: 12px; padding: 15px 16px; }
+
+    .dq-nav { display: flex; align-items: center; justify-content: space-between; gap: 14px; max-width: 520px; margin: 28px auto 0; }
+    .dq-back { background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 15px; font-weight: 600; padding: 10px 4px; }
+    .dq-back:hover { color: var(--cream); }
+    .dq-back[hidden] { visibility: hidden; display: block; }
+    .dq-next { min-width: 200px; }
+    .dq-next[hidden] { display: none; }
+    .dq-next:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+    .err-line { color: #ff9a9a; font-size: 13.5px; text-align: center; margin-top: 12px; min-height: 18px; }
+    .dq-call { display: block; margin: 26px auto 0; background: none; border: 0; cursor: pointer; color: var(--muted); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+    .dq-call:hover { color: var(--gold-light); }
+    .dq-reass { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; color: var(--muted); font-size: 13px; }
+    .dq-reass span::before { content: "✓ "; color: var(--gold); font-weight: 800; }
+    .dq-foot { text-align: center; color: var(--muted-2); font-size: 12.5px; padding: 18px 16px 26px; }
+    .dq-foot a { text-decoration: none; }
+
+    @media (max-width: 640px) {
+      .dq-top .wrap { gap: 14px; }
+      .dq-main { padding: 24px 16px 40px; }
+      .opts { grid-template-columns: 1fr; gap: 10px; }
+      .opt { padding: 15px 16px; font-size: 15.5px; }
+      .dq-next { min-width: 0; flex: 1; }
+    }
+  </style>
 </head>
-<body class="diag-body">
+<body class="dq">
 
-  <!-- NAV -->
-  <nav class="diag-nav">
-    <a href="index.html" class="diag-nav-logo">
-      <img src="images/logo-hme-white.png" alt="HME Logistics" height="40" style="width:auto;display:block;"/>
-    </a>
-    <div class="diag-nav-steps">
-      <span class="diag-nav-step diag-nav-step--done">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" fill="#D89A2B"/><path d="M4 7l2 2 4-4" stroke="#08111F" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Étape 1
-      </span>
-      <div class="diag-nav-step-bar">
-        <div class="diag-nav-step-bar-fill"><span class="diag-nav-step-bar-shine"></span></div>
+  <div class="dq-top">
+    <div class="wrap">
+      <img src="/images/lp/logo-white.png" alt="HME Logistics" width="67" height="30" />
+      <div class="dq-prog" role="progressbar" aria-label="Progression du questionnaire" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" id="prog">
+        <div class="dq-track"><div class="dq-fill" id="fill"></div></div>
+        <span class="dq-pct" id="pct">25 %</span>
       </div>
-      <span class="diag-nav-step diag-nav-step--active">
-        <span class="diag-nav-step-dot"></span>
-        Étape 2
-      </span>
     </div>
-  </nav>
+  </div>
 
-  <main class="diag-main">
-    <div class="diag-container">
+  <main class="dq-main">
+    <div class="dq-estim" id="estim" hidden>Votre surcoût estimé : <strong id="estimAmt">—</strong> par an. Affinons ce chiffre.</div>
+    <div class="dq-cheer" id="cheer"></div>
 
-      <!-- BANNIÈRE ÉCONOMIES -->
-      <div class="diag-savings" id="diagSavings">
-        <div class="diag-savings-badge">Votre estimation personnalisée</div>
-        <p class="diag-savings-intro">En passant chez un logisticien spécialisé comme HME,<br/>vous pourriez économiser entre</p>
-        <div class="diag-savings-amount" id="diagSavingsAmount">— €</div>
-        <div class="diag-savings-period">par an</div>
-        <div class="diag-savings-note">Basé sur votre volume et la moyenne constatée chez nos clients.</div>
-        <a href="#diagForm" class="diag-savings-cta-hint">
-          <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 2v8M4 7l3 3 3-3" stroke="#D89A2B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Complétez l'étape 2 pour affiner et recevoir une quotation précise
-        </a>
+    <form id="dq" novalidate>
+
+      <section class="q" data-key="type_produit" data-type="single">
+        <h1>Que vendez-vous principalement ?</h1>
+        <p class="hint">Nous adaptons l'analyse à vos produits.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="sante"><span class="e">💊</span>Compléments alimentaires / santé<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="bienetre"><span class="e">🧘</span>Bien-être / CBD<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="cosmetique"><span class="e">💄</span>Cosmétique / beauté<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="autre"><span class="e">📦</span>Autre<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="ca" data-type="single">
+        <h1>Quel est votre chiffre d'affaires annuel ?</h1>
+        <p class="hint">Une fourchette suffit.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="&lt;1M">Moins de 1 M€<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="1-3M">1 à 3 M€<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="3-10M">3 à 10 M€<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="10-25M">10 à 25 M€<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="&gt;25M">Plus de 25 M€<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="sku" data-type="single">
+        <h1>Combien de références avez-vous ?</h1>
+        <p class="hint">Le nombre de produits différents (SKU) dans votre catalogue.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="&lt;25">Moins de 25<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="25-50">25 à 50<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="50-100">50 à 100<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="&gt;100">Plus de 100<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="prestataire" data-type="single" data-other="autre">
+        <h1>Qui gère votre logistique aujourd'hui ?</h1>
+        <p class="hint">Pour comparer avec votre grille actuelle.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="Cubyn">Cubyn<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="Bigblue">Bigblue<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="e-Logik">e-Logik<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="Byrd">Byrd<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="autre">Un autre logisticien<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="En interne">Nous-mêmes, en interne<span class="mark"></span></button>
+        </div>
+        <div class="other-wrap"><input type="text" data-other-input placeholder="Lequel ? (facultatif)" aria-label="Nom de votre logisticien actuel" /></div>
+      </section>
+
+      <section class="q" data-key="defi" data-type="multi">
+        <h1>Qu'est-ce qui vous pèse le plus aujourd'hui ?</h1>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="opts">
+          <button type="button" class="opt multi" data-v="Coûts trop élevés">Des coûts trop élevés<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Trop d'erreurs">Trop d'erreurs de préparation<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="SAV trop important">Trop de SAV<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Manque de visibilité">Un manque de visibilité<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Croissance trop rapide">Une croissance difficile à suivre<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Changer de prestataire">L'envie de changer de prestataire<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="produits_cmd" data-type="single">
+        <h1>Combien de produits contient une commande, en moyenne ?</h1>
+        <p class="hint">C'est ce qui pèse le plus dans votre coût de préparation.</p>
+        <div class="opts">
+          <button type="button" class="opt" data-v="1">1 produit<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="2">2 produits<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="3">3 produits<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="4+">4 et plus<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="contrainte" data-type="multi" data-exclusive="Aucune">
+        <h1>Vos produits ont-ils des contraintes particulières ?</h1>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="opts">
+          <button type="button" class="opt multi" data-v="DLUO / DDM">DLUO / DDM, numéros de lot<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Fragile">Fragile (verre, flacons)<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Liquide">Liquide<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Piles / batteries">Piles / batteries<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Aucune">Aucune contrainte<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="zones" data-type="single">
+        <h1>Où livrez-vous vos clients ?</h1>
+        <p class="hint">Pour choisir les bons transporteurs.</p>
+        <div class="opts one">
+          <button type="button" class="opt" data-v="france"><span class="e">🇫🇷</span>France uniquement<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="europe"><span class="e">🇪🇺</span>France et Europe<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="monde"><span class="e">🌍</span>Partout dans le monde<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="livraison" data-type="multi">
+        <h1>Quels modes de livraison proposez-vous ?</h1>
+        <p class="hint">Plusieurs choix possibles.</p>
+        <div class="opts one">
+          <button type="button" class="opt multi" data-v="Domicile">À domicile<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Point relais">En point relais<span class="mark"></span></button>
+          <button type="button" class="opt multi" data-v="Express">Express<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="timing" data-type="single">
+        <h1>Si les chiffres sont meilleurs, quand pourriez-vous changer ?</h1>
+        <p class="hint">Aucun engagement, c'est pour préparer le bon calendrier.</p>
+        <div class="opts one">
+          <button type="button" class="opt" data-v="now">Dès que possible<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="3m">Dans les 3 mois<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="6m">Dans les 6 mois<span class="mark"></span></button>
+          <button type="button" class="opt" data-v="later">Plus tard, je me renseigne<span class="mark"></span></button>
+        </div>
+      </section>
+
+      <section class="q" data-key="marque" data-type="fields">
+        <h1>Quelle est votre marque ?</h1>
+        <p class="hint">Nous regardons votre site avant de préparer l'estimation.</p>
+        <div class="fields">
+          <div><label for="f-marque">Nom de la marque</label><input id="f-marque" name="marque" type="text" autocomplete="organization" placeholder="Votre marque" required /></div>
+          <div><label for="f-site">Site internet <small>(facultatif)</small></label><input id="f-site" name="site" type="text" inputmode="url" autocomplete="url" placeholder="votremarque.com" /></div>
+        </div>
+      </section>
+
+      <section class="q" data-key="contact" data-type="fields" data-last="1">
+        <h1 data-title-normal="Où vous envoyer votre estimation détaillée ?" data-title-call="Laissez votre numéro, un expert vous rappelle sous 24 h.">Où vous envoyer votre estimation détaillée ?</h1>
+        <p class="hint">Un expert HME vous appelle pour vous la présenter. Sans engagement.</p>
+        <div class="fields">
+          <div><label for="f-nom">Prénom et nom</label><input id="f-nom" name="nom" type="text" autocomplete="name" placeholder="Prénom Nom" /></div>
+          <div><label for="f-tel">Téléphone</label><input id="f-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="06 00 00 00 00" required /></div>
+          <div><label for="f-email">Email professionnel</label><input id="f-email" name="email" type="email" autocomplete="email" placeholder="prenom@votremarque.com" required /></div>
+        </div>
+      </section>
+
+      <div class="err-line" id="errLine" role="alert"></div>
+      <div class="dq-nav">
+        <button type="button" class="dq-back" id="back">← Retour</button>
+        <button type="button" class="btn btn-gold dq-next" id="next">Continuer <span class="arrow">→</span></button>
       </div>
-
-      <!-- HEADER -->
-      <div class="diag-header">
-        <h1 class="diag-title">Affinez votre estimation<br/><em>pour une quotation précise.</em></h1>
-        <p class="diag-sub">En 2 minutes · Sans engagement · Quotation reçue sous 24h</p>
-      </div>
-
-      <!-- FORMULAIRE -->
-      <form class="diag-form" id="diagForm" novalidate>
-
-        <!-- Identité -->
-        <div class="diag-section-title">Votre marque</div>
-        <div class="diag-field-group">
-          <div class="diag-field">
-            <label class="diag-label">Nom de la marque</label>
-            <input type="text" name="marque" class="diag-input" placeholder="Ex : Florna, Reborn21…"/>
-          </div>
-          <div class="diag-field">
-            <label class="diag-label">Votre prénom &amp; nom</label>
-            <input type="text" name="nom" class="diag-input" placeholder="Jean Dupont"/>
-          </div>
-        </div>
-        <div class="diag-field-group">
-          <div class="diag-field">
-            <label class="diag-label">Email <span class="diag-label-required">*</span></label>
-            <input type="email" name="email" id="diagEmail" class="diag-input" placeholder="vous@votreboutique.com" required autocomplete="email"/>
-          </div>
-          <div class="diag-field">
-            <label class="diag-label">Téléphone <span class="diag-label-required">*</span></label>
-            <input type="tel" name="tel" class="diag-input" placeholder="06 00 00 00 00" required/>
-          </div>
-        </div>
-        <div class="diag-field-group">
-          <div class="diag-field">
-            <label class="diag-label">Site internet</label>
-            <input type="url" name="site" id="diagSite" class="diag-input" placeholder="https://votreboutique.com"/>
-          </div>
-          <div class="diag-field">
-            <label class="diag-label">Prestataire logistique actuel</label>
-            <input type="text" name="prestataire" class="diag-input" placeholder="Ex : Bigblue, Cubyn, en interne…"/>
-          </div>
-        </div>
-
-        <!-- Q1 — Produits -->
-        <div class="diag-section-title">Vos produits</div>
-
-        <div class="diag-question">
-          <label class="diag-label">Type de produits</label>
-          <div class="diag-options diag-options--2col">
-            <label class="diag-option"><input type="radio" name="type_produit" value="sante"/><span>💊 Santé / Compléments</span></label>
-            <label class="diag-option"><input type="radio" name="type_produit" value="cosmetique"/><span>💄 Cosmétique / Beauté</span></label>
-            <label class="diag-option"><input type="radio" name="type_produit" value="bienetre"/><span>🧘 Bien-être / CBD</span></label>
-            <label class="diag-option"><input type="radio" name="type_produit" value="autre"/><span>📦 Autre</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Contraintes produit <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
-          <div class="diag-options">
-            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="fragile"/><span>Fragile</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="liquide"/><span>Liquide</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="dluo"/><span>DLUO / DDM</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="batteries"/><span>Piles / Batteries</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="contrainte" value="aucune"/><span>Aucune</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Nombre de SKU</label>
-          <div class="diag-options">
-            <label class="diag-option"><input type="radio" name="sku" value="<25"/><span>Moins de 25</span></label>
-            <label class="diag-option"><input type="radio" name="sku" value="25-50"/><span>25 à 50</span></label>
-            <label class="diag-option"><input type="radio" name="sku" value="50-100"/><span>50 à 100</span></label>
-            <label class="diag-option"><input type="radio" name="sku" value=">100"/><span>Plus de 100</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Nombre moyen de produits par commande</label>
-          <div class="diag-options">
-            <label class="diag-option"><input type="radio" name="produits_cmd" value="1"/><span>1 produit</span></label>
-            <label class="diag-option"><input type="radio" name="produits_cmd" value="2"/><span>2 produits</span></label>
-            <label class="diag-option"><input type="radio" name="produits_cmd" value="3"/><span>3 produits</span></label>
-            <label class="diag-option"><input type="radio" name="produits_cmd" value="4+"/><span>4 et plus</span></label>
-          </div>
-        </div>
-
-        <!-- Q2 — Expédition -->
-        <div class="diag-section-title">Expédition</div>
-
-        <div class="diag-question">
-          <label class="diag-label">Zones livrées</label>
-          <div class="diag-options">
-            <label class="diag-option"><input type="radio" name="zones" value="france"/><span>🇫🇷 France uniquement</span></label>
-            <label class="diag-option"><input type="radio" name="zones" value="europe"/><span>🇪🇺 France + Europe</span></label>
-            <label class="diag-option"><input type="radio" name="zones" value="monde"/><span>🌍 International</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Modes de livraison souhaités <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
-          <div class="diag-options">
-            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="domicile"/><span>Domicile</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="relais"/><span>Point relais</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="livraison" value="express"/><span>Express</span></label>
-          </div>
-        </div>
-
-        <!-- Q3 — Contexte -->
-        <div class="diag-section-title">Votre contexte</div>
-
-        <div class="diag-question">
-          <label class="diag-label">Principal défi logistique aujourd'hui <span class="diag-label-hint">(plusieurs choix possibles)</span></label>
-          <div class="diag-options diag-options--2col">
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="couts"/><span>Coûts trop élevés</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="erreurs"/><span>Trop d'erreurs</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="sav"/><span>SAV trop important</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="visibilite"/><span>Manque de visibilité</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="croissance"/><span>Croissance trop rapide</span></label>
-            <label class="diag-checkbox-opt"><input type="checkbox" name="defi" value="changement"/><span>Changer de prestataire</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Chiffre d'affaires annuel</label>
-          <div class="diag-options diag-options--2col">
-            <label class="diag-option"><input type="radio" name="ca" value="<1M"/><span>Moins de 1 M€</span></label>
-            <label class="diag-option"><input type="radio" name="ca" value="1-3M"/><span>1 à 3 M€</span></label>
-            <label class="diag-option"><input type="radio" name="ca" value="3-10M"/><span>3 à 10 M€</span></label>
-            <label class="diag-option"><input type="radio" name="ca" value="10-25M"/><span>10 à 25 M€</span></label>
-            <label class="diag-option"><input type="radio" name="ca" value=">25M"/><span>Plus de 25 M€</span></label>
-          </div>
-        </div>
-
-        <div class="diag-question">
-          <label class="diag-label">Quand seriez-vous prêt à changer ?</label>
-          <div class="diag-options">
-            <label class="diag-option"><input type="radio" name="timing" value="now"/><span>Immédiatement</span></label>
-            <label class="diag-option"><input type="radio" name="timing" value="3m"/><span>Dans 3 mois</span></label>
-            <label class="diag-option"><input type="radio" name="timing" value="6m"/><span>Dans 6 mois</span></label>
-            <label class="diag-option"><input type="radio" name="timing" value="later"/><span>Plus tard</span></label>
-          </div>
-        </div>
-
-        <!-- CTA -->
-        <div class="diag-ctas">
-          <button type="submit" class="btn btn-primary btn-xl diag-submit">
-            <span class="diag-submit-main">Recevoir ma quotation personnalisée →</span>
-            <span class="diag-submit-sub">Sans engagement · Réponse sous 24h</span>
-          </button>
-          <button type="button" class="diag-callback" id="diagCallback">
-            <svg width="15" height="15" viewBox="0 0 20 20" fill="none"><path d="M3 3h4l2 5-2.5 1.5a11 11 0 005 5L13 12l5 2v4a2 2 0 01-2 2C6 20 0 14 0 5a2 2 0 012-2h1z" fill="currentColor"/></svg>
-            Je préfère être rappelé
-          </button>
-          <p class="diag-callback-note">Un expert HME vous rappelle sous 24h.</p>
-        </div>
-
-      </form>
-
-      <!-- SUCCESS -->
-      <div class="diag-success" id="diagSuccess" hidden>
-        <div class="diag-success-icon">
-          <svg width="56" height="56" viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="26" stroke="#D89A2B" stroke-width="1.5"/><path d="M17 28l8 8 14-16" stroke="#D89A2B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <h2 class="diag-success-title">Votre quotation est en cours de préparation.</h2>
-        <p>Vous recevrez votre estimation personnalisée dans votre boîte mail <strong>sous 24h.</strong><br/>Un expert HME pourra vous contacter pour approfondir l'analyse.</p>
-        <a href="index.html" class="btn btn-outline" style="margin-top:32px">← Retour au site</a>
-      </div>
-
-    </div>
+      <button type="button" class="dq-call" id="callMe">Je préfère être rappelé par un expert</button>
+      <div class="dq-reass"><span>Gratuit</span><span>Sans engagement</span><span>Données non revendues</span></div>
+    </form>
   </main>
 
+  <footer class="dq-foot">© 2026 HME Logistics · <a href="#" onclick="window.hmeTrack && window.hmeTrack.openConsent(); return false;">Gérer les cookies</a></footer>
+
   <script>
-    const step1 = JSON.parse(sessionStorage.getItem('hme_diag_step1') || '{}');
+  (function () {
+    var PCTS = [25, 40, 50, 58, 65, 71, 77, 82, 87, 91, 95, 98];
+    var CHEERS = { 0: 'C’est parti', 4: 'Vous avancez vite', 7: 'Plus que quelques questions', 10: 'Presque terminé', 11: 'Dernière étape' };
+    var LBL = {
+      type_produit: { sante: 'Compléments / santé', bienetre: 'Bien-être / CBD', cosmetique: 'Cosmétique / beauté', autre: 'Autre' },
+      ca: { '<1M': 'Moins de 1 M€', '1-3M': '1 à 3 M€', '3-10M': '3 à 10 M€', '10-25M': '10 à 25 M€', '>25M': 'Plus de 25 M€' },
+      sku: { '<25': 'Moins de 25', '25-50': '25 à 50', '50-100': '50 à 100', '>100': 'Plus de 100' },
+      zones: { france: 'France uniquement', europe: 'France + Europe', monde: 'International' },
+      timing: { now: 'Dès que possible', '3m': 'Dans les 3 mois', '6m': 'Dans les 6 mois', later: 'Plus tard' }
+    };
 
-    // Pré-remplissage email
-    if (step1.email) document.getElementById('diagEmail').value = step1.email;
+    var step1 = {};
+    try { step1 = JSON.parse(sessionStorage.getItem('hme_diag_step1') || '{}'); } catch (e) {}
+    var answers = {};
+    try { answers = JSON.parse(sessionStorage.getItem('hme_diag_answers') || '{}'); } catch (e) {}
+    var screens = Array.prototype.slice.call(document.querySelectorAll('.q'));
+    var idx = 0;
+    var callMode = false;
 
-    // Bannière économies
-    (function() {
-      const fmt = n => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n);
-      const savings = document.getElementById('diagSavings');
-      const amountEl = document.getElementById('diagSavingsAmount');
+    /* Estimation reprise de l'étape 1 */
+    if (step1.savingsLow && step1.savingsHigh) {
+      var nf = new Intl.NumberFormat('fr-FR');
+      document.getElementById('estimAmt').textContent = nf.format(step1.savingsLow) + ' à ' + nf.format(step1.savingsHigh) + ' €';
+      document.getElementById('estim').hidden = false;
+    }
+    if (step1.email) document.getElementById('f-email').value = step1.email;
 
-      if (step1.savingsLow && step1.savingsHigh) {
-        amountEl.textContent = fmt(step1.savingsLow) + ' – ' + fmt(step1.savingsHigh);
-        savings.classList.add('diag-savings--visible');
+    var fill = document.getElementById('fill'), pct = document.getElementById('pct'), prog = document.getElementById('prog');
+    var back = document.getElementById('back'), next = document.getElementById('next'), errLine = document.getElementById('errLine');
+    var cheer = document.getElementById('cheer');
+
+    function save() { try { sessionStorage.setItem('hme_diag_answers', JSON.stringify(answers)); sessionStorage.setItem('hme_diag_idx', String(idx)); } catch (e) {} }
+
+    function setProgress(p) {
+      fill.style.width = p + '%';
+      pct.textContent = p + ' %';
+      prog.setAttribute('aria-valuenow', String(p));
+    }
+
+    function show(i) {
+      idx = Math.max(0, Math.min(i, screens.length - 1));
+      screens.forEach(function (s, k) { s.classList.toggle('on', k === idx); });
+      var s = screens[idx];
+      errLine.textContent = '';
+      setProgress(PCTS[idx] || 98);
+      cheer.textContent = CHEERS[idx] || '';
+      back.hidden = idx === 0;
+      var type = s.dataset.type;
+      var isLast = !!s.dataset.last;
+      next.innerHTML = isLast ? (callMode ? 'Être rappelé sous 24 h' : 'Recevoir mon estimation détaillée') + ' <span class="arrow">→</span>' : 'Continuer <span class="arrow">→</span>';
+      // Choix unique : pas de bouton tant que rien n'est choisi (le clic fait avancer)
+      next.hidden = type === 'single' && !answers[s.dataset.key];
+      document.getElementById('callMe').hidden = isLast;
+      if (isLast) {
+        var h = s.querySelector('h1');
+        h.textContent = callMode ? h.dataset.titleCall : h.dataset.titleNormal;
+      }
+      restore(s);
+      updateNext();
+      var first = s.querySelector('.opt[aria-checked="true"]') || s.querySelector('.opt') || s.querySelector('input');
+      if (first && window.matchMedia('(pointer: fine)').matches) setTimeout(function () { first.focus({ preventScroll: true }); }, 60);
+      window.scrollTo(0, 0);
+      save();
+      if (window.gtag) window.gtag('event', 'diag_etape', { etape: idx + 1, cle: s.dataset.key });
+    }
+
+    function restore(s) {
+      var key = s.dataset.key, type = s.dataset.type;
+      if (type === 'single') {
+        var v = answers[key + '_choice'] || answers[key];
+        s.querySelectorAll('.opt').forEach(function (o) { o.setAttribute('aria-checked', String(o.dataset.v === v)); o.setAttribute('role', 'radio'); });
+        if (s.dataset.other) {
+          var wrap = s.querySelector('.other-wrap');
+          wrap.classList.toggle('on', answers[key + '_choice'] === s.dataset.other);
+          if (answers[key + '_other']) wrap.querySelector('input').value = answers[key + '_other'];
+        }
+      } else if (type === 'multi') {
+        var arr = answers[key] || [];
+        s.querySelectorAll('.opt').forEach(function (o) { o.setAttribute('aria-checked', String(arr.indexOf(o.dataset.v) > -1)); o.setAttribute('role', 'checkbox'); });
       } else {
-        savings.style.display = 'none';
+        s.querySelectorAll('input').forEach(function (inp) { if (answers[inp.name] && !inp.value) inp.value = answers[inp.name]; });
       }
-    })();
+    }
 
-    // Sélection radio
-    document.querySelectorAll('.diag-option input[type="radio"]').forEach(input => {
-      input.addEventListener('change', () => {
-        const group = input.closest('.diag-options');
-        if (!group) return;
-        group.querySelectorAll('.diag-option').forEach(o => o.classList.remove('selected'));
-        input.closest('.diag-option').classList.add('selected');
-      });
-    });
+    function updateNext() {
+      var s = screens[idx];
+      if (s.dataset.type === 'multi') next.disabled = !(answers[s.dataset.key] || []).length;
+      else next.disabled = false;
+    }
 
-    // Sélection checkbox
-    document.querySelectorAll('.diag-checkbox-opt input[type="checkbox"]').forEach(input => {
-      input.addEventListener('change', () => {
-        input.closest('.diag-checkbox-opt').classList.toggle('selected', input.checked);
-      });
-    });
-
-    // Submit
-    document.getElementById('diagForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = this.querySelector('.diag-submit');
-      btn.disabled = true;
-      btn.querySelector('.diag-submit-main').textContent = 'Envoi en cours…';
-
-      const step2 = Object.fromEntries(new FormData(this));
-      const full  = { ...step1, ...step2 };
-
-      // ── 1. Tag SIO "lead complet" ───────────────────────────────────────
-      const contactId = sessionStorage.getItem('hme_sio_id');
-      if (contactId) {
-        try {
-          await fetch('/api/sio', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'addTag', contactId, tag: 'HME - LEAD SITE WEB 2/2' })
-          });
-        } catch(err) {}
-      }
-
-      // ── 2. Enrichissement CRM interne (hme-crm) ──────────────────────────
-      const crmId = sessionStorage.getItem('hme_crm_id');
-      if (crmId) {
-        try {
-          const crmNote = [
-            '── ÉTAPE 2 (diagnostic complet) ──',
-            `Marque      : ${full.marque || '—'}`,
-            `Nom contact : ${full.nom || '—'}`,
-            `Téléphone   : ${full.tel || '—'}`,
-            `Prestataire : ${full.prestataire || '—'}`,
-            `Type produit: ${full.type_produit || '—'}`,
-            `Nb SKUs     : ${full.sku || '—'}`,
-            `Zones       : ${full.zones || '—'}`,
-            `CA annuel   : ${full.ca || '—'}`,
-            `Timing      : ${full.timing || '—'}`,
-            `Source      : ${full.source || 'Site web'}`,
-          ].join('\n');
-          await fetch('/api/sio', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'crmLead', crmId, site: full.site || '', note: crmNote })
-          });
-        } catch(err) {}
-      }
-
-      // ── 3. Notification email → aurelien+HME@famillia.fr ────────────────
-      const WEB3FORMS_KEY = 'a35060be-ea69-45cd-a6c4-abd3e2517de3';
-      try {
-        const body = [
-          '🎯 NOUVEAU LEAD HME — Formulaire complet',
-          '',
-          '── ÉTAPE 1 ──',
-          `Email       : ${full.email || '—'}`,
-          `Volume      : ${full.orders || '—'}`,
-          `Économies   : ${full.savingsLow ? full.savingsLow.toLocaleString('fr-FR') + ' € – ' + full.savingsHigh.toLocaleString('fr-FR') + ' €/an' : '—'}`,
-          '',
-          '── MARQUE ──',
-          `Marque      : ${full.marque || '—'}`,
-          `Nom contact : ${full.nom || '—'}`,
-          `Téléphone   : ${full.tel || '—'}`,
-          `Site        : ${full.site || '—'}`,
-          `Prestataire : ${full.prestataire || '—'}`,
-          '',
-          '── PRODUITS ──',
-          `Type        : ${full.type_produit || '—'}`,
-          `Contraintes : ${full.contrainte || '—'}`,
-          `Nb SKUs     : ${full.sku || '—'}`,
-          `Produits/cmd: ${full.produits_cmd || '—'}`,
-          '',
-          '── EXPÉDITION ──',
-          `Zones       : ${full.zones || '—'}`,
-          `Livraison   : ${full.livraison || '—'}`,
-          '',
-          '── CONTEXTE ──',
-          `Défis       : ${full.defi || '—'}`,
-          `CA annuel   : ${full.ca || '—'}`,
-          `Timing      : ${full.timing || '—'}`,
-          `Source      : ${full.source || 'Site web'}`,
-        ].join('\n');
-
-        await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            access_key: WEB3FORMS_KEY,
-            subject: '🎯 Nouveau lead HME — ' + (full.marque || full.email || 'Inconnu'),
-            from_name: 'HME Site Web',
-            replyto: full.email || '',
-            to: 'aurelien+HME@famillia.fr',
-            message: body
-          })
+    /* Choix unique : on avance tout seul */
+    screens.forEach(function (s) {
+      var key = s.dataset.key, type = s.dataset.type;
+      s.querySelectorAll('.opt').forEach(function (o) {
+        o.addEventListener('click', function () {
+          if (type === 'single') {
+            s.querySelectorAll('.opt').forEach(function (x) { x.setAttribute('aria-checked', String(x === o)); });
+            if (s.dataset.other) {
+              answers[key + '_choice'] = o.dataset.v;
+              var wrap = s.querySelector('.other-wrap');
+              if (o.dataset.v === s.dataset.other) {
+                wrap.classList.add('on'); next.hidden = false;
+                answers[key] = 'Autre logisticien';
+                save(); wrap.querySelector('input').focus();
+                return;
+              }
+              wrap.classList.remove('on');
+            }
+            answers[key] = o.dataset.v;
+            save();
+            setTimeout(function () { show(idx + 1); }, 240);
+          } else {
+            var arr = answers[key] || [];
+            var v = o.dataset.v, excl = s.dataset.exclusive;
+            if (arr.indexOf(v) > -1) arr = arr.filter(function (x) { return x !== v; });
+            else if (excl && v === excl) arr = [v];
+            else { arr = arr.filter(function (x) { return x !== excl; }); arr.push(v); }
+            answers[key] = arr;
+            s.querySelectorAll('.opt').forEach(function (x) { x.setAttribute('aria-checked', String(arr.indexOf(x.dataset.v) > -1)); });
+            save(); updateNext();
+          }
         });
-      } catch(err) {}
+      });
+      var other = s.querySelector('[data-other-input]');
+      if (other) other.addEventListener('input', function () { answers[key + '_other'] = other.value.trim(); save(); });
+      s.querySelectorAll('input').forEach(function (inp) {
+        inp.addEventListener('input', function () { inp.classList.remove('err'); errLine.textContent = ''; if (inp.name) { answers[inp.name] = inp.value.trim(); save(); } });
+        inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); next.click(); } });
+      });
+    });
 
-      // Lead qualifié = dans la cible HME (CA ≥ 1 M€, ≤ 100 références, ≥ 2 000 commandes/mois si connu)
-      if (window.hmeTrack) {
-        const qualified = full.ca && full.ca !== '<1M' && full.sku !== '>100' && (!step1.vol || step1.vol >= 2000);
-        await (qualified ? window.hmeTrack.leadQualified(full.email) : window.hmeTrack.lead(full.email));
+    function validFields(s) {
+      var ok = true, firstBad = null;
+      s.querySelectorAll('input').forEach(function (inp) {
+        var v = inp.value.trim(), bad = false;
+        if (inp.required && !v) bad = true;
+        if (inp.type === 'email' && v && !inp.validity.valid) bad = true;
+        if (inp.type === 'tel' && v && v.replace(/\D/g, '').length < 9) bad = true;
+        inp.classList.toggle('err', bad);
+        if (bad) { ok = false; firstBad = firstBad || inp; }
+      });
+      if (!ok) { errLine.textContent = 'Merci de compléter les champs en rouge.'; firstBad.focus(); }
+      return ok;
+    }
+
+    next.addEventListener('click', function () {
+      var s = screens[idx];
+      if (s.dataset.type === 'fields' && !validFields(s)) return;
+      if (s.dataset.type === 'multi' && !(answers[s.dataset.key] || []).length) return;
+      if (s.dataset.other && answers[s.dataset.key + '_choice'] === s.dataset.other) {
+        answers[s.dataset.key] = answers[s.dataset.key + '_other'] ? 'Autre : ' + answers[s.dataset.key + '_other'] : 'Autre logisticien';
+        save();
       }
-      window.location.href = 'merci.html';
+      if (s.dataset.last) submit();
+      else show(idx + 1);
+    });
+    back.addEventListener('click', function () { show(idx - 1); });
+    document.getElementById('callMe').addEventListener('click', function () {
+      callMode = true;
+      if (window.gtag) window.gtag('event', 'diag_rappel', { etape: idx + 1 });
+      show(screens.length - 1);
     });
 
-    // Rappel
-    document.getElementById('diagCallback').addEventListener('click', function() {
-      this.innerHTML = '✓ Demande enregistrée — rappel sous 24h';
-      this.disabled = true;
-      this.style.color = 'var(--gold)';
-    });
+    /* Envoi final */
+    var sending = false;
+    function post(body) {
+      return fetch('/api/sio', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { return r.json(); }).catch(function () { return {}; });
+    }
+    function lbl(key, v) { return (LBL[key] && LBL[key][v]) || v || '—'; }
+    function list(v) { return Array.isArray(v) && v.length ? v.join(', ') : '—'; }
+
+    async function submit() {
+      if (sending) return;
+      sending = true;
+      next.disabled = true;
+      next.textContent = 'Envoi en cours…';
+      setProgress(100);
+
+      var a = answers;
+      var full = {
+        email: document.getElementById('f-email').value.trim(),
+        tel: document.getElementById('f-tel').value.trim(),
+        nom: document.getElementById('f-nom').value.trim(),
+        marque: (a.marque || '').trim(), site: (a.site || '').trim()
+      };
+      var source = step1.source || 'Site web';
+      var lines = [
+        '── ÉTAPE 1 ──',
+        'Email       : ' + full.email,
+        'Volume      : ' + (step1.orders || '—'),
+        'Surcoût est.: ' + (step1.savingsLow ? step1.savingsLow.toLocaleString('fr-FR') + ' € à ' + step1.savingsHigh.toLocaleString('fr-FR') + ' €/an' : '—'),
+        '',
+        '── MARQUE ──',
+        'Marque      : ' + (full.marque || '—'),
+        'Contact     : ' + (full.nom || '—'),
+        'Téléphone   : ' + (full.tel || '—'),
+        'Site        : ' + (full.site || '—'),
+        'Prestataire : ' + (a.prestataire || '—'),
+        '',
+        '── PRODUITS ──',
+        'Type        : ' + lbl('type_produit', a.type_produit),
+        'CA annuel   : ' + lbl('ca', a.ca),
+        'Nb SKU      : ' + lbl('sku', a.sku),
+        'Produits/cmd: ' + (a.produits_cmd || '—'),
+        'Contraintes : ' + list(a.contrainte),
+        '',
+        '── EXPÉDITION ──',
+        'Zones       : ' + lbl('zones', a.zones),
+        'Livraison   : ' + list(a.livraison),
+        '',
+        '── CONTEXTE ──',
+        'Défis       : ' + list(a.defi),
+        'Timing      : ' + lbl('timing', a.timing),
+        'Rappel      : ' + (callMode ? 'OUI, demande à être rappelé' : 'non'),
+        'Source      : ' + source
+      ];
+      var qualified = !!a.ca && a.ca !== '<1M' && a.sku !== '>100' && (!step1.vol || step1.vol >= 3000);
+
+      var tasks = [];
+      var sioId = sessionStorage.getItem('hme_sio_id');
+      if (sioId) tasks.push(post({ action: 'addTag', contactId: sioId, tag: 'HME - LEAD SITE WEB 2/2' }));
+      else tasks.push(post({ action: 'createContact', email: full.email, phone: full.tel }).then(function (d) { if (d && d.id) return post({ action: 'addTag', contactId: d.id, tag: 'HME - LEAD SITE WEB 2/2' }); }));
+      var crmId = sessionStorage.getItem('hme_crm_id');
+      var crmNote = (callMode ? '── DEMANDE DE RAPPEL ──\n' : '── ÉTAPE 2 (questionnaire complet) ──\n') + lines.slice(5).join('\n');
+      tasks.push(crmId ? post({ action: 'crmLead', crmId: crmId, site: full.site, note: crmNote }) : post({ action: 'crmLead', email: full.email, site: full.site, note: crmNote }));
+      tasks.push(fetch('https://api.web3forms.com/submit', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3',
+          subject: (callMode ? '📞 Rappel demandé HME : ' : (qualified ? '🎯 Lead QUALIFIÉ HME : ' : '🎯 Nouveau lead HME : ')) + (full.marque || full.email),
+          from_name: 'HME Site Web', replyto: full.email, to: 'aurelien+HME@famillia.fr',
+          message: [(callMode ? '📞 DEMANDE DE RAPPEL' : '🎯 NOUVEAU LEAD HME : questionnaire complet') + (qualified ? ' (dans la cible)' : ''), ''].concat(lines).join('\n')
+        })
+      }).catch(function () {}));
+      if (window.hmeTrack) tasks.push(qualified ? window.hmeTrack.leadQualified(full.email) : window.hmeTrack.lead(full.email));
+
+      await Promise.race([Promise.all(tasks), new Promise(function (res) { setTimeout(res, 4000); })]);
+      try { sessionStorage.removeItem('hme_diag_answers'); sessionStorage.removeItem('hme_diag_idx'); } catch (e) {}
+      window.location.href = '/merci.html';
+    }
+
+    /* Reprise là où la personne s'était arrêtée */
+    var savedIdx = parseInt(sessionStorage.getItem('hme_diag_idx') || '0', 10);
+    show(isNaN(savedIdx) ? 0 : savedIdx);
+  })();
   </script>
-
 </body>
 </html>
