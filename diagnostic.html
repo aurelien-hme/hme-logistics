@@ -296,6 +296,7 @@
             `Zones       : ${full.zones || '—'}`,
             `CA annuel   : ${full.ca || '—'}`,
             `Timing      : ${full.timing || '—'}`,
+            `Source      : ${full.source || 'Site web'}`,
           ].join('\n');
           await fetch('/api/sio', {
             method: 'POST',
@@ -337,6 +338,7 @@
           `Défis       : ${full.defi || '—'}`,
           `CA annuel   : ${full.ca || '—'}`,
           `Timing      : ${full.timing || '—'}`,
+          `Source      : ${full.source || 'Site web'}`,
         ].join('\n');
 
         await fetch('https://api.web3forms.com/submit', {
@@ -353,7 +355,11 @@
         });
       } catch(err) {}
 
-      if (window.hmeTrack) await window.hmeTrack.leadQualified(full.email);
+      // Lead qualifié = dans la cible HME (CA ≥ 1 M€, ≤ 100 références, ≥ 2 000 commandes/mois si connu)
+      if (window.hmeTrack) {
+        const qualified = full.ca && full.ca !== '<1M' && full.sku !== '>100' && (!step1.vol || step1.vol >= 2000);
+        await (qualified ? window.hmeTrack.leadQualified(full.email) : window.hmeTrack.lead(full.email));
+      }
       window.location.href = 'merci.html';
     });
 

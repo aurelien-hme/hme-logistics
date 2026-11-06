@@ -1148,6 +1148,9 @@
             });
           } catch(e) {}
 
+          // Conversion Google Ads « Lead »
+          if (window.hmeTrack) await window.hmeTrack.lead(email);
+
           // Redirect vers page 2
           window.location.href = 'diagnostic.html';
         });
