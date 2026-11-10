@@ -22,8 +22,12 @@
   if (whoAngle && angle && ANGLES[angle]) whoAngle.textContent = ANGLES[angle];
 
   /* Source du lead, transmise au diagnostic puis au CRM */
-  var src = { angle: angle || '', utm_campaign: params.get('utm_campaign') || '', utm_term: params.get('utm_term') || '', gclid: params.get('gclid') || '' };
-  var srcLabel = 'Google Ads LP ' + variant + (src.utm_campaign ? ' / ' + src.utm_campaign : (angle ? ' / ' + angle : '')) + (src.utm_term ? ' / mot-clé : ' + src.utm_term : '');
+  var src = { angle: angle || '', utm_source: params.get('utm_source') || '', utm_campaign: params.get('utm_campaign') || '', utm_content: params.get('utm_content') || '', utm_term: params.get('utm_term') || '', gclid: params.get('gclid') || '', fbclid: params.get('fbclid') || '' };
+  var isMeta = /^(meta|facebook|fb|instagram|ig)$/i.test(src.utm_source) || !!src.fbclid;
+  var channel = isMeta ? 'Meta Ads' : 'Google Ads';
+  var srcLabel = isMeta
+    ? channel + ' LP ' + variant + (src.utm_campaign ? ' / ' + src.utm_campaign : '') + (src.utm_content ? ' / pub : ' + src.utm_content : (angle ? ' / ' + angle : ''))
+    : channel + ' LP ' + variant + (src.utm_campaign ? ' / ' + src.utm_campaign : (angle ? ' / ' + angle : '')) + (src.utm_term ? ' / mot-clé : ' + src.utm_term : '');
   try { sessionStorage.setItem('hme_src', JSON.stringify(src)); } catch (e) {}
   if (window.gtag) {
     window.gtag('set', 'user_properties', { lp_variante: variant });
@@ -90,7 +94,7 @@
       } catch (e2) {}
 
       var estim = lowVol ? 'non estimé (moins de 1 000 commandes/mois)' : fmtRange(r) + ' / an';
-      var note = 'Source : ' + srcLabel + '\nVolume : ' + orderLabel + '\nSurcoût estimé : ' + estim + (src.gclid ? '\ngclid : ' + src.gclid : '');
+      var note = 'Source : ' + srcLabel + '\nVolume : ' + orderLabel + '\nSurcoût estimé : ' + estim + (src.gclid ? '\ngclid : ' + src.gclid : '') + (src.fbclid ? '\nfbclid : ' + src.fbclid : '');
       var tasks = [
         post({ action: 'createContact', email: mail, phone: '' }).then(function (d) {
           if (d && d.id) { try { sessionStorage.setItem('hme_sio_id', d.id); } catch (e3) {} return post({ action: 'addTag', contactId: d.id, tag: 'HME - LEAD GOOGLE ADS 1/2' }); }
@@ -99,9 +103,9 @@
         fetch('https://api.web3forms.com/submit', {
           method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
-            access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3', subject: '🎯 Nouveau lead HME (Google Ads ' + variant + ') : ' + mail,
+            access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3', subject: '🎯 Nouveau lead HME (' + channel + ' ' + variant + ') : ' + mail,
             from_name: 'HME Site Web', replyto: mail, to: 'aurelien+HME@famillia.fr',
-            message: ['🎯 NOUVEAU LEAD HME : landing page Google Ads ' + variant + ' (étape 1)', '', 'Email     : ' + mail, 'Volume    : ' + orderLabel, 'Surcoût   : ' + estim, 'Source    : ' + srcLabel].join('\n')
+            message: ['🎯 NOUVEAU LEAD HME : landing page ' + channel + ' ' + variant + ' (étape 1)', '', 'Email     : ' + mail, 'Volume    : ' + orderLabel, 'Surcoût   : ' + estim, 'Source    : ' + srcLabel].join('\n')
           })
         }).catch(function () {})
       ];

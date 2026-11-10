@@ -10,6 +10,26 @@
   var LABEL_LEAD = 'iidtCIzR5K4dEI3cq4pF';
   var LABEL_LEAD_QUALIFIED = 'wEtuCInR5K4dEI3cq4pF';
   var STORAGE_KEY = 'hme_consent';
+  // Pixel Meta (jeu de données HME). Vide = Meta désactivé, rien n'est chargé.
+  var META_PIXEL_ID = '2249712999295612';
+
+  // ── Meta : file d'attente fbq, rien n'est envoyé avant le consentement ──
+  if (META_PIXEL_ID) {
+    (function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = [];
+      t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+    })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq('consent', 'revoke');
+    window.fbq('init', META_PIXEL_ID);
+    window.fbq('track', 'PageView');
+  }
+  function metaEvent(name, params) {
+    if (!META_PIXEL_ID || !window.fbq) return;
+    var id = name + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    window.fbq('track', name, params || {}, { eventID: id });
+    return id;
+  }
 
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
@@ -39,6 +59,7 @@
   gtag('config', GA4_ID);
 
   function applyConsent(value) {
+    if (META_PIXEL_ID && window.fbq) window.fbq('consent', value === 'granted' ? 'grant' : 'revoke');
     gtag('consent', 'update', {
       ad_storage: value,
       ad_user_data: value,
@@ -69,8 +90,9 @@
   }
 
   window.hmeTrack = {
-    lead: function (email) { return sendConversion(LABEL_LEAD, email); },
-    leadQualified: function (email) { return sendConversion(LABEL_LEAD_QUALIFIED, email); },
+    lead: function (email) { metaEvent('Lead'); return sendConversion(LABEL_LEAD, email); },
+    leadQualified: function (email) { metaEvent('CompleteRegistration', { content_name: 'diagnostic', status: 'qualifie' }); return sendConversion(LABEL_LEAD_QUALIFIED, email); },
+    schedule: function () { metaEvent('Schedule'); },
     openConsent: function () { showBanner(true); }
   };
 
@@ -97,7 +119,7 @@
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-label', 'Préférences cookies');
     box.innerHTML =
-      '<p>Nous utilisons des cookies de mesure d’audience et publicitaires (Google) pour savoir quelles annonces vous ont amené ici. Vous pouvez les refuser, le site fonctionne de la même façon.</p>' +
+      '<p>Nous utilisons des cookies de mesure d’audience et publicitaires (Google' + (META_PIXEL_ID ? ' et Meta' : '') + ') pour savoir quelles annonces vous ont amené ici. Vous pouvez les refuser, le site fonctionne de la même façon.</p>' +
       '<div class="hc-actions">' +
       '<button type="button" class="hc-refuse">Refuser</button>' +
       '<button type="button" class="hc-accept">Accepter</button>' +
