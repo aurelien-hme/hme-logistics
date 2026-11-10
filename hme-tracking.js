@@ -24,10 +24,40 @@
     window.fbq('init', META_PIXEL_ID);
     window.fbq('track', 'PageView');
   }
-  function metaEvent(name, params) {
+  function readCookie(n) {
+    var m = document.cookie.match(new RegExp('(?:^|; )' + n + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : '';
+  }
+  // Identifiant de clic Meta : cookie _fbc, sinon fbclid gardé depuis l'arrivée sur le site
+  function metaFbc() {
+    var c = readCookie('_fbc');
+    if (c) return c;
+    var id = new URLSearchParams(location.search).get('fbclid');
+    try { if (id) sessionStorage.setItem('hme_fbclid', JSON.stringify({ id: id, t: Date.now() })); } catch (e) {}
+    var saved = null;
+    try { saved = JSON.parse(sessionStorage.getItem('hme_fbclid') || 'null'); } catch (e) {}
+    return saved ? 'fb.1.' + saved.t + '.' + saved.id : '';
+  }
+  metaFbc();
+
+  // Pixel (navigateur) + API Conversions (serveur, /api/meta-capi) avec le même event_id
+  function metaEvent(name, params, email) {
     if (!META_PIXEL_ID || !window.fbq) return;
     var id = name + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
     window.fbq('track', name, params || {}, { eventID: id });
+    var consent = null;
+    try { consent = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (consent === 'granted') {
+      try {
+        fetch('/api/meta-capi', {
+          method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event_name: name, event_id: id, event_source_url: location.href, consent: consent,
+            email: email || '', fbp: readCookie('_fbp'), fbc: metaFbc(), custom_data: params || null
+          })
+        }).catch(function () {});
+      } catch (e) {}
+    }
     return id;
   }
 
@@ -90,9 +120,9 @@
   }
 
   window.hmeTrack = {
-    lead: function (email) { metaEvent('Lead'); return sendConversion(LABEL_LEAD, email); },
-    leadQualified: function (email) { metaEvent('CompleteRegistration', { content_name: 'diagnostic', status: 'qualifie' }); return sendConversion(LABEL_LEAD_QUALIFIED, email); },
-    schedule: function () { metaEvent('Schedule'); },
+    lead: function (email) { metaEvent('Lead', null, email); return sendConversion(LABEL_LEAD, email); },
+    leadQualified: function (email) { metaEvent('CompleteRegistration', { content_name: 'diagnostic', status: 'qualifie' }, email); return sendConversion(LABEL_LEAD_QUALIFIED, email); },
+    schedule: function (email) { metaEvent('Schedule', null, email); },
     openConsent: function () { showBanner(true); }
   };
 
