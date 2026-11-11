@@ -485,7 +485,7 @@
       try {
         sessionStorage.setItem('hme_rdv', JSON.stringify({
           nom: full.nom, email: full.email, tel: full.tel, marque: full.marque,
-          volume: step1.orders || '', ca: a.ca ? lbl('ca', a.ca) : '', prestataire: a.prestataire || '',
+          volume: step1.orders || '', vol: step1.vol || 0, ca: a.ca ? lbl('ca', a.ca) : '', prestataire: a.prestataire || '',
           qualified: qualified, rappel: !!callMode
         }));
       } catch (e) {}

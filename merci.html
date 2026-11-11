@@ -211,7 +211,7 @@
       <p class="ty-sub">Un expert HME analyse votre modèle logistique. Vous recevrez votre estimation personnalisée sous 24h.</p>
 
       <!-- Prise de RDV Calendly, juste sous le titre. Prérempli avec le questionnaire : le prospect n'a qu'à choisir l'heure.
-           Affiché aux leads dans la cible et aux demandes de rappel ; les autres sont rappelés via le CRM.
+           Affiché dès MIN_COMMANDES commandes/mois (choix d'Aurélien, 11/11/2026) et à toute demande de rappel ; volume inconnu = affiché.
            Une réservation envoie Schedule (Meta) et rdv_reserve (GA4). -->
       <section class="ty-booking" id="tyBooking" aria-labelledby="tyBookingTitle">
         <h2 id="tyBookingTitle" class="ty-booking-title">Dernière étape : <em>choisissez votre créneau.</em></h2>
@@ -233,8 +233,9 @@
           function read(k) { try { return JSON.parse(sessionStorage.getItem(k) || '{}'); } catch (e) { return {}; } }
           var step1 = read('hme_diag_step1'), src = read('hme_src'), rdv = read('hme_rdv');
           var section = document.getElementById('tyBooking');
-          // Pas d'info (ancien parcours) : on affiche. Hors cible et sans demande de rappel : on masque.
-          if (rdv.qualified === false && !rdv.rappel) { section.hidden = true; return; }
+          var MIN_COMMANDES = 500;
+          var vol = parseInt(rdv.vol || step1.vol, 10) || 0;
+          if (vol && vol < MIN_COMMANDES && !rdv.rappel) { section.hidden = true; return; }
           var email = rdv.email || step1.email || '';
           var resume = ['Questionnaire HME déjà rempli',
             rdv.marque && ('Marque : ' + rdv.marque),
