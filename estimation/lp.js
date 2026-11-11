@@ -38,7 +38,7 @@
   function range(v) { return { low: Math.round(v * 0.5 * 12 / 500) * 500, high: Math.round(v * 1.5 * 12 / 500) * 500 }; }
   function fmtRange(r) { return nf.format(r.low) + ' à ' + nf.format(r.high) + NB + '€'; }
   var LABELS = {
-    250: 'Moins de 500', 750: '500 à 1' + NB + '000', 2000: '1' + NB + '000 à 3' + NB + '000', 4000: '3' + NB + '000 à 5' + NB + '000',
+    250: 'Moins de 500', 1500: '500 à 2' + NB + '500', 3750: '2' + NB + '500 à 5' + NB + '000',
     7500: '5' + NB + '000 à 10' + NB + '000', 20000: '10' + NB + '000 à 30' + NB + '000', 35000: 'Plus de 30' + NB + '000'
   };
 
@@ -50,11 +50,9 @@
     });
     document.querySelectorAll('[data-result]').forEach(function (box) {
       var amt = box.querySelector('[data-amt]');
-      if (currentVol < 1000) {
+      if (currentVol < 500) {
         box.classList.add('low');
-        amt.textContent = currentVol < 500
-          ? 'En dessous de 500 commandes par mois, HME n’est probablement pas le bon partenaire : nous vous le dirons honnêtement.'
-          : 'À ce volume, l’écart dépend surtout de votre grille actuelle : nous vous dirons honnêtement si HME est adapté.';
+        amt.textContent = 'En dessous de 500 commandes par mois, HME n’est probablement pas le bon partenaire : nous vous le dirons honnêtement.';
       } else {
         box.classList.remove('low');
         amt.textContent = fmtRange(range(currentVol));
@@ -90,12 +88,12 @@
 
       var v = currentVol, r = range(v);
       var orderLabel = LABELS[v] + ' commandes/mois';
-      var lowVol = v < 1000;
+      var lowVol = v < 500;
       try {
         sessionStorage.setItem('hme_diag_step1', JSON.stringify({ email: mail, orders: orderLabel, vol: v, savingsLow: lowVol ? 0 : r.low, savingsHigh: lowVol ? 0 : r.high, source: srcLabel }));
       } catch (e2) {}
 
-      var estim = lowVol ? 'non estimé (moins de 1 000 commandes/mois)' : fmtRange(r) + ' / an';
+      var estim = lowVol ? 'non estimé (moins de 500 commandes/mois)' : fmtRange(r) + ' / an';
       var note = 'Source : ' + srcLabel + '\nVolume : ' + orderLabel + '\nSurcoût estimé : ' + estim + (src.gclid ? '\ngclid : ' + src.gclid : '') + (src.fbclid ? '\nfbclid : ' + src.fbclid : '');
       var tasks = [
         post({ action: 'createContact', email: mail, phone: '' }).then(function (d) {
