@@ -481,6 +481,14 @@
       if (window.hmeTrack) tasks.push(qualified ? window.hmeTrack.leadQualified(full.email) : window.hmeTrack.lead(full.email));
 
       await Promise.race([Promise.all(tasks), new Promise(function (res) { setTimeout(res, 4000); })]);
+      // Résumé pour la page merci : préremplit le calendrier (nom, email, réponses déjà données)
+      try {
+        sessionStorage.setItem('hme_rdv', JSON.stringify({
+          nom: full.nom, email: full.email, tel: full.tel, marque: full.marque,
+          volume: step1.orders || '', ca: a.ca ? lbl('ca', a.ca) : '', prestataire: a.prestataire || '',
+          qualified: qualified, rappel: !!callMode
+        }));
+      } catch (e) {}
       try { sessionStorage.removeItem('hme_diag_answers'); sessionStorage.removeItem('hme_diag_idx'); } catch (e) {}
       window.location.href = '/merci.html';
     }

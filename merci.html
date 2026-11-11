@@ -210,6 +210,69 @@
       <h1 class="ty-title">Votre diagnostic est<br/><em>en cours de préparation.</em></h1>
       <p class="ty-sub">Un expert HME analyse votre modèle logistique. Vous recevrez votre estimation personnalisée sous 24h.</p>
 
+      <!-- Prise de RDV Calendly, juste sous le titre. Prérempli avec le questionnaire : le prospect n'a qu'à choisir l'heure.
+           Affiché aux leads dans la cible et aux demandes de rappel ; les autres sont rappelés via le CRM.
+           Une réservation envoie Schedule (Meta) et rdv_reserve (GA4). -->
+      <section class="ty-booking" id="tyBooking" aria-labelledby="tyBookingTitle">
+        <h2 id="tyBookingTitle" class="ty-booking-title">Dernière étape : <em>choisissez votre créneau.</em></h2>
+        <p class="ty-booking-sub">30 minutes en visio avec Aurélien Pruvost, PDG de HME Logistics, pour passer en revue votre logistique et vos chiffres. Nous avons déjà vos réponses : vous n'avez rien à remplir, choisissez simplement l'heure.</p>
+        <div id="tyCalendly" class="ty-booking-frame"></div>
+        <p class="ty-booking-done" id="tyBookingDone" hidden>Votre rendez-vous est confirmé. Vous allez recevoir l'invitation par e-mail.</p>
+      </section>
+      <style>
+        .ty-booking{margin:28px 0 36px;padding:24px 0 0;border-top:1px solid rgba(248,248,246,.1)}
+        .ty-booking-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,30px);line-height:1.2;color:#F8F8F6;margin:0 0 10px}
+        .ty-booking-title em{color:#D89A2B;font-style:italic}
+        .ty-booking-sub{color:rgba(248,248,246,.72);margin:0 0 18px;line-height:1.55}
+        .ty-booking-frame{min-height:700px;border-radius:12px;overflow:hidden;background:#0D1A2D}
+        .ty-booking-done{margin-top:14px;color:#D89A2B;font-weight:600}
+      </style>
+      <script>
+        (function () {
+          var BASE = 'https://calendly.com/famillia-aurelien/homemade-elogistics-appel-de-30-minutes';
+          function read(k) { try { return JSON.parse(sessionStorage.getItem(k) || '{}'); } catch (e) { return {}; } }
+          var step1 = read('hme_diag_step1'), src = read('hme_src'), rdv = read('hme_rdv');
+          var section = document.getElementById('tyBooking');
+          // Pas d'info (ancien parcours) : on affiche. Hors cible et sans demande de rappel : on masque.
+          if (rdv.qualified === false && !rdv.rappel) { section.hidden = true; return; }
+          var email = rdv.email || step1.email || '';
+          var resume = ['Questionnaire HME déjà rempli',
+            rdv.marque && ('Marque : ' + rdv.marque),
+            (rdv.volume || step1.orders) && ('Volume : ' + (rdv.volume || step1.orders)),
+            rdv.ca && ('CA : ' + rdv.ca),
+            rdv.prestataire && ('Prestataire actuel : ' + rdv.prestataire),
+            rdv.tel && ('Tél : ' + rdv.tel)].filter(Boolean).join(' | ');
+          var q = new URLSearchParams({
+            hide_event_type_details: '1', hide_gdpr_banner: '1', background_color: '0d1a2d', text_color: 'f8f8f6', primary_color: 'd89a2b',
+            utm_source: src.utm_source || 'site', utm_campaign: src.utm_campaign || '', utm_content: src.utm_content || ''
+          });
+          if (rdv.nom) q.set('name', rdv.nom);
+          if (email) q.set('email', email);
+          q.set('a1', resume);
+          var url = BASE + '?' + q.toString();
+          var box = document.getElementById('tyCalendly');
+          function init() {
+            if (window.Calendly && window.Calendly.initInlineWidget) {
+              window.Calendly.initInlineWidget({ url: url, parentElement: box });
+            } else {
+              box.innerHTML = '<p style="padding:24px"><a class="btn btn-primary" href="' + url + '" target="_blank" rel="noopener">Choisir un créneau</a></p>';
+            }
+          }
+          var s = document.createElement('script');
+          s.src = 'https://assets.calendly.com/assets/external/widget.js';
+          s.async = true; s.onload = init; s.onerror = init;
+          document.head.appendChild(s);
+          var tracked = false;
+          window.addEventListener('message', function (e) {
+            if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled' || tracked) return;
+            tracked = true;
+            document.getElementById('tyBookingDone').hidden = false;
+            if (window.hmeTrack && window.hmeTrack.schedule) window.hmeTrack.schedule(email);
+            if (window.gtag) window.gtag('event', 'rdv_reserve', { source: src.utm_source || 'site' });
+          });
+        })();
+      </script>
+
       <!-- Timeline -->
       <div class="ty-timeline">
 
@@ -270,56 +333,6 @@
 
       </div><!-- /.ty-timeline -->
 
-      <!-- Prise de RDV Calendly : une réservation envoie l'événement Schedule (pixel Meta + API Conversions) -->
-      <section class="ty-booking" aria-labelledby="tyBookingTitle">
-        <h2 id="tyBookingTitle" class="ty-booking-title">Gagnez du temps : <em>réservez votre appel maintenant.</em></h2>
-        <p class="ty-booking-sub">30 minutes avec Aurélien, PDG de HME Logistics, pour passer en revue votre logistique et vos chiffres. Choisissez le créneau qui vous convient.</p>
-        <div id="tyCalendly" class="ty-booking-frame"></div>
-        <p class="ty-booking-done" id="tyBookingDone" hidden>Votre rendez-vous est confirmé. Vous allez recevoir l'invitation par e-mail.</p>
-      </section>
-      <style>
-        .ty-booking{margin:40px 0 8px;padding:28px 0 0;border-top:1px solid rgba(248,248,246,.1)}
-        .ty-booking-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,30px);line-height:1.2;color:#F8F8F6;margin:0 0 10px}
-        .ty-booking-title em{color:#D89A2B;font-style:italic}
-        .ty-booking-sub{color:rgba(248,248,246,.72);margin:0 0 18px;line-height:1.55}
-        .ty-booking-frame{min-height:700px;border-radius:12px;overflow:hidden;background:#0D1A2D}
-        .ty-booking-done{margin-top:14px;color:#D89A2B;font-weight:600}
-      </style>
-      <script>
-        (function () {
-          var BASE = 'https://calendly.com/famillia-aurelien/homemade-elogistics-appel-de-30-minutes';
-          var step1 = {};
-          try { step1 = JSON.parse(sessionStorage.getItem('hme_diag_step1') || '{}'); } catch (e) {}
-          var src = {};
-          try { src = JSON.parse(sessionStorage.getItem('hme_src') || '{}'); } catch (e) {}
-          var q = new URLSearchParams({
-            hide_event_type_details: '1', background_color: '0d1a2d', text_color: 'f8f8f6', primary_color: 'd89a2b',
-            utm_source: src.utm_source || 'site', utm_campaign: src.utm_campaign || '', utm_content: src.utm_content || ''
-          });
-          if (step1.email) q.set('email', step1.email);
-          var url = BASE + '?' + q.toString();
-          var box = document.getElementById('tyCalendly');
-          function init() {
-            if (window.Calendly && window.Calendly.initInlineWidget) {
-              window.Calendly.initInlineWidget({ url: url, parentElement: box });
-            } else {
-              box.innerHTML = '<p style="padding:24px"><a class="btn btn-primary" href="' + url + '" target="_blank" rel="noopener">Choisir un créneau</a></p>';
-            }
-          }
-          var s = document.createElement('script');
-          s.src = 'https://assets.calendly.com/assets/external/widget.js';
-          s.async = true; s.onload = init; s.onerror = init;
-          document.head.appendChild(s);
-          var tracked = false;
-          window.addEventListener('message', function (e) {
-            if (e.origin !== 'https://calendly.com' || !e.data || e.data.event !== 'calendly.event_scheduled' || tracked) return;
-            tracked = true;
-            document.getElementById('tyBookingDone').hidden = false;
-            if (window.hmeTrack && window.hmeTrack.schedule) window.hmeTrack.schedule(step1.email || '');
-            if (window.gtag) window.gtag('event', 'rdv_reserve', { source: src.utm_source || 'site' });
-          });
-        })();
-      </script>
 
       <div class="ty-ctas">
         <a href="index.html" class="btn btn-outline">← Retour au site</a>
