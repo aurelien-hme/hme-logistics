@@ -38,7 +38,7 @@
   function range(v) { return { low: Math.round(v * 0.5 * 12 / 500) * 500, high: Math.round(v * 1.5 * 12 / 500) * 500 }; }
   function fmtRange(r) { return nf.format(r.low) + ' à ' + nf.format(r.high) + NB + '€'; }
   var LABELS = {
-    500: 'Moins de 1' + NB + '000', 2000: '1' + NB + '000 à 3' + NB + '000', 4000: '3' + NB + '000 à 5' + NB + '000',
+    250: 'Moins de 500', 750: '500 à 1' + NB + '000', 2000: '1' + NB + '000 à 3' + NB + '000', 4000: '3' + NB + '000 à 5' + NB + '000',
     7500: '5' + NB + '000 à 10' + NB + '000', 20000: '10' + NB + '000 à 30' + NB + '000', 35000: 'Plus de 30' + NB + '000'
   };
 
@@ -52,7 +52,9 @@
       var amt = box.querySelector('[data-amt]');
       if (currentVol < 1000) {
         box.classList.add('low');
-        amt.textContent = 'À ce volume, l’écart dépend surtout de votre grille actuelle : nous vous dirons honnêtement si HME est adapté.';
+        amt.textContent = currentVol < 500
+          ? 'En dessous de 500 commandes par mois, HME n’est probablement pas le bon partenaire : nous vous le dirons honnêtement.'
+          : 'À ce volume, l’écart dépend surtout de votre grille actuelle : nous vous dirons honnêtement si HME est adapté.';
       } else {
         box.classList.remove('low');
         amt.textContent = fmtRange(range(currentVol));
