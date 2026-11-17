@@ -135,10 +135,10 @@
     css.textContent =
       '#hme-consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:99999;max-width:560px;margin:0 auto;' +
       'background:#0D1A2D;color:#F8F8F6;border:1px solid rgba(216,154,43,0.25);border-radius:12px;' +
-      'box-shadow:0 4px 24px rgba(0,0,0,0.4);padding:18px 20px;font:14px/1.5 Inter,system-ui,sans-serif}' +
-      '#hme-consent p{margin:0 0 14px}' +
+      'box-shadow:0 4px 24px rgba(0,0,0,0.4);padding:14px 16px;font:13px/1.45 Inter,system-ui,sans-serif}' +
+      '#hme-consent p{margin:0 0 10px}' +
       '#hme-consent .hc-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}' +
-      '#hme-consent button{cursor:pointer;border-radius:8px;padding:9px 18px;font:600 14px Inter,system-ui,sans-serif}' +
+      '#hme-consent button{cursor:pointer;border-radius:8px;padding:8px 16px;font:600 14px Inter,system-ui,sans-serif}' +
       '#hme-consent .hc-refuse{background:transparent;color:#F8F8F6;border:1px solid rgba(248,248,246,0.25)}' +
       '#hme-consent .hc-accept{background:#D89A2B;color:#08111F;border:1px solid #D89A2B}' +
       '#hme-consent button:focus-visible{outline:2px solid #E8B84B;outline-offset:2px}';
@@ -149,7 +149,7 @@
     box.setAttribute('role', 'dialog');
     box.setAttribute('aria-label', 'Préférences cookies');
     box.innerHTML =
-      '<p>Nous utilisons des cookies de mesure d’audience et publicitaires (Google' + (META_PIXEL_ID ? ' et Meta' : '') + ') pour savoir quelles annonces vous ont amené ici. Vous pouvez les refuser, le site fonctionne de la même façon.</p>' +
+      '<p>Nous utilisons des cookies de mesure d’audience et publicitaires (Google' + (META_PIXEL_ID ? ' et Meta' : '') + ') pour savoir quelles annonces vous ont amené ici. Vous pouvez les refuser.</p>' +
       '<div class="hc-actions">' +
       '<button type="button" class="hc-refuse">Refuser</button>' +
       '<button type="button" class="hc-accept">Accepter</button>' +
@@ -165,9 +165,22 @@
     box.querySelector('.hc-refuse').addEventListener('click', function () { close('denied'); });
   }
 
+  // Pages avec <html data-consent="late"> (le challenge) : le bandeau attend la première réponse
+  // (évènement hme:consent-prompt) ou 15 s, pour ne pas masquer la question 1 à l'arrivée.
+  // Rien n'est déposé ni envoyé avant un choix : le pixel reste en consentement refusé.
+  function bootBanner() {
+    if (document.documentElement.getAttribute('data-consent') === 'late' && !saved) {
+      var done = false;
+      var go = function () { if (!done) { done = true; showBanner(false); } };
+      window.addEventListener('hme:consent-prompt', go);
+      setTimeout(go, 15000);
+    } else {
+      showBanner(false);
+    }
+  }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { showBanner(false); });
+    document.addEventListener('DOMContentLoaded', bootBanner);
   } else {
-    showBanner(false);
+    bootBanner();
   }
 })();

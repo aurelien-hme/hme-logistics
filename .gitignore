@@ -1,3 +1,6 @@
 .vercel
 .DS_Store
 .env*
+
+# Brouillons marketing internes (pubs, posts LinkedIn) : jamais sur le dépôt public
+marketing/

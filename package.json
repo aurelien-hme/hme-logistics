@@ -1,0 +1,8 @@
+{
+  "name": "hme-logistics-site",
+  "private": true,
+  "description": "Site statique HME Logistics + fonctions Vercel (api/)",
+  "dependencies": {
+    "@vercel/blob": "^2.9.0"
+  }
+}
