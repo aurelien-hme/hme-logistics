@@ -75,7 +75,14 @@
     [/alolog/, 'ALOLOG'], [/lalog|la log /, 'La Log’'], [/endurance/, 'Endurance Logistique'], [/hive/, 'Hive'],
     [/happy ?colis/, 'Happy Colis'], [/elico/, 'Elico'], [/crosslog/, 'Crosslog'], [/logvad/, 'Logvad'], [/dimolog/, 'Dimolog'],
     [/stockship/, 'Stockship'], [/staci/, 'STACI'], [/yourstore/, 'Yourstore'], [/stockoss/, 'Stockoss'], [/galifar/, 'Galifar'],
-    [/bestfulfill/, 'BestFulfill'], [/nova fulfil/, 'Nova Fulfill'], [/nextsmartship/, 'NextSmartShip'], [/peakfast/, 'Peakfast']
+    [/bestfulfill/, 'BestFulfill'], [/nova fulfil/, 'Nova Fulfill'], [/nextsmartship/, 'NextSmartShip'], [/peakfast/, 'Peakfast'],
+    /* Petits logisticiens e-commerce régionaux ajoutés le 19/11/2026 (mots-clés exacts de la campagne Concurrents). */
+    [/camalo/, 'Camalo'], [/logisseo/, 'Logisseo'], [/green ?log/, 'Greenlog'], [/ezytail/, 'Ezytail'],
+    [/ruche logistique/, 'La Ruche Logistique'], [/axe logistics/, 'Axe Logistics'], [/dispeo/, 'Dispeo'],
+    [/bx logistique/, 'BX Logistique'], [/dock avenue/, 'Dock Avenue'], [/jcd logistique/, 'JCD Logistique'],
+    [/urban ?hub/, 'Urbanhub'], [/logistib/, 'Logistib'], [/efilog/, 'Efilog'], [/b2log/, 'B2LOG'],
+    [/shopy ?stock/, 'Shopy Stock'], [/flex logistique/, 'FLEX. Logistique'], [/lolydol/, 'Lolydol'],
+    [/fibalpack/, 'Fibalpack'], [/boost logistique/, 'Boost'], [/l2g logistique/, 'L2G Logistique'], [/colisvert/, 'Colisvert']
   ];
   /* Concurrents : on parle prix, sans secteur (choix d'Aurélien, 17/11/2026).
      « Et si vous payiez 1 € de moins par commande ? » est une hypothèse, pas une comparaison avec le concurrent. */
