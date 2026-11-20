@@ -1,0 +1,51 @@
+/* Onglets de navigation + pages verticales (monoproduits, compléments, santé) */
+.nav-links--tabs { gap: 26px; }
+.nav-links--tabs a { position: relative; padding: 6px 0; white-space: nowrap; }
+.nav-links--tabs a.is-active { color: var(--gold-light); }
+.nav-links--tabs a.is-active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
+  background: var(--gold); border-radius: 2px;
+}
+.nav-mobile a.is-active { color: var(--gold-light); }
+
+.vt-hero { min-height: auto; padding: 150px 0 40px; }
+.vt-hero + .section { padding-top: 70px; }
+.vt-hero .hero-inner { display: block; max-width: 880px; }
+.vt-hero .hero-title { font-size: clamp(32px, 4.6vw, 56px); }
+.vt-hero .hero-sub { max-width: 720px; }
+.vt-hero .hero-ctas { margin-top: 32px; }
+
+.vt-icp {
+  display: flex; flex-wrap: wrap; gap: 12px; margin: 34px 0 0; padding: 0; list-style: none;
+}
+.vt-icp li {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
+  border: 1px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 600;
+  color: var(--cream); background: rgba(248,248,246,0.04);
+}
+.vt-icp li::before { content: '✓'; color: var(--gold); font-weight: 800; }
+
+.vt-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 0; }
+.vt-cards--4 { grid-template-columns: repeat(2, 1fr); }
+
+.vt-proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 8px; }
+.vt-proof-item {
+  border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px;
+  background: rgba(248,248,246,0.03); text-align: center;
+}
+.vt-proof-num { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 30px; color: var(--gold); line-height: 1.15; white-space: nowrap; margin-bottom: 8px; }
+.vt-proof-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.vt-proof-note { margin-top: 18px; font-size: 12px; color: var(--muted); text-align: center; }
+.vt-proof-note a { color: var(--gold-light); }
+
+.vt-cta { text-align: center; }
+.vt-cta p.vt-cta-sub { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 900px) {
+  .vt-cards, .vt-cards--4 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .vt-hero { padding: 110px 0 30px; }
+  .vt-hero + .section { padding-top: 50px; }
+}
