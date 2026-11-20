@@ -33,10 +33,10 @@
   border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px;
   background: rgba(15,27,45,0.03); text-align: center;
 }
-.vt-proof-num { display: block; font-family: var(--font); font-weight: 800; font-size: 30px; color: var(--gold); line-height: 1.15; white-space: nowrap; margin-bottom: 8px; }
+.vt-proof-num { display: block; font-family: var(--font); font-weight: 800; font-size: 30px; color: var(--accent-ink); line-height: 1.15; white-space: nowrap; margin-bottom: 8px; }
 .vt-proof-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
 .vt-proof-note { margin-top: 18px; font-size: 12px; color: var(--muted); text-align: center; }
-.vt-proof-note a { color: var(--gold-light); }
+.vt-proof-note a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 .vt-cta { text-align: center; }
 .vt-cta p.vt-cta-sub { margin-top: 14px; font-size: 13px; color: var(--muted); }
