@@ -67,33 +67,14 @@
   var key = params.get('a') || '';
   var c = A[key] || DEFAULT;
 
-  /* Campagne Concurrents : le nom du concurrent recherché vient du mot-clé (utm_term, envoyé par Google).
-     Version prudente : on le nomme pour parler à ses clients, sans jamais affirmer qu'il est plus cher. */
-  var RIVALS = [
-    [/big ?blue/, 'Bigblue'], [/cubyn/, 'Cubyn'], [/e.?logik/, 'e-LOGIK'], [/byrd/, 'byrd'], [/izi ?ship/, 'Iziship'],
-    [/sendex/, 'Sendex'], [/futurlog/, 'Futurlog'], [/easy ?distribution/, 'Easydistribution'], [/station fulfil/, 'Station Fulfillment'],
-    [/alolog/, 'ALOLOG'], [/lalog|la log /, 'La Log’'], [/endurance/, 'Endurance Logistique'], [/hive/, 'Hive'],
-    [/happy ?colis/, 'Happy Colis'], [/elico/, 'Elico'], [/crosslog/, 'Crosslog'], [/logvad/, 'Logvad'], [/dimolog/, 'Dimolog'],
-    [/stockship/, 'Stockship'], [/staci/, 'STACI'], [/yourstore/, 'Yourstore'], [/stockoss/, 'Stockoss'], [/galifar/, 'Galifar'],
-    [/bestfulfill/, 'BestFulfill'], [/nova fulfil/, 'Nova Fulfill'], [/nextsmartship/, 'NextSmartShip'], [/peakfast/, 'Peakfast'],
-    /* Petits logisticiens e-commerce régionaux ajoutés le 19/11/2026 (mots-clés exacts de la campagne Concurrents). */
-    [/camalo/, 'Camalo'], [/logisseo/, 'Logisseo'], [/green ?log/, 'Greenlog'], [/ezytail/, 'Ezytail'],
-    [/ruche logistique/, 'La Ruche Logistique'], [/axe logistics/, 'Axe Logistics'], [/dispeo/, 'Dispeo'],
-    [/bx logistique/, 'BX Logistique'], [/dock avenue/, 'Dock Avenue'], [/jcd logistique/, 'JCD Logistique'],
-    [/urban ?hub/, 'Urbanhub'], [/logistib/, 'Logistib'], [/efilog/, 'Efilog'], [/b2log/, 'B2LOG'],
-    [/shopy ?stock/, 'Shopy Stock'], [/flex logistique/, 'FLEX. Logistique'], [/lolydol/, 'Lolydol'],
-    [/fibalpack/, 'Fibalpack'], [/boost logistique/, 'Boost'], [/l2g logistique/, 'L2G Logistique'], [/colisvert/, 'Colisvert']
-  ];
-  /* Concurrents : on parle prix, sans secteur (choix d'Aurélien, 17/11/2026).
-     « Et si vous payiez 1 € de moins par commande ? » est une hypothèse, pas une comparaison avec le concurrent. */
+  /* Campagne Concurrents : on parle prix, sans secteur (choix d'Aurélien, 17/11/2026).
+     Texte générique, sans jamais nommer le concurrent recherché (choix d'Aurélien, 20/11/2026) :
+     nommer un concurrent à côté de « 1 € de moins » en ferait une publicité comparative qu'on ne peut pas prouver. */
   var isRivalPage = key === 'concurrents';
   if (isRivalPage) {
-    var term = (params.get('utm_term') || '').toLowerCase();
-    var rival = '';
-    for (var i = 0; i < RIVALS.length && !rival; i++) if (RIVALS[i][0].test(term)) rival = RIVALS[i][1];
     c = {
-      badge: rival ? 'Vous êtes client de ' + rival : 'HME, logisticien spécialisé',
-      h1: (rival ? 'Vous êtes chez ' + rival + ' ? ' : '') + '<em>Et si vous payiez 1 € de moins par commande ?</em>',
+      badge: 'Vous comparez les logisticiens e-commerce',
+      h1: 'Déjà chez un logisticien, ou vous en cherchez un ? <em>Et si vous payiez 1 € de moins par commande ?</em>',
       lead: '<strong>2 minutes, 6 questions.</strong> À la fin, vous savez combien vous économiseriez chaque année, et ce que vous payez peut-être en trop aujourd’hui.',
       submit: 'Calculer mon économie',
       rTitle: 'Avec 1 € de moins par commande, vous économiseriez environ',
