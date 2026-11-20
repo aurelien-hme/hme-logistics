@@ -1,7 +1,7 @@
 /* Onglets de navigation + pages verticales (monoproduits, compléments, santé) */
 .nav-links--tabs { gap: 26px; }
 .nav-links--tabs a { position: relative; padding: 6px 0; white-space: nowrap; }
-.nav-links--tabs a.is-active { color: var(--gold); }
+.nav-links--tabs a.is-active { color: var(--accent-ink); font-weight: 700; }
 .nav-links--tabs a.is-active::after {
   content: ''; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
   background: var(--gold); border-radius: 2px;
@@ -66,5 +66,26 @@
 .vt-legal h2 { font-size: 20px; margin: 36px 0 12px; color: var(--cream); }
 .vt-legal p, .vt-legal li { font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 10px; }
 .vt-legal ul { padding-left: 20px; }
-.vt-legal a { color: var(--gold); text-decoration: underline; }
+.vt-legal a { color: var(--accent-ink); font-weight: 600; text-decoration: underline; }
 .vt-legal strong { color: var(--cream); }
+
+/* Lisibilité + pages de contenu */
+.theme-navy { --accent-ink: #E8B84B; }
+.theme-navy .check, .theme-navy .fit-check { background: none; width: auto; height: auto; }
+.nav-links--tabs { gap: 22px; }
+.vt-more { text-align: center; margin: 28px 0 0; font-size: 14px; }
+.vt-more a, .vt-link { color: var(--accent-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.vt-quote { max-width: 760px; margin: 0 auto; font-size: 19px; line-height: 1.7; font-style: italic; color: var(--cream); text-align: center; }
+.vt-quote cite { display: block; margin-top: 14px; font-size: 13px; font-style: normal; color: var(--muted); }
+.vt-steps { max-width: 780px; margin: 0 auto; counter-reset: st; list-style: none; padding: 0; }
+.vt-steps li { counter-increment: st; position: relative; padding: 0 0 24px 54px; font-size: 15px; line-height: 1.7; color: var(--muted); }
+.vt-steps li::before { content: counter(st); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; background: #D89A2B; color: #08111F; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.vt-steps li strong { color: var(--cream); display: block; font-size: 16px; }
+.vt-note { max-width: 780px; margin: 24px auto 0; font-size: 14px; color: var(--muted); text-align: center; }
+
+/* Contraste : derniers textes trop pâles */
+.theme-navy { --muted: rgba(248,248,246,0.74); --muted-2: rgba(248,248,246,0.52); }
+.theme-navy .footer h4, .theme-navy .footer-bottom, .theme-navy .footer-bottom a, .theme-navy .footer-bottom span,
+.theme-navy .client-logo-item em, .theme-navy .cs-td-sub, .theme-navy .footer-cta-note, .theme-navy .hero-signature,
+.theme-navy .cs-td-before { color: rgba(248,248,246,0.74) !important; opacity: 1 !important; }
+.probleme-card-num { color: #0F1B2D !important; opacity: 0.72 !important; }
