@@ -244,7 +244,7 @@
             rdv.prestataire && ('Prestataire actuel : ' + rdv.prestataire),
             rdv.tel && ('Tél : ' + rdv.tel)].filter(Boolean).join(' | ');
           var q = new URLSearchParams({
-            hide_event_type_details: '1', hide_gdpr_banner: '1', background_color: '0d1a2d', text_color: 'f8f8f6', primary_color: 'd89a2b',
+            hide_event_type_details: '1', hide_landing_page_details: '1', hide_gdpr_banner: '1', background_color: '0d1a2d', text_color: 'f8f8f6', primary_color: 'd89a2b',
             utm_source: src.utm_source || 'site', utm_campaign: src.utm_campaign || '', utm_content: src.utm_content || ''
           });
           if (rdv.nom) q.set('name', rdv.nom);
