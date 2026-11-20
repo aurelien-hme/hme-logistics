@@ -15,7 +15,7 @@
   var LBL = {
     volume: { 500: 'Moins de 1 000', 2000: '1 000 à 3 000', 4000: '3 000 à 5 000', 7500: '5 000 à 10 000', 20000: '10 000 à 30 000', 40000: 'Plus de 30 000' },
     secteur: { complements: 'Compléments alimentaires', sante: 'Santé, bien-être', beaute: 'Cosmétique, beauté', autre: 'Autre' },
-    sku: { '<25': 'Moins de 25', '25-40': '25 à 40', '40-100': '40 à 100', '>100': 'Plus de 100' },
+    sku: { '<25': 'Moins de 25', '25-50': '25 à 50', '50-100': '50 à 100', '>100': 'Plus de 100' },
     articles: { 1: '1 article', 2: '2 articles', 3: '3 articles', 4: '4 et plus' },
     gestion: { logisticien: 'Un logisticien', interne: 'En interne', mixte: 'Un peu des deux' },
     irritant: { cout: 'Le coût', erreurs: 'Les erreurs et le SAV', visibilite: 'Le manque de visibilité', pics: 'Les pics et la croissance', verif: 'Rien de grave, vérifie' }
@@ -50,6 +50,7 @@
       document.getElementById('progress').hidden = true;
     }
     back.hidden = idx === 0 || type === 'result';
+    updateLive(type);
     var v = answers[s.dataset.key];
     s.querySelectorAll('.opt').forEach(function (o) { o.setAttribute('role', 'radio'); o.setAttribute('aria-checked', String(o.dataset.v === v)); });
     // En mode tunnel, chaque écran repart du haut, sans animation de défilement
@@ -84,7 +85,7 @@
   function estimate() {
     var vol = parseInt(answers.volume, 10) || 0;
     var fa = { 1: 0.8, 2: 1, 3: 1.2, 4: 1.4 }[answers.articles] || 1;
-    var fs = { '<25': 1, '25-40': 1, '40-100': 0.8, '>100': 0.6 }[answers.sku] || 1;
+    var fs = { '<25': 1, '25-50': 1, '50-100': 0.8, '>100': 0.6 }[answers.sku] || 1;
     var central = Math.round(vol * 12 * fa * fs / 1000) * 1000;
     return {
       vol: vol, fa: fa, fs: fs, central: central,
@@ -92,9 +93,23 @@
       high: Math.round(central * 1.3 / 1000) * 1000
     };
   }
+  /* ── Estimation en direct : la fourchette se resserre à chaque réponse ── */
+  function updateLive(type) {
+    var live = document.getElementById('live'), amt = document.getElementById('liveAmt');
+    if (!live || !amt) return;
+    if (!answers.volume || !(type === 'single' || type === 'form')) { live.hidden = true; return; }
+    var est = estimate(), n = 0;
+    ['volume', 'secteur', 'sku', 'articles', 'gestion', 'irritant'].forEach(function (k) { if (answers[k]) n++; });
+    var spread = Math.max(0.3, 0.5 - 0.04 * (n - 1));
+    var lo = Math.max(1000, Math.round(est.central * (1 - spread) / 1000) * 1000);
+    var hi = Math.max(lo + 1000, Math.round(est.central * (1 + spread) / 1000) * 1000);
+    amt.textContent = 'entre ' + eur(lo) + ' et ' + eur(hi) + ' par an';
+    live.classList.toggle('compact', type === 'form');
+    live.hidden = false;
+  }
   function isQualified() {
     var vol = parseInt(answers.volume, 10) || 0;
-    return vol >= 3000 && answers.sku !== '>100' && answers.secteur !== 'autre';
+    return vol >= 3000 && answers.sku !== '>100';
   }
 
   /* ── Envoi ── */
@@ -184,6 +199,7 @@
       : 'Estimation indicative. Le chiffre exact se calcule sur votre facture.';
     if (low) document.getElementById('rLow').hidden = false;
     else if (answers.sku !== '>100') document.getElementById('rNext').hidden = false;
+    else document.getElementById('rHigh').hidden = false;
   }
 
   /* ── Option 2 : 3 questions de plus ── */
@@ -309,6 +325,7 @@
     });
   }
   document.getElementById('bookBtn').addEventListener('click', openCalendly);
+  var highCal = document.getElementById('highCal'); if (highCal) highCal.addEventListener('click', openCalendly);
   document.getElementById('contactForm').addEventListener('submit', function () { setTimeout(loadCalendly, 1500); });
 
   show(0);

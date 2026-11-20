@@ -55,7 +55,7 @@
     }
   };
   var DEFAULT = {
-    badge: 'Logisticien des marques santé, bien-être et beauté',
+    badge: 'Logisticien des grands comptes e-commerce',
     h1: 'Votre logistique, <em>calculée sur votre modèle.</em>',
     lead: '<strong>2 minutes, 6 questions.</strong> Découvrez combien votre logistique vous coûterait chez HME.',
     submit: 'Voir mon tarif estimé',

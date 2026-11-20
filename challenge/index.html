@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/challenge/challenge.css?v=6" />
+  <link rel="stylesheet" href="/challenge/challenge.css?v=7" />
 </head>
 <body>
 
@@ -34,6 +34,8 @@
             <div class="progress-top"><span id="stepLabel">Question 1 sur 6</span><button type="button" class="back" id="back" hidden>← Retour</button></div>
             <div class="bar"><div class="fill" id="fill"></div></div>
           </div>
+
+          <div class="live" id="live" hidden><span>Économie estimée :</span> <strong id="liveAmt"></strong><em>La fourchette s'affine à chaque réponse.</em></div>
 
           <div class="q on" data-key="volume" data-type="single">
             <h2>Vous expédiez combien de commandes par mois ?</h2>
@@ -62,8 +64,8 @@
             <p class="hint">Le nombre de produits différents que vous vendez.</p>
             <div class="opts">
               <button type="button" class="opt" data-v="<25">Moins de 25</button>
-              <button type="button" class="opt" data-v="25-40">25 à 40</button>
-              <button type="button" class="opt" data-v="40-100">40 à 100</button>
+              <button type="button" class="opt" data-v="25-50">25 à 50</button>
+              <button type="button" class="opt" data-v="50-100">50 à 100</button>
               <button type="button" class="opt" data-v=">100">Plus de 100</button>
             </div>
           </div>
@@ -103,25 +105,27 @@
           <form class="q" data-key="contact" data-type="form" id="contactForm" novalidate>
             <div class="ready">✓ Votre résultat est prêt</div>
             <h2>Où vous envoyer votre estimation ?</h2>
-            <p class="hint">Votre estimation détaillée et le calcul complet vous sont envoyés à cette adresse. Utilisez votre email professionnel.</p>
+            <p class="hint">Recevez votre chiffre exact et le calcul détaillé. Utilisez votre email professionnel.</p>
             <label class="f"><span>Email professionnel</span><input type="email" name="email" autocomplete="email" placeholder="prenom@votremarque.com" required /></label>
             <label class="f"><span>Prénom</span><input type="text" name="prenom" autocomplete="given-name" placeholder="Votre prénom" /></label>
             <label class="f"><span>Marque <em class="opt-l">facultatif</em></span><input type="text" name="marque" autocomplete="organization" placeholder="Nom de votre marque" /></label>
             <label class="f"><span>Téléphone <em class="opt-l">facultatif, pour être rappelé si besoin</em></span><input type="tel" name="tel" autocomplete="tel" inputmode="tel" placeholder="06 12 34 56 78" /></label>
             <div class="err" id="err" role="alert"></div>
             <button class="btn" type="submit" id="submitBtn">Voir mon résultat <span aria-hidden="true">→</span></button>
+            <p class="proof-line">Exemple réel : Florna a économisé <strong>plus de 200 000 € par an</strong> en passant chez HME.</p>
             <p class="legal">Aucun appel sans votre accord. Vos données ne sont ni vendues ni partagées.</p>
           </form>
 
           <!-- Résultat -->
           <div class="q result" data-key="result" data-type="result">
             <div class="r-kicker" id="rKicker">Votre résultat</div>
-            <h2 id="rTitle">En passant chez un logisticien spécialisé comme HME, vous pourriez économiser environ</h2>
+            <h2 id="rTitle">Avec un process fait pour votre marque chez HME, vous pourriez économiser environ</h2>
             <div class="r-amt" id="rAmt">—</div>
             <div class="r-sub" id="rSub">chaque année sur votre poste logistique</div>
             <div class="r-range" id="rRange"></div>
             <div class="r-calc" id="rCalc"></div>
             <p class="r-note" id="rNote"></p>
+            <p class="proof-line">Exemple réel : Florna a économisé <strong>plus de 200 000 € par an</strong> en passant chez HME, avec 15 % de moins sur son coût par commande et 3 fois moins de tickets SAV.</p>
 
             <div class="r-next" id="rNext" hidden>
               <div class="r-badge">Dernière étape</div>
@@ -139,7 +143,11 @@
               </button>
             </div>
             <div class="r-low" id="rLow" hidden>
-              <p>En dessous de 3 000 commandes par mois, HME n'est probablement pas le partenaire le plus adapté à votre marque aujourd'hui. Nous préférons vous le dire honnêtement. Gardez ce chiffre en tête : il grandira avec vos volumes.</p>
+              <p>Nous travaillons avec des marques à partir de 3 000 commandes par mois. En dessous, votre projet est à étudier au cas par cas. Gardez ce chiffre en tête : il grandira avec vos volumes. Pour en parler : contact@homemade-elogistics.com</p>
+            </div>
+            <div class="r-low" id="rHigh" hidden>
+              <p>Avec plus de 100 références, votre projet est à étudier au cas par cas : notre modèle est construit pour les petits catalogues. Si quelques références font l'essentiel de vos ventes, parlons-en.</p>
+              <button type="button" class="btn ghost" id="highCal">Réserver 30 minutes <span aria-hidden="true">→</span></button>
             </div>
           </div>
 
@@ -188,11 +196,26 @@
     </section>
 
     <!-- ════ SOUS LE CHALLENGE ════ -->
+    <section class="proof">
+      <div class="wrap">
+        <div class="p-stats">
+          <div><strong>+200 000 €</strong><span>économisés par an par Florna, marque e-commerce</span></div>
+          <div><strong>−15 %</strong><span>sur son coût par commande</span></div>
+          <div><strong>÷ 3</strong><span>tickets SAV liés à la logistique</span></div>
+          <div><strong>3</strong><span>entrepôts en France</span></div>
+        </div>
+        <figure class="p-photo">
+          <img src="/images/lp/entrepot-main.jpg" alt="Entrepôt HME Logistics" loading="lazy" width="1000" height="666" />
+          <figcaption>Notre entrepôt. Les commandes passées avant 11 h partent le jour même.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section class="why">
       <div class="wrap">
         <h2 class="sec">Pourquoi vous payez probablement trop</h2>
         <div class="why-grid">
-          <div class="w"><img class="w-img" src="/challenge/img/why-1.jpg" alt="" loading="lazy" width="800" height="800" onerror="this.remove()" /><div class="w-txt"><span class="w-n">01</span><strong>Vous financez la complexité des autres</strong><span>Un logisticien généraliste prépare de la mode, des meubles, de l'électronique. Et vos compléments, avec un tarif calculé pour cette moyenne.</span></div></div>
+          <div class="w"><img class="w-img" src="/challenge/img/why-1.jpg" alt="" loading="lazy" width="800" height="800" onerror="this.remove()" /><div class="w-txt"><span class="w-n">01</span><strong>Vous financez la complexité des autres</strong><span>Un logisticien généraliste prépare de la mode, des meubles, de l'électronique. Et vos produits, avec un tarif calculé pour cette moyenne.</span></div></div>
           <div class="w"><img class="w-img" src="/challenge/img/why-2.jpg" alt="" loading="lazy" width="800" height="800" onerror="this.remove()" /><div class="w-txt"><span class="w-n">02</span><strong>Le prix du devis n'est pas le prix payé</strong><span>Réception, stockage, emballage, frais annexes : le seul chiffre qui compte, c'est votre coût complet par commande.</span></div></div>
           <div class="w"><img class="w-img" src="/challenge/img/why-3.jpg" alt="" loading="lazy" width="800" height="800" onerror="this.remove()" /><div class="w-txt"><span class="w-n">03</span><strong>Chaque erreur coûte trois fois</strong><span>Le renvoi, le temps de votre service client, et un client qui hésite avant de recommander.</span></div></div>
         </div>
@@ -202,7 +225,7 @@
     <section class="founder">
       <div class="wrap">
         <div class="f-card">
-          <div class="f-ini" aria-hidden="true">AP</div>
+          <img class="f-photo" src="/images/lp/equipe.jpg" alt="L'équipe de direction de HME Logistics" loading="lazy" width="900" height="599" />
           <div>
             <p class="f-quote">« J'ai vendu en ligne avant de devenir logisticien. Je connais les deux côtés de la facture. HME est la logistique que j'aurais voulue pour ma propre marque. »</p>
             <p class="f-who">Aurélien Pruvost, fondateur de HME Logistics · Entrepôt à Auchel (62)</p>
@@ -215,7 +238,7 @@
       <div class="wrap">
         <h2 class="sec">Vos questions</h2>
         <details><summary>Vous allez m'appeler ?</summary><p>Non. Vous voyez votre résultat à l'écran. Si vous voulez aller plus loin, vous choisissez vous-même un créneau. Sinon, on ne vous dérange pas.</p></details>
-        <details><summary>D'où vient le chiffre ?</summary><p>Il part de l'écart moyen que nous constatons entre une logistique généraliste et une logistique spécialisée : 1 € de moins par commande en moyenne. Il est ajusté à votre volume et à vos commandes. C'est une estimation : le chiffre exact se calcule sur votre facture.</p></details>
+        <details><summary>D'où vient le chiffre ?</summary><p>Il part de l'écart moyen que nous constatons entre une logistique généraliste et une logistique sur mesure : 1 € de moins par commande en moyenne. Il est ajusté à votre volume et à vos commandes. C'est une estimation : le chiffre exact se calcule sur votre facture.</p></details>
         <details><summary>Je suis déjà sous contrat avec un logisticien.</summary><p>C'est le cas de la plupart des marques avec qui nous travaillons. On commence par un test sur une partie de votre stock pendant que votre logisticien garde le reste. Vous ne changez que si les chiffres sont meilleurs.</p></details>
         <a class="btn ghost" href="#challenge">Faire le challenge <span aria-hidden="true">→</span></a>
       </div>
@@ -224,14 +247,16 @@
 
   <footer>
     <div class="wrap">
-      <span>© 2026 HME Logistics · Le logisticien des marques santé, bien-être et beauté</span>
+      <span>© 2026 HME Logistics · La logistique maison des grands comptes e-commerce</span>
       <nav>
         <a href="/">Le site HME</a>
+        <a href="/mentions-legales/">Mentions légales</a>
+        <a href="/confidentialite/">Confidentialité</a>
         <a href="#" onclick="window.hmeTrack && window.hmeTrack.openConsent(); return false;">Gérer les cookies</a>
       </nav>
     </div>
   </footer>
 
-  <script src="/challenge/challenge.js?v=6" defer></script>
+  <script src="/challenge/challenge.js?v=7" defer></script>
 </body>
 </html>
