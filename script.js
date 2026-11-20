@@ -67,7 +67,7 @@ function drawParticles() {
 
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(216,154,43,${p.a * 0.4})`;
+    ctx.fillStyle = `rgba(14,116,144,${p.a * 0.4})`;
     ctx.fill();
 
     // Connect nearby — sparser, more transparent
@@ -79,7 +79,7 @@ function drawParticles() {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y);
         ctx.lineTo(q.x, q.y);
-        ctx.strokeStyle = `rgba(216,154,43,${0.025 * (1 - d / 90)})`;
+        ctx.strokeStyle = `rgba(14,116,144,${0.025 * (1 - d / 90)})`;
         ctx.lineWidth = 0.4;
         ctx.stroke();
       }
@@ -177,7 +177,7 @@ document.querySelectorAll('.comparatif-cell:not(.comparatif-cell-header)').forEa
     const allCols = document.querySelectorAll('.comparatif-col');
     allCols.forEach(col => {
       const cells = col.querySelectorAll('.comparatif-cell:not(.comparatif-cell-header)');
-      if (cells[rowIndex]) cells[rowIndex].style.background = 'rgba(216,154,43,0.05)';
+      if (cells[rowIndex]) cells[rowIndex].style.background = 'rgba(14,116,144,0.05)';
     });
   });
   cell.addEventListener('mouseleave', () => {
@@ -239,7 +239,7 @@ document.addEventListener('mousemove', e => {
   dot.style.cssText = `
     position: fixed; left: ${e.clientX}px; top: ${e.clientY}px;
     width: 4px; height: 4px; border-radius: 50%;
-    background: rgba(216,154,43,0.6);
+    background: rgba(14,116,144,0.6);
     pointer-events: none; z-index: 9999;
     transform: translate(-50%,-50%);
     animation: trailFade 0.6s forwards;

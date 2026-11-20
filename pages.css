@@ -21,7 +21,7 @@
 .vt-icp li {
   display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px;
   border: 1px solid var(--border); border-radius: 999px; font-size: 13px; font-weight: 600;
-  color: var(--cream); background: rgba(248,248,246,0.04);
+  color: var(--cream); background: rgba(15,27,45,0.04);
 }
 .vt-icp li::before { content: '✓'; color: var(--gold); font-weight: 800; }
 
@@ -31,9 +31,9 @@
 .vt-proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 8px; }
 .vt-proof-item {
   border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px;
-  background: rgba(248,248,246,0.03); text-align: center;
+  background: rgba(15,27,45,0.03); text-align: center;
 }
-.vt-proof-num { display: block; font-family: 'Playfair Display', Georgia, serif; font-size: 30px; color: var(--gold); line-height: 1.15; white-space: nowrap; margin-bottom: 8px; }
+.vt-proof-num { display: block; font-family: var(--font); font-weight: 800; font-size: 30px; color: var(--gold); line-height: 1.15; white-space: nowrap; margin-bottom: 8px; }
 .vt-proof-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
 .vt-proof-note { margin-top: 18px; font-size: 12px; color: var(--muted); text-align: center; }
 .vt-proof-note a { color: var(--gold-light); }
@@ -48,4 +48,9 @@
 @media (max-width: 768px) {
   .vt-hero { padding: 110px 0 30px; }
   .vt-hero + .section { padding-top: 50px; }
+}
+
+@media (max-width: 480px) {
+  .hero-badge { white-space: normal; line-height: 1.4; align-items: flex-start; }
+  .hero-badge .badge-dot { margin-top: 5px; flex-shrink: 0; }
 }
