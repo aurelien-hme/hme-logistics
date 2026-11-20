@@ -54,3 +54,8 @@
   .hero-badge { white-space: normal; line-height: 1.4; align-items: flex-start; }
   .hero-badge .badge-dot { margin-top: 5px; flex-shrink: 0; }
 }
+
+/* Dans les bandes marine */
+.theme-navy .vt-icp li { background: rgba(248,248,246,0.06); border-color: rgba(248,248,246,0.14); }
+.theme-navy .vt-proof-item { background: rgba(248,248,246,0.04); }
+.theme-navy .nav-links--tabs a.is-active { color: var(--gold-light); }
