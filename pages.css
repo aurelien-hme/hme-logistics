@@ -59,3 +59,12 @@
 .theme-navy .vt-icp li { background: rgba(248,248,246,0.06); border-color: rgba(248,248,246,0.14); }
 .theme-navy .vt-proof-item { background: rgba(248,248,246,0.04); }
 .theme-navy em { background: none; }
+
+/* Pages légales */
+.vt-hero--small { padding: 130px 0 30px; }
+.vt-legal { max-width: 780px; margin: 0 auto; }
+.vt-legal h2 { font-size: 20px; margin: 36px 0 12px; color: var(--cream); }
+.vt-legal p, .vt-legal li { font-size: 15px; line-height: 1.75; color: var(--muted); margin-bottom: 10px; }
+.vt-legal ul { padding-left: 20px; }
+.vt-legal a { color: var(--gold); text-decoration: underline; }
+.vt-legal strong { color: var(--cream); }
