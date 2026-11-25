@@ -50,7 +50,6 @@
       document.getElementById('progress').hidden = true;
     }
     back.hidden = idx === 0 || type === 'result';
-    updateLive(type);
     var v = answers[s.dataset.key];
     s.querySelectorAll('.opt').forEach(function (o) { o.setAttribute('role', 'radio'); o.setAttribute('aria-checked', String(o.dataset.v === v)); });
     // En mode tunnel, chaque écran repart du haut, sans animation de défilement
@@ -92,20 +91,6 @@
       low: Math.round(central * 0.7 / 1000) * 1000,
       high: Math.round(central * 1.3 / 1000) * 1000
     };
-  }
-  /* ── Estimation en direct : la fourchette se resserre à chaque réponse ── */
-  function updateLive(type) {
-    var live = document.getElementById('live'), amt = document.getElementById('liveAmt');
-    if (!live || !amt) return;
-    if (!answers.volume || !(type === 'single' || type === 'form')) { live.hidden = true; return; }
-    var est = estimate(), n = 0;
-    ['volume', 'secteur', 'sku', 'articles', 'gestion', 'irritant'].forEach(function (k) { if (answers[k]) n++; });
-    var spread = Math.max(0.3, 0.5 - 0.04 * (n - 1));
-    var lo = Math.max(1000, Math.round(est.central * (1 - spread) / 1000) * 1000);
-    var hi = Math.max(lo + 1000, Math.round(est.central * (1 + spread) / 1000) * 1000);
-    amt.textContent = 'entre ' + eur(lo) + ' et ' + eur(hi) + ' par an';
-    live.classList.toggle('compact', type === 'form');
-    live.hidden = false;
   }
   function isQualified() {
     var vol = parseInt(answers.volume, 10) || 0;
