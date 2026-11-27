@@ -94,7 +94,7 @@
           access_key: 'a35060be-ea69-45cd-a6c4-abd3e2517de3',
           subject: (qualified ? '🎯 Lead QUALIFIÉ HME (' : '🎯 Nouveau lead HME (') + channel + ' Grille tarifaire) : ' + mail,
           from_name: 'HME Site Web', replyto: mail, to: 'aurelien+HME@famillia.fr',
-          message: ['🎯 NOUVEAU LEAD HME : Grille tarifaire ' + channel + (qualified ? ' (dans la cible)' : ''), '📧 À FAIRE : vérifier que la grille tarifaire est bien partie par email (promise en 2 minutes à l\'écran).', ''].concat(lines).join('\n')
+          message: ['🎯 NOUVEAU LEAD HME : Grille tarifaire ' + channel + (qualified ? ' (dans la cible)' : ''), '📧 À FAIRE : envoyer la grille tarifaire à cette adresse, à la main. L\'écran promet « en 2 minutes » : le plus vite possible.', ''].concat(lines).join('\n')
         })
       }).catch(function () {})
     ];

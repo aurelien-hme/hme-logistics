@@ -4,9 +4,10 @@
   <meta charset="UTF-8" />
   <script>
     /* Test A/B de la landing : A = questionnaire en 6 questions, B = curseur + email (grille tarifaire).
-       ?v=a ou ?v=b force une variante. AB_ON = false : tout le monde voit A tant que le test n'est pas lancé. */
+       ?v=a ou ?v=b force une variante. AB_ON = true : test lancé le 27/11/2026, un visiteur sur deux voit B.
+       Pour l'arrêter, remettre AB_ON à false : tout le monde revoit A. */
     (function () {
-      var AB_ON = false;
+      var AB_ON = true;
       var p = new URLSearchParams(location.search).get('v');
       var v = (p === 'a' || p === 'b') ? p : null;
       if (!v && AB_ON) {
@@ -311,6 +312,6 @@
 
   <script src="/estimation/angles.js?v=9" defer></script>
   <script src="/challenge/challenge.js?v=9" defer></script>
-  <script src="/estimation/b.js?v=1" defer></script>
+  <script src="/estimation/b.js?v=2" defer></script>
 </body>
 </html>
