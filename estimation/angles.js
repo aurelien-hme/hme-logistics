@@ -46,6 +46,33 @@
       submit: 'Voir ce que je paie en trop',
       faq: 'Calculer ce que je paie en trop'
     },
+    ecommerce: {
+      badge: 'Logisticien e-commerce, dès 3 000 commandes par mois',
+      h1: 'Votre logisticien e-commerce, <em>au prix calculé sur votre modèle.</em>',
+      lead: '<strong>2 minutes, 6 questions.</strong> Découvrez combien votre logistique vous coûterait chez HME, le logisticien des marques à fort volume.',
+      submit: 'Voir mon tarif estimé',
+      rTitle: 'Chez un logisticien spécialisé comme HME, votre logistique vous coûterait environ',
+      rSub: 'de moins par an qu’un logisticien généraliste',
+      faq: 'Estimer mon tarif'
+    },
+    premier: {
+      badge: 'Vous confiez votre logistique pour la première fois',
+      h1: 'Votre première logistique externalisée, <em>chiffrée en 2 minutes.</em>',
+      lead: '<strong>2 minutes, 6 questions.</strong> Vous préparez encore vos commandes vous-même ? Découvrez combien coûterait votre logistique chez HME.',
+      submit: 'Voir mon tarif estimé',
+      rTitle: 'Chez un logisticien spécialisé comme HME, votre logistique vous coûterait environ',
+      rSub: 'de moins par an qu’un logisticien généraliste',
+      faq: 'Estimer mon tarif'
+    },
+    dropshipping: {
+      badge: 'Du dropshipping à votre propre stock',
+      h1: 'Votre stock en France, <em>vos commandes expédiées le jour même.</em>',
+      lead: '<strong>2 minutes, 6 questions.</strong> Vous passez du dropshipping à votre propre stock ? Découvrez combien coûterait votre logistique chez HME.',
+      submit: 'Voir mon tarif estimé',
+      rTitle: 'Chez un logisticien spécialisé comme HME, votre logistique vous coûterait environ',
+      rSub: 'de moins par an qu’un logisticien généraliste',
+      faq: 'Estimer mon tarif'
+    },
     concurrents: {
       badge: 'Vous comparez les logisticiens e-commerce',
       h1: 'Avant de signer avec un logisticien généraliste, <em>comparez.</em>',

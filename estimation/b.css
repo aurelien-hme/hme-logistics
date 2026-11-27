@@ -1,0 +1,34 @@
+/* Landing /estimation/ : variante B (curseur + email) et bandeau de preuve sous le questionnaire.
+   Les couleurs et les composants (.card, .btn, .f, .err, .legal) viennent de /challenge/challenge.css. */
+
+/* ── Test A/B : une seule des deux cartes est affichée ── */
+html[data-variant="b"] #challenge { display: none; }
+html:not([data-variant="b"]) #variantB { display: none; }
+/* B : le formulaire remonte, les 3 coches du haut sont redites sous le bouton */
+html[data-variant="b"] .hero .micro { display: none; }
+
+/* ── Variante B ── */
+#variantB h2 { font-size: 20px; line-height: 1.25; margin: 0 0 4px; font-weight: 800; }
+.b-screen { display: none; }
+.b-screen.on { display: block; }
+.b-val { display: block; font-family: var(--serif); font-size: clamp(40px, 12vw, 56px); line-height: 1.05; color: var(--gold-light); margin: 10px 0 0; }
+.b-unit { display: block; font-size: 14px; font-weight: 700; color: var(--muted); margin: 0 0 14px; }
+.b-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; }
+.b-range::-webkit-slider-runnable-track { height: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--gold) var(--p, 11%), rgba(248,248,246,0.14) var(--p, 11%)); }
+.b-range::-moz-range-track { height: 8px; border-radius: 99px; background: rgba(248,248,246,0.14); }
+.b-range::-moz-range-progress { height: 8px; border-radius: 99px; background: var(--gold); }
+.b-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; margin-top: -11px; border-radius: 50%; background: var(--gold-light); border: 3px solid var(--dark); box-shadow: 0 0 0 2px var(--gold), 0 6px 16px rgba(0,0,0,0.45); }
+.b-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--gold-light); border: 3px solid var(--dark); box-shadow: 0 0 0 2px var(--gold); }
+.b-range:focus-visible { outline: 2px solid var(--gold-light); outline-offset: 4px; border-radius: 8px; }
+.b-scale { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--faint); margin: 0 0 18px; }
+#variantB .legal strong { color: var(--muted); }
+
+/* ── Preuve sous le questionnaire : logos clients + chiffre Florna ── */
+.trust { margin: 18px 0 0; text-align: center; }
+.trust-t { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); margin: 0 0 10px; }
+.trust-logos { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.trust-logos li { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: var(--cream); background: rgba(248,248,246,0.06); border: 1px solid var(--line); border-radius: 999px; padding: 4px 11px 4px 4px; }
+.trust-logos img { display: block; width: 26px; height: 26px; object-fit: cover; border-radius: 50%; }
+.trust-s { font-size: 14px; color: var(--muted); margin: 12px 0 0; }
+.trust-s strong { color: var(--gold-light); }
+body.funnel .trust { display: none; }

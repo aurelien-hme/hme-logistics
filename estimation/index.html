@@ -2,6 +2,22 @@
 <html lang="fr" data-consent="late" data-funnel>
 <head>
   <meta charset="UTF-8" />
+  <script>
+    /* Test A/B de la landing : A = questionnaire en 6 questions, B = curseur + email (grille tarifaire).
+       ?v=a ou ?v=b force une variante. AB_ON = false : tout le monde voit A tant que le test n'est pas lancé. */
+    (function () {
+      var AB_ON = false;
+      var p = new URLSearchParams(location.search).get('v');
+      var v = (p === 'a' || p === 'b') ? p : null;
+      if (!v && AB_ON) {
+        try {
+          v = localStorage.getItem('hme_ab2');
+          if (v !== 'a' && v !== 'b') { v = Math.random() < 0.5 ? 'a' : 'b'; localStorage.setItem('hme_ab2', v); }
+        } catch (e) { v = Math.random() < 0.5 ? 'a' : 'b'; }
+      }
+      document.documentElement.setAttribute('data-variant', v || 'a');
+    })();
+  </script>
   <script src="/hme-tracking.js?v=9"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Votre logistique calculée sur votre modèle | HME Logistics</title>
@@ -13,6 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/challenge/challenge.css?v=8" />
+  <link rel="stylesheet" href="/estimation/b.css?v=1" />
   <style>.lead strong{color:var(--cream);font-weight:700}.progress-top .dur{color:var(--gold-light)}</style>
 </head>
 <body>
@@ -191,8 +208,42 @@
             <button type="button" class="btn ghost" id="bookBtn">Préférer en parler : réserver 30 minutes <span aria-hidden="true">→</span></button>
           </div>
         </div>
+        <!-- ════ VARIANTE B : curseur + email ════ -->
+        <form class="card" id="variantB" novalidate>
+          <div class="b-screen on" id="bForm">
+            <h2>Vous expédiez combien de commandes par mois ?</h2>
+            <output class="b-val" id="bVal" for="bSlider">5 000</output>
+            <span class="b-unit">commandes par mois</span>
+            <input class="b-range" type="range" id="bSlider" min="500" max="40000" step="500" value="5000" aria-label="Nombre de commandes par mois" />
+            <div class="b-scale" aria-hidden="true"><span>500</span><span>10 000</span><span>20 000</span><span>30 000</span><span>40 000+</span></div>
+            <label class="f"><span>Email professionnel</span><input type="email" name="email" autocomplete="email" placeholder="prenom@votremarque.com" required /></label>
+            <div class="err" id="bErr" role="alert"></div>
+            <button class="btn" type="submit" id="bBtn">Recevoir la grille tarifaire <span aria-hidden="true">→</span></button>
+            <p class="legal"><strong>Par email, en 2 minutes.</strong> Aucun appel sans votre accord. Vos données ne sont ni vendues ni partagées.</p>
+          </div>
+          <div class="b-screen" id="bDone">
+            <div class="ready">✓ C'est envoyé</div>
+            <h2 id="bDoneTitle">Votre grille tarifaire arrive par email dans 2 minutes.</h2>
+            <p class="hint" id="bDoneText">Volume indiqué : <span id="bDoneVol">5 000 commandes par mois</span>. Pensez à regarder vos courriers indésirables.</p>
+            <button type="button" class="btn ghost" id="bBook">Préférer en parler : réserver 30 minutes <span aria-hidden="true">→</span></button>
+          </div>
+        </form>
         <!-- Le bandeau cookies se pose ici, sous le questionnaire, sans rien recouvrir -->
         <div id="hme-consent-slot"></div>
+        <!-- Preuve : les marques clientes déjà présentées sur la page d'accueil -->
+        <div class="trust">
+          <p class="trust-t">Ils nous confient leur logistique</p>
+          <ul class="trust-logos">
+            <li><img src="/images/opt/clients/florna.webp" alt="" width="26" height="26" loading="lazy" />Florna</li>
+            <li><img src="/images/opt/clients/reborn21.webp" alt="" width="26" height="26" loading="lazy" />Reborn21</li>
+            <li><img src="/images/opt/clients/antheos.webp" alt="" width="26" height="26" loading="lazy" />Antheos</li>
+            <li><img src="/images/opt/clients/essenciel.webp" alt="" width="26" height="26" loading="lazy" />Essenciel</li>
+            <li><img src="/images/opt/clients/ks-parfum.webp" alt="" width="26" height="26" loading="lazy" />K&amp;S Parfum</li>
+            <li><img src="/images/opt/clients/atelier-bambou.webp" alt="" width="26" height="26" loading="lazy" />L'Atelier Bambou</li>
+            <li><img src="/images/opt/clients/temple-oracles.webp" alt="" width="26" height="26" loading="lazy" />Le Temple des Oracles</li>
+            <li><img src="/images/opt/clients/angels-universe.webp" alt="" width="26" height="26" loading="lazy" />Angels Universe</li>
+          </ul>
+        </div>
       </div>
     </section>
 
@@ -258,7 +309,8 @@
     </div>
   </footer>
 
-  <script src="/estimation/angles.js?v=8" defer></script>
+  <script src="/estimation/angles.js?v=9" defer></script>
   <script src="/challenge/challenge.js?v=9" defer></script>
+  <script src="/estimation/b.js?v=1" defer></script>
 </body>
 </html>
