@@ -34,6 +34,9 @@
   var started = false;
 
   function gt(name, p) { if (window.gtag) window.gtag('event', name, p || {}); }
+  // Compteur d'étapes sans cookie (hme-tracking.js). Muet si la page affiche la variante B.
+  var isA = document.documentElement.getAttribute('data-variant') !== 'b';
+  function step(name) { if (isA && window.hmeTrack && window.hmeTrack.step) window.hmeTrack.step(name); }
 
   function show(i) {
     idx = Math.max(0, Math.min(i, screens.length - 1));
@@ -74,6 +77,7 @@
           try { window.dispatchEvent(new Event('hme:consent-prompt')); } catch (e) {}
         }
         gt('challenge_question', { etape: idx + 1, cle: s.dataset.key });
+        step((idx + 1) + '-question-' + (idx + 1));
         setTimeout(function () { show(idx + 1); }, 220);
       });
     });
@@ -111,6 +115,7 @@
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     if (sending) return;
+    step('7-envoi-tente');
     var emailIn = form.elements.email;
     var mail = emailIn.value.trim();
     var dom = (mail.split('@')[1] || '').toLowerCase();
@@ -156,6 +161,7 @@
     ];
     if (window.hmeTrack) tasks.push(qualified ? window.hmeTrack.leadQualified(mail) : window.hmeTrack.lead(mail));
     gt('challenge_lead', { qualifie: qualified ? 'oui' : 'non', canal: channel });
+    step('8-lead-envoye');
     await Promise.race([Promise.all(tasks), new Promise(function (r) { setTimeout(r, 2500); })]);
 
     try { sessionStorage.setItem('hme_rdv', JSON.stringify({ nom: who.prenom, email: mail, marque: who.marque, volume: lbl('volume', answers.volume), vol: est.vol, qualified: qualified })); } catch (e2) {}
@@ -314,4 +320,5 @@
   document.getElementById('contactForm').addEventListener('submit', function () { setTimeout(loadCalendly, 1500); });
 
   show(0);
+  step('0-vue');
 })();

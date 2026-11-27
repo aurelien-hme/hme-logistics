@@ -119,7 +119,31 @@
     });
   }
 
+  // ── Compteur d'étapes des landings, sans cookie ni identifiant (Vercel Web Analytics) ──
+  // Chaque étape franchie est envoyée une seule fois comme « page vue » virtuelle :
+  // /suivi/<page>/<variante>/<angle>/<n-étape>. Actif seulement sur <html data-funnel>.
+  var stepsSent = {};
+  var funnelOn = document.documentElement.hasAttribute('data-funnel');
+  if (funnelOn) {
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    var va = document.createElement('script');
+    va.defer = true;
+    va.src = '/_vercel/insights/script.js';
+    va.dataset.disableAutoTrack = '1';
+    document.head.appendChild(va);
+  }
+  function step(name) {
+    if (!funnelOn || stepsSent[name]) return;
+    stepsSent[name] = 1;
+    var page = (location.pathname.split('/')[1] || 'accueil').replace(/[^a-z0-9-]/gi, '');
+    var variant = document.documentElement.getAttribute('data-variant') || 'a';
+    var angle = (new URLSearchParams(location.search).get('a') || 'aucun').replace(/[^a-z0-9-]/gi, '').slice(0, 24) || 'aucun';
+    var path = '/suivi/' + page + '/' + variant + '/' + angle + '/' + name;
+    try { window.va('pageview', { route: '/suivi/[page]/[variante]/[angle]/[etape]', path: path }); } catch (e) {}
+  }
+
   window.hmeTrack = {
+    step: step,
     lead: function (email) { metaEvent('Lead', null, email); return sendConversion(LABEL_LEAD, email); },
     leadQualified: function (email) { metaEvent('CompleteRegistration', { content_name: 'diagnostic', status: 'qualifie' }, email); return sendConversion(LABEL_LEAD_QUALIFIED, email); },
     schedule: function (email) { metaEvent('Schedule', null, email); },
@@ -141,7 +165,9 @@
       '#hme-consent button{cursor:pointer;border-radius:8px;padding:8px 16px;font:600 14px Inter,system-ui,sans-serif}' +
       '#hme-consent .hc-refuse{background:transparent;color:#F8F8F6;border:1px solid rgba(248,248,246,0.25)}' +
       '#hme-consent .hc-accept{background:#D89A2B;color:#08111F;border:1px solid #D89A2B}' +
-      '#hme-consent button:focus-visible{outline:2px solid #E8B84B;outline-offset:2px}';
+      '#hme-consent button:focus-visible{outline:2px solid #E8B84B;outline-offset:2px}' +
+      // Sur les landings, le bandeau se pose sous le questionnaire : il ne recouvre jamais un bouton
+      '#hme-consent.hc-inline{position:static;max-width:none;margin:14px 0 0;box-shadow:none}';
     document.head.appendChild(css);
 
     var box = document.createElement('div');
@@ -154,7 +180,9 @@
       '<button type="button" class="hc-refuse">Refuser</button>' +
       '<button type="button" class="hc-accept">Accepter</button>' +
       '</div>';
-    document.body.appendChild(box);
+    var slot = force ? null : document.getElementById('hme-consent-slot');
+    if (slot) { box.className = 'hc-inline'; slot.appendChild(box); }
+    else document.body.appendChild(box);
 
     function close(value) {
       saved = value;
